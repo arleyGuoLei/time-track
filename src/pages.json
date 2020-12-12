@@ -1,16 +1,66 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
-			"path": "pages/index/index",
+			"path":"pages/home/home",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"bounce": "none",
+				"titleNView": false,
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
+			"path":"pages/record/record",
+			"style": {
+				"bounce": "none",
+				"titleNView": false
+			}
+		},
+		{
+			"path":"pages/mine/mine",
+			"style": {
+				"bounce": "none",
+				"titleNView": false
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
+		"navigationBarTitleText": "时间打点",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
-	}
+		"backgroundColor": "#F5F5F5",
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "white",
+		"backgroundColorTop": "#FFFFFF",
+		"backgroundColorBottom": "#FFFFFF",
+		"app-plus":{
+			"scrollIndicator": "none"
+		}
+	},
+	"tabBar": {
+    "color": "#D3D8E5",
+    "selectedColor": "#4F9BFA",
+    "borderStyle": "white",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/bar-home.png",
+        "selectedIconPath": "static/bar-home-s.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "iconPath": "static/bar-record.png",
+        "selectedIconPath": "static/bar-record-s.png",
+        "text": "日志"
+			},
+			{
+        "pagePath": "pages/mine/mine",
+        "iconPath": "static/bar-mine.png",
+        "selectedIconPath": "static/bar-mine-s.png",
+        "text": "我的"
+      }
+    ]
+  }
 }
