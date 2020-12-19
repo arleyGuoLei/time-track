@@ -1,9 +1,14 @@
 <script lang="ts">
 import Vue from 'vue'
+import { CLOUD_ENV } from '@/utils/config'
+import { userModel } from './models'
+import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
 
 export default Vue.extend({
   mpType: 'app',
-  globalData: {},
+  globalData: {
+    cloud: null,
+  },
   methods: {
     initUI() {
       uni.getSystemInfo({
@@ -36,15 +41,25 @@ export default Vue.extend({
         },
       })
     },
+    initCloud() {
+      const option = process.env.NODE_ENV === 'development' ? CLOUD_ENV.dev : CLOUD_ENV.prod
+      ;((this as any) as App).globalData.cloud = uniCloud.init(option)
+    },
+    login() {
+      const tokenExpired = uni.getStorageSync(LOCAL_TOKEN_EXPIRED_KEY)
+      const token = uni.getStorageSync(LOCAL_TOKEN_KEY)
+
+      // 本地没有token 或者 token有效期小于(10分钟)则重新获取
+      if (!token || tokenExpired <= Date.now() - LOCAL_TOKEN_EXPIREDS_THRESHOLD) {
+        userModel.loginMP()
+        console.log('登录')
+      }
+    },
   },
   onLaunch() {
     this.initUI()
-  },
-  onShow() {
-    console.log('App Show')
-  },
-  onHide() {
-    console.log('App Hide')
+    this.initCloud()
+    this.login()
   },
 })
 </script>

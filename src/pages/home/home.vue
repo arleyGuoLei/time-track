@@ -4,10 +4,7 @@
 
     <c-list>
       <template slot="fixed">
-        <view class="tags">
-          <scroll-view class="tags-scroll"></scroll-view>
-          <view class="tags-icon"></view>
-        </view>
+        <tag />
       </template>
       <view v-for="index in 1000" :key="index">
         <text>-------- {{ index }}</text>
