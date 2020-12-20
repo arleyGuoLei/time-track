@@ -20,7 +20,7 @@ module.exports = function (moduleName) {
   return {
     input: 'src/index.js',
     output: {
-      file: ['dist/index.js', './../cloudfunctions-aliyun/common/uni-id/index_new.js'],
+      file: './../../cloudfunctions-aliyun/common/uni-id/index.js',
       format: 'commonjs'
     },
     plugins: [
