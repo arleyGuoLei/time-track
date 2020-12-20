@@ -6,9 +6,10 @@
     :style="{
       top: barHeight + 'px',
       height: listHeight + 'px',
-      backgroundColor: fixed ? '#f5f5f5' : 'transparent',
+      backgroundColor: fixed ? bgColor : 'transparent',
     }"
   >
+    <!-- 显示吸顶内容的插槽 -->
     <view
       v-if="showFixedSlot"
       class="list-header"
@@ -19,7 +20,8 @@
     >
       <slot name="fixed" />
     </view>
-    <!-- 吸顶占位，防止内容塌陷 -->
+
+    <!-- 吸顶占位，防止内容塌陷，被fixed的tag给覆盖 -->
     <view
       v-if="fixed && showFixedSlot"
       :style="{
@@ -27,10 +29,15 @@
       }"
       class="placehandle"
     ></view>
+
+    <!-- list 内容区域 -->
     <view
       class="list-content"
       :style="{
         marginTop: showFixedSlot ? '0' : marginTop + 'px',
+        borderTopLeftRadius: showFixedSlot ? '0' : '32rpx',
+        borderTopRightRadius: showFixedSlot ? '0' : '32rpx',
+        backgroundColor: bgColor,
       }"
     >
       <slot></slot>
@@ -39,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
+import { Vue, Component, Watch, Prop } from 'vue-property-decorator'
 import { getClientRect } from '@/utils/utils'
 import { VNode } from 'vue'
 
@@ -52,6 +59,8 @@ declare module 'vue/types/vue' {
 
 @Component
 export default class extends Vue {
+  @Prop({ default: 'transparent' }) private bgColor!: string
+
   private barHeight = 0 // 顶部栏高度，包含状态栏 + 胶囊按钮栏(标题栏)
   private statusHeight = 0
   private listHeight = 0
@@ -62,6 +71,7 @@ export default class extends Vue {
 
   /**
    * 判断是否传入吸顶slot，如果没有传入，则不显示
+   * 不同端的判断条件不同，有的直接传入Boolean 有的传入node节点
    */
   @Watch('$slots.fixed', { immediate: true })
   watchFixed(node: VNode[] | boolean) {
@@ -70,23 +80,24 @@ export default class extends Vue {
     } else {
       this.showFixedSlot = node && node.length !== 0
     }
-    this.updateUI(this.showFixedSlot)
+    this.showFixedSlot && this.updateUI()
   }
 
-  async updateUI(show: boolean) {
-    if (show) {
-      this.$nextTick(() => {
-        // dom挂载比较慢，延迟获取dom信息
-        setTimeout(async () => {
-          const res = await getClientRect('.list-header', this)
-          if (res) {
-            const { height = -1 } = res
-            // fixed元素的高度 + fixed的marginTop
-            this.placehandleHeight = height + this.marginTop
-          }
-        }, 0)
-      })
-    }
+  /**
+   * 更新吸顶占位高度
+   */
+  async updateUI() {
+    this.$nextTick(() => {
+      // dom挂载比较慢，延迟获取dom信息
+      setTimeout(async () => {
+        const res = await getClientRect('.list-header', this)
+        if (res) {
+          const { height = -1 } = res
+          // fixed元素的高度 + fixed的marginTop
+          this.placehandleHeight = height + this.marginTop
+        }
+      }, 0)
+    })
   }
 
   /**
@@ -127,6 +138,7 @@ export default class extends Vue {
   overflow: hidden;
   border-top-left-radius: 32rpx;
   border-top-right-radius: 32rpx;
+  white-space: nowrap;
 }
 .list-header {
   left: 0;
@@ -134,9 +146,6 @@ export default class extends Vue {
   overflow: hidden;
   border-top-left-radius: 32rpx;
   border-top-right-radius: 32rpx;
-}
-.list-content {
-  background: #f5f5f5;
 }
 .placehandle {
   width: 100%;

@@ -1,0 +1,12 @@
+.header {
+  width: 100%;
+  background-color: #FFFFFF;
+  box-sizing: border-box;
+  padding: 48rpx 48rpx 12rpx 48rpx;
+}
+
+.header > text {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333333;
+}

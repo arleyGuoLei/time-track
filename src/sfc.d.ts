@@ -30,6 +30,7 @@ namespace UniCloud {
   interface UniCloud {
     init: (options: InitOptions) => UniCloud
     callFunction: <U>(options: CallOptions<T>) => Promise<CallResponse<U>>
+    database: () => any
   }
 }
 

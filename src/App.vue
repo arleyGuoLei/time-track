@@ -46,14 +46,15 @@ export default Vue.extend({
       ;((this as any) as App).globalData.cloud = uniCloud.init(option)
     },
     login() {
+      // #ifdef MP
       const tokenExpired = uni.getStorageSync(LOCAL_TOKEN_EXPIRED_KEY)
       const token = uni.getStorageSync(LOCAL_TOKEN_KEY)
 
       // 本地没有token 或者 token有效期小于(10分钟)则重新获取
       if (!token || tokenExpired <= Date.now() - LOCAL_TOKEN_EXPIREDS_THRESHOLD) {
         userModel.loginMP()
-        console.log('登录')
       }
+      // #endif
     },
   },
   onLaunch() {
