@@ -1,14 +1,20 @@
 <template>
-  <view class="header">
-    <img :src="imgSrc" class="header-bg" />
-    <view class="header-bar" :style="{ top: statusHeight + 'px', height: barHeight - statusHeight + 'px' }">
-      <slot name="content">
-        <view class="header-bar__content">
-          <img v-if="showBack" @click="onBackPage" class="header-content__icon" src="@/static/header-back.png" />
-          <text class="heaer-content__title">{{ title }}</text>
-        </view>
-      </slot>
+  <view>
+    <img :src="imgSrc" class="bg" />
+    <view class="bar" :style="{ zIndex, height: barHeight + 'px' }">
+      <view class="bar-bg" :style="{ backgroundImage: 'url(' + imgSrc + ')' }" />
+      <view class="bar-content" :style="{ top: statusHeight + 'px', height: barHeight - statusHeight + 'px' }">
+        <slot name="content">
+          <view class="bar-content__default">
+            <img v-if="showBack" @click="onBackPage" class="default-icon" src="@/static/header-back.png" />
+            <text class="default-title">{{ title }}</text>
+          </view>
+        </slot>
+      </view>
     </view>
+
+    <!-- header占位，防止内容塌陷 -->
+    <view :style="{ height: barHeight + 'px' }"></view>
   </view>
 </template>
 
@@ -27,6 +33,7 @@ export default class extends Vue {
   @Prop({ default: '' }) private imgSrc!: string
   @Prop({ default: '' }) private title!: string
   @Prop({ default: false }) private showBack!: boolean
+  @Prop({ default: 99 }) private zIndex!: number
   private barHeight = 0
   private statusHeight = 0
 
@@ -43,35 +50,46 @@ export default class extends Vue {
 }
 </script>
 <style scoped>
-.header {
+.bg {
   position: fixed;
+  top: 0;
   left: 0;
   width: 750rpx;
   height: 500rpx;
+  z-index: -1;
+}
+.bar {
+  position: fixed;
+  left: 0;
   top: 0;
-  overflow: hidden;
+  width: 750rpx;
 }
-.header-bg {
-  width: 100%;
-  height: 100%;
-}
-.header-bar {
+.bar-bg {
   position: absolute;
   left: 0;
+  top: 0;
   right: 0;
+  bottom: 0;
+  background-size: cover;
+  overflow: hidden;
 }
-.header-bar__content {
+.bar-content {
+  position: absolute;
+  left: 0;
+  width: 750rpx;
+}
+.bar-content__default {
   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
 }
-.header-content__icon {
+.default-icon {
   width: 36rpx;
   height: 36rpx;
   margin: 0 32rpx;
 }
-.heaer-content__title {
+.default-title {
   font-size: 32rpx;
   font-weight: 500;
   color: #ffffff;
