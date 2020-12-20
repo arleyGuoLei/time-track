@@ -26,6 +26,11 @@ const platform2Db = {
       },
     }
   },
+  'mp-toutiao': openid => {
+    return {
+      tt_openid: openid,
+    }
+  },
 }
 
 /**
