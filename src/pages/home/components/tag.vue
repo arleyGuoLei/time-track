@@ -45,6 +45,8 @@ export default class extends Vue {
   height: 100rpx;
   background: #ffffff;
   display: flex;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
 }
 .tags-scroll {
   width: 650rpx;
