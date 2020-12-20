@@ -3,8 +3,8 @@ const config = require('./config.json')
 
 /**
  * 小程序code2Session
- * @param {*} loginUrl code2openid链接
- * @param {*} data
+ * @param {string} loginUrl code2openid链接
+ * @param {Object} data
  */
 function code2Session(loginUrl, data) {
   return uniCloud.httpclient.request(loginUrl, {
@@ -36,8 +36,30 @@ async function qq(js_code) {
   }
 }
 
+async function toutiao(code) {
+  const { appid, secret, loginUrl } = config.oauth['mp-toutiao']
+  try {
+    const { data } = await code2Session(loginUrl, {
+      appid,
+      secret,
+      code,
+    })
+    return {
+      code: data.errcode || 0,
+      message: data.errmsg,
+      ...data,
+    }
+  } catch (error) {
+    return {
+      code: -1,
+      message: error,
+    }
+  }
+}
+
 module.exports = {
   'mp-weixin': code => uniID.code2SessionWeixin(code),
   'mp-alipay': code => uniID.code2SessionAlipay(code),
   'mp-qq': code => qq(code),
+  'mp-toutiao': code => toutiao(code),
 }
