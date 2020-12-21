@@ -64,10 +64,10 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true,
-        "appid" : "tt21ad5710be96861e"
+        "appid" : "tt3f2d4990a0161dee"
     },
     "mp-qq" : {
         "usingComponents" : true,
-        "appid" : "1110282883"
+        "appid" : "1110541916"
     }
 }

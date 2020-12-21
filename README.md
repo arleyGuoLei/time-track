@@ -1,19 +1,20 @@
 # time-track
 
-## Project setup
-```
-npm install
-```
+## 多平台
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### 微信小程序
 
-### Compiles and minifies for production
-```
-npm run build
-```
+- appid: wxdc2965647d28ea5c
+- email: miao@alishenshen.cn
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### QQ小程序
+
+- appid: 1110541916
+- AppSecret: QogrGgkWa3bfHG07
+- QQ: 34805850
+
+### 字节跳动小程序
+
+- appid: tt3f2d4990a0161dee
+- AppSecret: 5820a02bfee43e2a20d48d62822c65d0d04a4d6c
+- 34805850@qq.com

@@ -1,13 +1,13 @@
 {
   "oauth": {
     "mp-qq": {
-      "appid": "1110282883",
-      "secret": "xRLz7alaiR9GgXl3",
+      "appid": "1110541916",
+      "secret": "QogrGgkWa3bfHG07",
       "loginUrl": "https://api.q.qq.com/sns/jscode2session"
     },
     "mp-toutiao": {
-      "appid": "tt21ad5710be96861e",
-      "secret": "8a01bc8e275965e4cc097e65b32d1e5e5c620f15",
+      "appid": "tt3f2d4990a0161dee",
+      "secret": "5820a02bfee43e2a20d48d62822c65d0d04a4d6c",
       "loginUrl": "https://developer.toutiao.com/api/apps/jscode2session"
     }
   }
