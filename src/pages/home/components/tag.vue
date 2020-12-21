@@ -1,8 +1,18 @@
 <template>
   <view class="tags">
-    <scroll-view :scroll-x="true" class="tags-scroll">
+    <scroll-view
+      :scroll-x="true"
+      :scroll-into-view="'item_' + selectIndex"
+      :scroll-with-animation="true"
+      class="tags-scroll"
+    >
       <block v-for="(value, index) in list" :key="index">
-        <text class="tag-item">
+        <text
+          :id="'item_' + index"
+          :class="[index === selectIndex ? 'tag-item__active' : '']"
+          class="tag-item"
+          @click="onSelect(index)"
+        >
           {{ value }}
         </text>
       </block>
@@ -38,6 +48,12 @@ export default class extends Vue {
     '年卡',
     '不定时',
   ]
+  private selectIndex = 0
+
+  onSelect(index: number) {
+    this.selectIndex = index
+    console.log('log =>  ~ file: tag.vue ~ line 43 ~ extends ~ onSelect ~ index', index)
+  }
 }
 </script>
 <style scoped>
@@ -56,15 +72,12 @@ export default class extends Vue {
 }
 .tag-item {
   font-size: 34rpx;
-  color: #333333;
+  color: #818181;
   line-height: 100rpx;
-  margin-left: 64rpx;
+  padding: 0 24rpx 0 48rpx;
 }
-.tag-item:first-child {
-  margin-left: 48rpx !important;
-}
-.tag-item:last-child {
-  margin-right: 48rpx;
+.tag-item__active {
+  color: #333333;
 }
 .tags-icon {
   width: 100rpx;
