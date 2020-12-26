@@ -18,7 +18,7 @@
       </block>
     </scroll-view>
     <view class="tags-icon">
-      <img src="@/static/home-tag-edit.png" />
+      <img src="@/static/tag-edit.png" />
     </view>
   </view>
 </template>

@@ -1,12 +1,46 @@
-.header {
-  width: 100%;
+.list {
   background-color: #FFFFFF;
-  box-sizing: border-box;
-  padding: 48rpx 48rpx 12rpx 48rpx;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-.header > text {
+.list-title {
+  margin: 52rpx 0 12rpx 48rpx;
   font-size: 36rpx;
   font-weight: 500;
   color: #333333;
+}
+
+.tag-edit {
+  display: flex;
+  align-items: center;
+}
+
+.tag-edit > img {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.tag-edit > text {
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #818181;
+  margin-left: 16rpx;
+}
+
+.save {
+  width: 520rpx;
+  height: 100rpx;
+  background: #A5CAF1;
+  color: #FFFFFF;
+  border-radius: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 100rpx auto;
+  border: 0;
+  outline: none;
 }

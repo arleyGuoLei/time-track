@@ -1,0 +1,7 @@
+.add-event {
+  position: fixed;
+  width: 84rpx;
+  height: 84rpx;
+  right: 48rpx;
+  bottom: 64rpx;
+}
