@@ -1,18 +1,7 @@
 {
 	"pages": [
-
-		{
+    {
 			"path":"pages/home/home",
-			"style": {
-				"bounce": "none",
-				"titleNView": false,
-				"app-plus": {
-					"scrollIndicator": "none"
-				}
-			}
-		},
-		{
-			"path":"pages/addEvent/addEvent",
 			"style": {
 				"bounce": "none",
 				"titleNView": false,
@@ -33,6 +22,16 @@
 			"style": {
 				"bounce": "none",
 				"titleNView": false
+			}
+    },
+    {
+			"path":"pages/addEvent/addEvent",
+			"style": {
+				"bounce": "none",
+				"titleNView": false,
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
 			}
 		}
 	],

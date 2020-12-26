@@ -78,4 +78,9 @@ export default Vue.extend({
   -webkit-appearance: none;
   background: transparent;
 }
+
+button::after,
+button::before {
+  display: none;
+}
 </style>
