@@ -28,6 +28,7 @@ module.exports = {
     wx: true,
     uniCloud: true,
     getApp: true,
-    __ctx__: true
+    __ctx__: true,
+    unidev: true
   }
 };
