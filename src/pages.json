@@ -72,5 +72,15 @@
         "text": "我的"
       }
     ]
+  },
+  "condition" : {
+    "current": 0,
+    "list": [
+      {
+        "name": "add Event Page",
+        "path": "pages/addEvent/addEvent",
+        "query": ""
+      }
+    ]
   }
 }
