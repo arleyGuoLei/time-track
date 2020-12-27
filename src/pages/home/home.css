@@ -3,5 +3,11 @@
   width: 84rpx;
   height: 84rpx;
   right: 48rpx;
-  bottom: 64rpx;
+  /* #ifndef H5 */
+    bottom: 64rpx;
+  /* #endif */
+
+  /* #ifdef H5 */
+    bottom: 120rpx;
+  /* #endif */
 }

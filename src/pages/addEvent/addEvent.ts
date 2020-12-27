@@ -1,3 +1,5 @@
+import { ListItem as ImageItem } from './../../models/iconImagesModel'
+import { ListItem as ColorItem } from './../../models/iconColorsModel'
 import { Component, Vue } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
@@ -22,6 +24,13 @@ export default class extends Vue {
   private iconColor = '#EDF7F2'
   private selected = false // delete
 
-  private iconSrcList = new Array(97).fill('http://img.i7xy.cn/20201226154230.png')
-  private iconColorList = new Array(95).fill('#EDF7F2')
+  onSelectIconSrc(data: ImageItem) {
+    const { src, _id } = data
+    this.iconSrc = src
+  }
+
+  onSelectIconColor(data: ColorItem) {
+    const { color, _id } = data
+    this.iconColor = color
+  }
 }

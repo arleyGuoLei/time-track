@@ -3,7 +3,7 @@
     <c-header showBack title="新增事件" imgSrc="http://img.i7xy.cn/20201220134440.png" />
 
     <c-list>
-      <view class="list">
+      <view class="list-content">
         <text class="list-title">新增事件</text>
 
         <c-title title="事件名称" />
@@ -13,8 +13,8 @@
         <icon-setting
           :iconSrc="iconSrc"
           :iconColor="iconColor"
-          :iconSrcList="iconSrcList"
-          :iconColorList="iconColorList"
+          @selectIconSrc="onSelectIconSrc"
+          @selectIconColor="onSelectIconColor"
         />
 
         <c-title title="标签设置 (可多选)">
