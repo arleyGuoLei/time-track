@@ -11,9 +11,6 @@
 </template>
 
 <script>
-const db = uniCloud.database()
-const dbCmd = db.command
-
 const events = {
   load: 'load',
   error: 'error',
@@ -302,7 +299,7 @@ export default {
         })
     },
     _getExec() {
-      let exec = db
+      let exec = getApp().globalData.db
       if (this.action) {
         exec = exec.action(this.action)
       }
@@ -330,6 +327,8 @@ export default {
       return exec
     },
     _execRemove(id, action, callback) {
+      const db = getApp().globalData.db
+      const dbCmd = db.command
       if (!this.collection || !id) {
         return
       }

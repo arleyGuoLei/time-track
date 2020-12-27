@@ -10,7 +10,7 @@
 
     <scroll-view enable-flex scroll-x="true" class="scroll-view" :style="{ height: srcLine * '100' + 'rpx' }">
       <view v-for="(arr, i) in srcList" :key="i" class="scroll-view__column">
-        <img v-for="(item, j) in arr" :src="item" :key="j" @click="onSelectSrc" />
+        <img v-for="(item, j) in arr" :src="item.src" :key="j" @click="onSelectSrc(item._id, item.src)" />
       </view>
     </scroll-view>
 
@@ -19,10 +19,10 @@
         <view
           v-for="(item, j) in arr"
           :style="{
-            backgroundColor: item,
+            backgroundColor: item.color,
           }"
           :key="j"
-          @click="onSelectColor"
+          @click="onSelectColor(item._id, item.color)"
         ></view>
       </view>
     </scroll-view>
@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
-import { iconImagesModel } from '@/models'
+import { iconImagesModel, iconColorsModel } from '@/models'
 
 /**
  * 数组切分成多个长度为num的数组
@@ -48,37 +48,37 @@ function chunkArr(data: any[], num: number) {
 @Component
 export default class extends Vue {
   @Prop({ default: '' }) private iconSrc!: string
-  @Prop({ default: [] }) private iconSrcList!: string[]
+  @Prop({ default: 'transparent' }) private iconColor!: string
+
   /** 图标分成几行显示 */
   @Prop({ default: 3 }) private srcLine!: number
-
-  @Prop({ default: 'transparent' }) private iconColor!: string
-  @Prop({ default: [] }) private iconColorList!: string[]
   /** 颜色分为几行 */
   @Prop({ default: 2 }) private colorLine!: number
 
   private srcList: any[][] = []
   private colorList: any[][] = []
 
-  initImageList() {
-    iconImagesModel.getList()
+  initIconList() {
+    iconImagesModel.getList().then(list => {
+      Array.isArray(list) && (this.srcList = chunkArr(list, this.srcLine))
+    })
+    iconColorsModel.getList().then(list => {
+      Array.isArray(list) && (this.colorList = chunkArr(list, this.colorLine))
+    })
   }
 
   created() {
-    this.srcList = chunkArr(this.iconSrcList, this.srcLine)
-    this.colorList = chunkArr(this.iconColorList, this.colorLine)
-
-    this.initImageList()
+    this.initIconList()
   }
 
-  // TODO: id
-  onSelectSrc() {
-    console.log('onSelectSrc')
+  @Emit('selectIconSrc')
+  onSelectSrc(_id: string, src: string) {
+    return { _id, src }
   }
 
-  // TODO: id
-  onSelectColor() {
-    console.log('onSelectColor')
+  @Emit('selectIconColor')
+  onSelectColor(_id: string, color: string) {
+    return { _id, color }
   }
 }
 </script>
