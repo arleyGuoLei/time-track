@@ -1,8 +1,10 @@
+import { LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './constant'
+
 function getCloud() {
   return getApp<App>().globalData.cloud
 }
 
-export function request<T, RES>(name: string, options: T) {
+export function request<T, RES>(name: string, options?: T) {
   name = name.replace(/\//g, '_')
   return getCloud().callFunction<RES>({
     name,
@@ -10,4 +12,10 @@ export function request<T, RES>(name: string, options: T) {
       ...options,
     },
   })
+}
+
+export function setLocalToken({ token, tokenExpired }: { token: string; tokenExpired: number }) {
+  console.log('log =>  ~ file: cloud.ts ~ line 18 ~ setLocalToken ~ setLocalToken', { token })
+  uni.setStorageSync(LOCAL_TOKEN_KEY, token)
+  uni.setStorageSync(LOCAL_TOKEN_EXPIRED_KEY, tokenExpired)
 }

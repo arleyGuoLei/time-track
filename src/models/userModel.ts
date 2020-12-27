@@ -1,4 +1,4 @@
-import { LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './../utils/constant'
+import { setLocalToken } from './../utils/cloud'
 import { request } from '@/utils/cloud'
 
 /** 登录失败后的最大重试次数 */
@@ -31,10 +31,7 @@ export default {
       } = await request<LoginOption, LoginRes>('user/login_mp', { code })
 
       if (errcode === 0 && token !== '') {
-        uni.setStorageSync(LOCAL_TOKEN_KEY, token)
-
-        // token有效期目前为86400s，24小时
-        uni.setStorageSync(LOCAL_TOKEN_EXPIRED_KEY, tokenExpired)
+        setLocalToken({ token, tokenExpired })
       } else {
         throw new Error(message)
       }

@@ -27,10 +27,16 @@ namespace UniCloud {
     result: U
   }
 
+  interface DatabaseRes {
+    collection: any
+    on: (eventName: string, cb: function) => any
+    off: (eventName: string, cb: function) => any
+  }
+
   interface UniCloud {
     init: (options: InitOptions) => UniCloud
     callFunction: <U>(options: CallOptions<T>) => Promise<CallResponse<U>>
-    database: () => any
+    database: () => DatabaseRes
   }
 }
 
@@ -39,5 +45,6 @@ declare const uniCloud: UniCloud.UniCloud
 interface App {
   globalData: {
     cloud: UniCloud.UniCloud
+    db: UniCloud.DatabaseRes
   }
 }
