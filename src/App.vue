@@ -3,11 +3,13 @@ import Vue from 'vue'
 import { CLOUD_ENV } from '@/utils/config'
 import { userModel } from './models'
 import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
+import { setLocalToken } from './utils/cloud'
 
 export default Vue.extend({
   mpType: 'app',
   globalData: {
     cloud: null,
+    db: null,
   },
   methods: {
     initUI() {
@@ -43,7 +45,10 @@ export default Vue.extend({
     },
     initCloud() {
       const option = process.env.NODE_ENV === 'development' ? CLOUD_ENV.dev : CLOUD_ENV.prod
-      ;((this as any) as App).globalData.cloud = uniCloud.init(option)
+      const cloud = uniCloud.init(option)
+      cloud.database().on('refreshToken', setLocalToken)
+      ;((this as any) as App).globalData.cloud = cloud
+      ;((this as any) as App).globalData.db = cloud.database()
     },
     login() {
       // #ifdef MP

@@ -31,6 +31,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { iconImagesModel } from '@/models'
 
 /**
  * 数组切分成多个长度为num的数组
@@ -59,9 +60,15 @@ export default class extends Vue {
   private srcList: any[][] = []
   private colorList: any[][] = []
 
+  initImageList() {
+    iconImagesModel.getList()
+  }
+
   created() {
     this.srcList = chunkArr(this.iconSrcList, this.srcLine)
     this.colorList = chunkArr(this.iconColorList, this.colorLine)
+
+    this.initImageList()
   }
 
   // TODO: id
