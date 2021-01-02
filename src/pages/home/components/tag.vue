@@ -17,9 +17,11 @@
         </text>
       </block>
     </scroll-view>
-    <view class="tags-icon">
-      <img src="@/static/tag-edit.png" />
-    </view>
+    <router-link to="/pages/editTags/editTags">
+      <view class="tags-icon">
+        <img src="@/static/tag-edit.png" />
+      </view>
+    </router-link>
   </view>
 </template>
 
