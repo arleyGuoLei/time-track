@@ -18,5 +18,37 @@
         "create_time": 1608386943957
       }
     ]
+  },
+  "tags": {
+    "data": [
+      {
+        "user_id": "5fde09d906add5000113e72e",
+        "name": "日常",
+        "index": 1,
+        "status": 1,
+        "create_time": 1608386943957
+      },
+      {
+        "user_id": "5fde09d906add5000113e72e",
+        "name": "周卡",
+        "index": 2,
+        "status": 1,
+        "create_time": 1608386943957
+      },
+      {
+        "user_id": "5fde09d906add5000113e72e",
+        "name": "月卡",
+        "index": 3,
+        "status": 1,
+        "create_time": 1608386943957
+      },
+      {
+        "user_id": "5fde09d906add5000113e72e",
+        "name": "不常用",
+        "index": 4,
+        "status": 1,
+        "create_time": 1608386943957
+      }
+    ]
   }
 }

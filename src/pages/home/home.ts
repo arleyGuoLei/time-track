@@ -14,6 +14,10 @@ import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 export default class extends Mixins(scrollTopMixin) {
   private imgAnimation = {}
 
+  onLoad() {
+    // noop, 不写该函数app初始化执行顺序不对
+  }
+
   /**
    * 吸顶回调操作，添加事件显示/隐藏
    * @param state 吸顶状态

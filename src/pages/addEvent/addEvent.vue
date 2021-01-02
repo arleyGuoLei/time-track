@@ -11,8 +11,8 @@
 
         <c-title title="图标设置" />
         <icon-setting
-          :iconSrc="iconSrc"
-          :iconColor="iconColor"
+          :iconSrc="iconSrc.src"
+          :iconColor="iconColor.color"
           @selectIconSrc="onSelectIconSrc"
           @selectIconColor="onSelectIconColor"
         />
@@ -26,14 +26,14 @@
           </view>
         </c-title>
 
-        <c-select title="日常" v-model="selected" />
-        <c-select title="日常" v-model="selected" />
-        <c-select title="日常" v-model="selected" />
+        <block v-for="(item, index) in tags" :key="index">
+          <c-select :title="item.name" v-model="item.selected" />
+        </block>
 
         <c-title title="其他设置" />
-        <c-select title="开启量化值 (打点数据求和)" v-model="selected" />
+        <c-select title="开启量化值 (打点数据求和)" v-model="openCalc" />
 
-        <button class="save">保 存</button>
+        <button class="save" @click="onSave">保 存</button>
       </view>
     </c-list>
   </view>
