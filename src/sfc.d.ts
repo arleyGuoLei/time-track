@@ -3,6 +3,8 @@ declare module '*.vue' {
   export default Vue
 }
 
+declare const ROUTES = []
+
 namespace UniCloud {
   interface InitOptions {
     /* 目前仅支持aliyun */

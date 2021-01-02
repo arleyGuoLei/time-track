@@ -29,6 +29,7 @@ module.exports = {
     uniCloud: true,
     getApp: true,
     __ctx__: true,
-    unidev: true
+    unidev: true,
+    ROUTES: true
   }
 };
