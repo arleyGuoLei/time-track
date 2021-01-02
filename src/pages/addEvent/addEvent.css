@@ -19,12 +19,12 @@
   align-items: center;
 }
 
-.tag-edit > img {
+.tag-edit img {
   width: 32rpx;
   height: 32rpx;
 }
 
-.tag-edit > text {
+.tag-edit text {
   font-size: 28rpx;
   font-weight: 400;
   color: #818181;

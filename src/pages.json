@@ -13,6 +13,9 @@
     {
 			"path":"pages/editTags/editTags",
 			"style": {
+        "navigationStyle": "default",
+        "navigationBarTitleText": "编辑标签",
+        "navigationBarBackgroundColor": "#93C0F2",
 				"bounce": "none",
 				"titleNView": false,
 				"app-plus": {
