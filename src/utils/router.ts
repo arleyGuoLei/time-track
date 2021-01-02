@@ -1,4 +1,16 @@
-import { RouterMount, createRouter } from 'node_modules/uni-simple-router/src/index'
+import { RouterMount, createRouter } from 'uni-simple-router'
+import { report } from './cloud'
+
+async function appLaunched() {
+  try {
+    await getApp<App>().globalData.$onLaunched
+  } catch (error) {
+    report(error, 'appLaunchedError')
+    // TODO: 跳转错误页 或 重启小程序
+
+    throw error
+  }
+}
 
 const router = createRouter({
   platform: process.env.VUE_APP_PLATFORM,
@@ -6,11 +18,11 @@ const router = createRouter({
   routes: [...ROUTES],
 })
 
-router.beforeEach((to, from, next) => {
-  console.log('beforeEach', to)
-
+router.beforeEach(async (to, from, next) => {
+  await appLaunched()
   next()
 })
+
 router.afterEach((to, from) => {
   console.log('跳转结束')
 })

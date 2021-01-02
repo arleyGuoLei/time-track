@@ -48,5 +48,6 @@ interface App {
   globalData: {
     cloud: UniCloud.UniCloud
     db: UniCloud.DatabaseRes
+    $onLaunched: Promise<[void, void, void]>
   }
 }
