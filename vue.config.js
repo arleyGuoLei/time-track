@@ -9,10 +9,6 @@ module.exports = {
           const tfPages = new TransformPages({
             includes: ['path', 'name', 'aliasPath'],
           })
-          console.log(
-            'log =>  ~ file: vue.config.js ~ line 12 ~ ROUTES:webpack.DefinePlugin.runtimeValue ~ tfPages',
-            tfPages,
-          )
           return JSON.stringify(tfPages.routes)
         }, true),
       }),
