@@ -6,6 +6,7 @@ import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KE
 import { setLocalToken } from './utils/cloud'
 
 export default {
+  mpType: 'app',
   globalData: {
     cloud: null,
     db: null,
@@ -65,7 +66,11 @@ export default {
     },
   },
   onLaunch() {
-    ;((this as any) as App).globalData.$onLaunched = Promise.all([this.initUI(), this.initCloud(), this.login()])
+    ;((this as any) as App).globalData.$onLaunched = Promise.all([
+      (this as any).initUI(),
+      (this as any).initCloud(),
+      (this as any).login(),
+    ])
   },
 }
 </script>

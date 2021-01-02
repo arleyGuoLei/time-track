@@ -31,12 +31,4 @@ export default class extends Mixins(scrollTopMixin) {
       .step()
     this.imgAnimation = animation.export()
   }
-
-  onEnterAddEvent() {
-    // TODO: delete
-
-    uni.navigateTo({
-      url: '/pages/addEvent/addEvent',
-    })
-  }
 }

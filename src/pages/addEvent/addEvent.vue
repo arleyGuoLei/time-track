@@ -19,8 +19,10 @@
 
         <c-title title="标签设置 (可多选)">
           <view slot="right" class="tag-edit">
-            <img src="@/static/tag-edit.png" />
-            <text>编辑标签</text>
+            <router-link to="/pages/editTags/editTags">
+              <img src="@/static/tag-edit.png" />
+              <text>编辑标签</text>
+            </router-link>
           </view>
         </c-title>
 
