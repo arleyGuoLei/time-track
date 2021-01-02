@@ -119,6 +119,7 @@ export default class extends Vue {
   margin: 14rpx;
 
   border-radius: 50%;
+  float: left;
 }
 
 .scroll-view:nth-child(2) {

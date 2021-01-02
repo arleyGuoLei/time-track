@@ -12,7 +12,9 @@
       </view>
     </c-list>
 
-    <img :animation="imgAnimation" @click="onEnterAddEvent" class="add-event" src="@/static/home-add-event.png" />
+    <router-link to="/pages/addEvent/addEvent">
+      <img :animation="imgAnimation" class="add-event" src="@/static/home-add-event.png" />
+    </router-link>
   </view>
 </template>
 
