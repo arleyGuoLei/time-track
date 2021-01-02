@@ -1,7 +1,17 @@
 {
 	"pages": [
     {
-			"path":"pages/home/home",
+      "path":"pages/home/home",
+      "style": {
+        "bounce": "none",
+        "titleNView": false,
+        "app-plus": {
+          "scrollIndicator": "none"
+        }
+      }
+    },
+    {
+			"path":"pages/editTags/editTags",
 			"style": {
 				"bounce": "none",
 				"titleNView": false,
