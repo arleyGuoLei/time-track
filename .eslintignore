@@ -1,1 +1,3 @@
 cloudfunctions-aliyun/common/uni-id/index.js
+node_modules/
+dist/
