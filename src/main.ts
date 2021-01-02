@@ -7,7 +7,7 @@ import { router, RouterMount } from '@/utils/router'
 Vue.use(router)
 
 Vue.config.productionTip = false
-Vue.component('unicloud-db', uniClientdb)
+Vue.component('client-db', uniClientdb)
 Vue.component('router-link', link)
 
 const app = new Vue({

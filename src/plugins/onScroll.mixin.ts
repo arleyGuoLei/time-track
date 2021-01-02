@@ -14,9 +14,6 @@ export const scrollTopMixin: any = {
     const { scrollTop } = event
     ;((this as any) as ScrollEvent).scrollTop = scrollTop
   },
-  onLoad() {
-    // noop, 不写该函数app初始化执行顺序不对
-  },
 }
 
 export default {
