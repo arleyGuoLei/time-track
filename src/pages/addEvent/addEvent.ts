@@ -70,7 +70,9 @@ export default class extends Vue {
   private openCalc = false
 
   onLoad() {
-    ;(this as any).$loading('getTags', this.getTags.bind(this))
+    this.$nextTick(() => {
+      ;(this as any).$loading('getTags', this.getTags.bind(this))
+    })
   }
 
   async getTags() {

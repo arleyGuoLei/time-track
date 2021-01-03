@@ -24,7 +24,7 @@ export default {
       ...args: any
     ) {
       const loading = getLoaingRef() as any
-      if (loading) {
+      if (loading && loading.add) {
         try {
           loading.add(key, loadingFn, openReload)
           await loadingFn.apply(this, args)
@@ -34,7 +34,8 @@ export default {
           throw error
         }
       } else {
-        throw new Error('get loading refs fail')
+        // loading组件挂载有时候比较慢，不应该阻塞数据加载
+        await loadingFn.apply(this, args)
       }
     }
   },
