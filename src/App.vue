@@ -89,6 +89,12 @@ export default {
   background: transparent;
 }
 
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 button::after,
 button::before {
   display: none;
