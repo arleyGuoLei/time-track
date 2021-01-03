@@ -59,16 +59,21 @@ export default class extends Vue {
   private colorList: any[][] = []
 
   initIconList() {
-    iconImagesModel.getList().then(list => {
-      Array.isArray(list) && (this.srcList = chunkArr(list, this.srcLine))
-    })
-    iconColorsModel.getList().then(list => {
-      Array.isArray(list) && (this.colorList = chunkArr(list, this.colorLine))
+    return new Promise((resolve, reject) => {
+      Promise.all([iconImagesModel.getList(), iconColorsModel.getList()])
+        .then(([srcList, colorList]) => {
+          Array.isArray(srcList) && (this.srcList = chunkArr(srcList, this.srcLine))
+          Array.isArray(colorList) && (this.colorList = chunkArr(colorList, this.colorLine))
+          resolve('')
+        })
+        .catch(err => {
+          reject(err)
+        })
     })
   }
 
-  created() {
-    this.initIconList()
+  mounted() {
+    ;(this as any).$loading('initIconList', this.initIconList.bind(this))
   }
 
   @Emit('selectIconSrc')

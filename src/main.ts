@@ -3,12 +3,16 @@ import App from './App.vue'
 import uniClientdb from '@/components/uni-clientdb.vue'
 import link from '@/components/link.vue'
 import { router, RouterMount } from '@/utils/router'
+import loading from '@/plugins/loading'
+import cLoading from '@/components/cLoading.vue'
 
 Vue.use(router)
+Vue.use(loading)
 
 Vue.config.productionTip = false
 Vue.component('client-db', uniClientdb)
 Vue.component('router-link', link)
+Vue.component('c-loading', cLoading)
 
 const app = new Vue({
   ...App,
