@@ -1,0 +1,30 @@
+.tag-item-container {
+  width: 718rpx;
+  height: 100rpx;
+  border-radius: 12rpx;
+  background-color: #FFFFFF;
+  margin: 24rpx auto;
+  padding: 0 32rpx;
+  box-sizing: border-box;
+}
+
+.tag-content, .edit-content {
+  height: 100%;
+}
+
+.handle-container {
+  flex: 1;
+  text-align: right;
+}
+
+.icon-move-up {
+  width: 40rpx;
+  height: 34rpx;
+  margin-left: 32rpx;
+}
+
+.action-btn {
+  padding: 12rpx 25rpx;
+  border-radius: 32rpx;
+  color: #FFFFFF;
+}
