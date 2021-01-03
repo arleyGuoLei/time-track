@@ -31,6 +31,11 @@
         "maxLength": "{label}不能多于 {maxLength} 个字符"
       }
     },
+    "eventNumber": {
+      "bsonType": "int",
+      "description": "标签包含的事件总数",
+      "defaultValue": 0
+    },
     "index": {
       "bsonType": "int",
       "description": "用户的标签排序"
