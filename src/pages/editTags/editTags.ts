@@ -15,7 +15,6 @@ export default class extends Vue {
   private tagsList: ListItem[] = []
   private showEdit = true
   private tagValue = ''
-  private editValue = ''
   private editId = ''
 
   onLoad() {
@@ -27,7 +26,7 @@ export default class extends Vue {
     this.tagsList = result.length ? result : []
   }
 
-  async handleSave() {
+  async onSave() {
     if (this.tagValue.length > 5) {
       showTip('最多不超过5个字')
     } else if (this.tagValue.length < 1) {
@@ -38,41 +37,37 @@ export default class extends Vue {
         index: this.tagsList.length + 1,
         eventNumber: 0,
       }
-      const { result: { id } } = await tagsModel.addTag(item)
+      const {
+        result: { id },
+      } = await tagsModel.addTag(item)
       this.tagsList.push({
         _id: id,
-        ...item
+        ...item,
       })
       this.tagValue = ''
       showTip('添加成功')
     }
   }
 
-  async handleDelete(_id: string, name: string, index: number) {
-    const that = this
+  async onDelete(_id: string, name: string, index: number) {
     uni.showModal({
       content: `确定删除『${name}』吗？`,
-      async success(res) {
+      success: async res => {
         if (res.confirm) {
-          const success = await tagsModel.deleteTag(_id)
-          if (success) {
-            that.tagsList.splice(index, 1)
-            showTip('删除成功')
-          } else {
-            showTip('删除失败，请稍后重试')
-          }
+          await tagsModel.deleteTag(_id)
+          this.tagsList.splice(index, 1)
+          showTip('删除成功')
         }
       },
     })
   }
 
-  handleEdit(_id: string, name: string) {
+  onEdit(_id: string) {
     this.showEdit = true
-    this.editValue = name
     this.editId = _id
   }
 
-  async handleUpdate(item: ListItem) {
+  async onUpdate(item: ListItem) {
     if (item.name.length > 5) {
       showTip('最多不超过5个字')
     } else if (item.name.length < 1) {
@@ -84,13 +79,13 @@ export default class extends Vue {
     }
   }
 
-  async handleMove(index: number, upItem: ListItem) {
+  async onMove(index: number, upItem: ListItem) {
     if (index !== 0) {
       // 交换index
       const downItem = this.tagsList[index - 1]
-      downItem.index = (upItem.index + downItem.index) - (upItem.index = downItem.index)
-      await tagsModel.updateTag(upItem)
-      await tagsModel.updateTag(downItem)
+      downItem.index = upItem.index + downItem.index - (upItem.index = downItem.index)
+      tagsModel.updateTag(upItem)
+      tagsModel.updateTag(downItem)
       // 移动位置
       this.tagsList = swapArray(this.tagsList, index, index - 1)
     } else {

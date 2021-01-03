@@ -38,8 +38,12 @@ export default {
   async deleteTag(_id: string) {
     const db = getApp<App>().globalData.db
     try {
-      const { success } = await db.collection('tags').where({_id}).remove()
-      return success
+      return await db
+      .collection('tags')
+      .doc(_id)
+      .update({
+        status: 0
+      })
     } catch (error) {
       report(error, 'error')
       throw error
