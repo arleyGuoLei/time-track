@@ -100,10 +100,20 @@ export default class extends Vue {
   bottom: 0;
   z-index: 100;
   touch-action: none;
-  background: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.page::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  z-index: -1;
+  content: ' ';
+  background: rgba(255, 255, 255, 0.95);
 }
 .loading {
   display: flex;
@@ -130,12 +140,12 @@ export default class extends Vue {
 }
 .fail-text {
   font-size: 32rpx;
-  color: #1f1f1f;
+  color: #bacefd;
   margin-top: 36rpx;
 }
 .reload {
-  width: 520rpx;
-  height: 100rpx;
+  width: 328rpx;
+  height: 84rpx;
   background: #bacefd;
   border-radius: 50rpx;
   margin-top: 72rpx;
