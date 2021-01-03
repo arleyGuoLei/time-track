@@ -13,3 +13,11 @@ export function getClientRect(select: string, pos: any): Promise<UniApp.NodeInfo
     }
   })
 }
+
+export function showTip(title: string) {
+  uni.showToast({
+    title,
+    icon: 'none',
+    duration: 2000
+  })
+}

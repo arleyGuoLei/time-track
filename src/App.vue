@@ -4,6 +4,7 @@ import { CLOUD_ENV } from '@/utils/config'
 import { userModel } from './models'
 import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
 import { setLocalToken } from './utils/cloud'
+import './style/commen.css'
 
 export default {
   mpType: 'app',
@@ -92,5 +93,9 @@ export default {
 button::after,
 button::before {
   display: none;
+}
+
+page {
+  background-color: #F5F5F5;
 }
 </style>
