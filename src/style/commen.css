@@ -1,0 +1,42 @@
+/* =============================  文字  ============================== */
+.text-grey {
+  color: #818181;
+}
+
+.text-red {
+  color: #FF807D;
+}
+
+.text-white {
+  color: #FFFFFF;
+}
+
+.text-sm {
+  font-size: 28rpx;
+}
+
+/* =============================  布局  ============================== */
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* =============================  边距  ============================== */
+.margin-right {
+  margin-right: 32rpx;
+}
+
+/* =============================  背景  ============================== */
+
+.bg-theme {
+  background-color: #A5CAF1;
+}
+
+.bg-white {
+  background-color: #FFFFFF;
+}
+
+.bg-red {
+  background-color: #FF807D;
+}
