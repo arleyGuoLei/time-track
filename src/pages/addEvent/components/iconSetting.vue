@@ -73,7 +73,9 @@ export default class extends Vue {
   }
 
   mounted() {
-    ;(this as any).$loading('initIconList', this.initIconList.bind(this))
+    this.$nextTick(() => {
+      ;(this as any).$loading('initIconList', this.initIconList.bind(this))
+    })
   }
 
   @Emit('selectIconSrc')
