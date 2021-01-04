@@ -18,7 +18,9 @@ export default class extends Vue {
   private editId = ''
 
   onLoad() {
-    this.getTagsList()
+    this.$nextTick(() => {
+      ;(this as any).$loading('getTagsList', this.getTagsList.bind(this))
+    })
   }
 
   async getTagsList() {

@@ -1,9 +1,8 @@
 <script lang="ts">
 import Vue from 'vue'
-import { CLOUD_ENV } from '@/utils/config'
 import { userModel } from './models'
 import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
-import { setLocalToken } from './utils/cloud'
+import { initCloud } from './utils/cloud'
 import './style/commen.css'
 
 export default {
@@ -45,24 +44,20 @@ export default {
       console.log('initUI 完成')
     },
     async initCloud() {
-      const option = process.env.NODE_ENV === 'development' ? CLOUD_ENV.dev : CLOUD_ENV.prod
-      const cloud = uniCloud.init(option)
-      cloud.database().on('refreshToken', setLocalToken)
+      const cloud = initCloud()
       ;((this as any) as App).globalData.cloud = cloud
       ;((this as any) as App).globalData.db = cloud.database()
-
       console.log('initCloud 完成')
     },
-    async login() {
+    async login(force = false) {
       // #ifdef MP
       const tokenExpired = uni.getStorageSync(LOCAL_TOKEN_EXPIRED_KEY)
       const token = uni.getStorageSync(LOCAL_TOKEN_KEY)
-      // 本地没有token 或者 token有效期小于(10分钟)则重新获取
-      if (!token || tokenExpired <= Date.now() + LOCAL_TOKEN_EXPIREDS_THRESHOLD) {
+      // 本地没有token 或者 token有效期小于(10分钟)则重新获取，当force为true表示强制登录，其他条件失效
+      if (!token || tokenExpired <= Date.now() + LOCAL_TOKEN_EXPIREDS_THRESHOLD || force) {
         await userModel.loginMP()
       }
       // #endif
-
       console.log('登录完成')
     },
   },
@@ -102,6 +97,6 @@ button::before {
 }
 
 page {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 </style>

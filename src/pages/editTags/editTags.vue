@@ -1,8 +1,10 @@
 <template>
   <view class="page">
+    <c-loading ref="loading" />
+
     <view class="tag-item-container" v-for="(item, index) in tagsList" :key="index">
       <view class="edit-content flex" v-if="showEdit && editId === item._id">
-        <input type="text" placeholder="请输入标签" v-model="item.name" />
+        <input type="text" placeholder="请输入标签" focus v-model="item.name" />
         <view class="action-btn text-sm bg-theme" @click="onUpdate(item)">确认修改</view>
         <view class="action-btn text-sm bg-red" @click="showEdit = false">取消</view>
       </view>
