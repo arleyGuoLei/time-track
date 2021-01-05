@@ -41,7 +41,7 @@ export default class extends Vue {
       }
       const {
         result: { id },
-      } = await tagsModel.addTag(item)
+      } = await (this as any).$loading('addTag', tagsModel.addTag.bind(this), false, '保存中', item)
       this.tagsList.push({
         _id: id,
         ...item,
@@ -56,7 +56,7 @@ export default class extends Vue {
       content: `确定删除『${name}』吗？`,
       success: async res => {
         if (res.confirm) {
-          await tagsModel.deleteTag(_id)
+          await (this as any).$loading('deleteTag', tagsModel.deleteTag.bind(this), false, '删除中', _id)
           this.tagsList.splice(index, 1)
           showTip('删除成功')
         }
@@ -75,7 +75,7 @@ export default class extends Vue {
     } else if (item.name.length < 1) {
       showTip('标签不为空')
     } else {
-      await tagsModel.updateTag(item)
+      await (this as any).$loading('updateTag', tagsModel.updateTag.bind(this), false, '保存中', item)
       this.showEdit = false
       showTip('修改成功')
     }
