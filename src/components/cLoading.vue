@@ -29,8 +29,7 @@ interface Stash {
 
 @Component
 export default class extends Vue {
-  @Prop({ default: '加载中' }) private loadingText!: string
-
+  private loadingText = '加载中'
   private status: STATUS = 'none'
   private stash: Stash[] = []
 
@@ -49,8 +48,9 @@ export default class extends Vue {
     }
   }
 
-  public add(key: string, fn: any, openReload = true) {
+  public add(key: string, fn: any, openReload = true, loadingText?: string) {
     this.stash.push({ key, fn, status: 'loading', openReload })
+    loadingText && (this.loadingText = loadingText)
   }
 
   public remove(key: string) {
@@ -93,7 +93,7 @@ export default class extends Vue {
   }
 }
 .page {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

@@ -1,3 +1,4 @@
+import { showTip } from './../../utils/utils'
 import { eventsModel } from './../../models/index'
 import { tagsModel } from './../../models'
 import { ListItem as ImageItem } from './../../models/iconImagesModel'
@@ -28,7 +29,7 @@ function validateForm(e: eventItem) {
     }
   }
   if (e.eventName.length < 1 || e.eventName.length > 12) {
-    return fail('事件名称长度应为1到12位')
+    return fail('名称长度应为1到12位')
   }
   if (!e.iconColor) {
     return fail('请选择图标颜色')
@@ -38,6 +39,7 @@ function validateForm(e: eventItem) {
   }
   return {
     status: true,
+    msg: '',
   }
 }
 
@@ -57,12 +59,12 @@ export default class extends Vue {
   /* 图标 */
   private iconSrc = {
     src: 'http://img.i7xy.cn/20201226154230.png',
-    _id: '',
+    _id: '5fe8b2ff1ee4f50001dcb234',
   }
   /* 图标颜色 */
   private iconColor = {
     color: '#EDF7F2',
-    _id: '',
+    _id: '5fe8b2fe1ee4f50001dcb231',
   }
   /* tags */
   private tags: Tag[] = []
@@ -89,18 +91,22 @@ export default class extends Vue {
 
   async onSave() {
     const { eventName, iconSrc, iconColor, tags, openCalc } = this
-    const e = {
+    const item = {
       eventName,
       iconSrc: iconSrc._id,
       iconColor: iconColor._id,
       tags: getSelectTagsId(tags),
       openCalc,
     }
-    const v = validateForm(e)
+    const v = validateForm(item)
     if (v.status) {
-      await eventsModel.addEvent(e)
+      const {
+        result: { id },
+      } = await (this as any).$loading('addEvent', eventsModel.addEvent.bind(this), false, '保存中', item)
+      console.log('log =>  ~ file: addEvent.ts ~ line 106 ~ extends ~ onSave ~ id', id)
+      showTip('保存成功')
     } else {
-      // TODO:提示
+      showTip(v.msg)
     }
   }
 }

@@ -20,15 +20,17 @@ export default {
     vue.prototype.$loading = async function(
       key: string,
       loadingFn: <T>() => Promise<T>,
-      openReload = true,
+      openReload = true, // 加载失败是否打开点击重试
+      loadingText = '加载中', // 加载中文案
       ...args: any
     ) {
       const loading = getLoaingRef() as any
       if (loading && loading.add) {
         try {
-          loading.add(key, loadingFn, openReload)
-          await loadingFn.apply(this, args)
+          loading.add(key, loadingFn, openReload, loadingText)
+          const res = await loadingFn.apply(this, args)
           loading.remove(key)
+          return res
         } catch (error) {
           loading.fail(key)
           throw error

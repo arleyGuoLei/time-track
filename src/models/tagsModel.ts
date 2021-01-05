@@ -39,11 +39,11 @@ export default {
     const db = getApp<App>().globalData.db
     try {
       return await db
-      .collection('tags')
-      .doc(_id)
-      .update({
-        status: 0
-      })
+        .collection('tags')
+        .doc(_id)
+        .update({
+          status: 0,
+        })
     } catch (error) {
       report(error, 'error')
       throw error
@@ -54,16 +54,16 @@ export default {
     const targetItem = {
       name: item.name,
       index: item.index,
-      eventNumber: item.eventNumber
+      eventNumber: item.eventNumber,
     }
     try {
       return await db
-      .collection('tags')
-      .doc(item._id)
-      .update(targetItem)
+        .collection('tags')
+        .doc(item._id)
+        .update(targetItem)
     } catch (error) {
       report(error, 'error')
       throw error
     }
-  }
+  },
 }
