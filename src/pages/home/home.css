@@ -11,3 +11,66 @@
     bottom: 120rpx;
   /* #endif */
 }
+.event-container {
+  padding-top: 16rpx;
+}
+
+.event-item {
+  width: 718rpx;
+  height: 150rpx;
+  border-radius: 20rpx;
+  margin: 0 auto;
+  overflow: hidden;
+  padding-left: 48rpx;
+  box-sizing: border-box;
+}
+
+.icon-container {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 32rpx;
+}
+
+.icon-img {
+  width: 100%;
+  height: 100%;
+}
+
+.content-container {
+  width: 320rpx;
+}
+
+.event-name {
+  margin-bottom: 12rpx;
+}
+
+.times {
+  display: inline-block;
+  width: 160rpx;
+}
+
+.icon-time {
+  width: 28rpx;
+  height: 28rpx;
+  margin-right: 7rpx;
+}
+
+.time-container {
+  justify-content: flex-start;
+}
+
+.finger-container {
+  width: 150rpx;
+  height: 150rpx;
+  background: rgba(194, 228, 255, 0.5);
+  position: relative;
+}
+
+.finger-img {
+  width: 48rpx;
+  height: 84rpx;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

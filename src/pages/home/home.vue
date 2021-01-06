@@ -7,8 +7,25 @@
         <tag />
       </view>
 
-      <view v-for="index in 1000" :key="index">
-        <text>-------- {{ index }}</text>
+      <view class="event-container bg-grey" v-for="(item, index) in eventList" :key="index">
+        <view class="event-item bg-white flex">
+          <view class="icon-container" :style="{ background: item.iconColor[0].color }">
+            <img class="icon-img" :src="item.iconSrc[0].src" />
+          </view>
+          <view class="content-container">
+            <p class="text event-name">{{ item.eventName }}</p>
+            <view class="text-grey text-sm flex time-container">
+              <text class="times">打点999次</text>
+              <view class="clock flex">
+                <img class="icon-time" src="@/static/home-time.png" />
+                <text>100天</text>
+              </view>
+            </view>
+          </view>
+          <view class="finger-container">
+            <img class="finger-img" src="@/static/home-finger.png" />
+          </view>
+        </view>
       </view>
     </c-list>
 
