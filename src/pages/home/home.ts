@@ -3,6 +3,7 @@ import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
+import eventsModel from '@/models/eventsModel'
 
 @Component({
   components: {
@@ -13,9 +14,11 @@ import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 })
 export default class extends Mixins(scrollTopMixin) {
   private imgAnimation = {}
+  private eventList = []
 
   onLoad() {
     // noop, 不写该函数app初始化执行顺序不对
+    this.getData()
   }
 
   /**
@@ -34,5 +37,9 @@ export default class extends Mixins(scrollTopMixin) {
       .opacity(data.opacity)
       .step()
     this.imgAnimation = animation.export()
+  }
+
+  async getData() {
+    this.eventList = await eventsModel.getAllEvents()
   }
 }
