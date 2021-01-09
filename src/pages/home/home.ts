@@ -3,7 +3,7 @@ import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
-import eventsModel from '@/models/eventsModel'
+import eventsModel, { ListItem } from '@/models/eventsModel'
 
 @Component({
   components: {
@@ -15,6 +15,8 @@ import eventsModel from '@/models/eventsModel'
 export default class extends Mixins(scrollTopMixin) {
   private imgAnimation = {}
   private eventList = []
+  private hasRadius = true
+  private allEventList = []
 
   onLoad() {
     // noop, 不写该函数app初始化执行顺序不对
@@ -37,9 +39,23 @@ export default class extends Mixins(scrollTopMixin) {
       .opacity(data.opacity)
       .step()
     this.imgAnimation = animation.export()
+    this.hasRadius = !this.hasRadius
   }
 
   async getData() {
     this.eventList = await eventsModel.getAllEvents()
+    this.allEventList = this.eventList
+  }
+
+  changeTag(tagName: string) {
+    const allEventList = this.allEventList
+    if (tagName) {
+      this.eventList = allEventList.filter((item: ListItem) => {
+        return item.tags.find(tag => tag.name === tagName)
+      })
+    } else {
+      // 全部
+      this.eventList = allEventList
+    }
   }
 }
