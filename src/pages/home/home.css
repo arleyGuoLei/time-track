@@ -11,8 +11,15 @@
     bottom: 120rpx;
   /* #endif */
 }
+
+.radius {
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+}
+
 .event-container {
   padding-top: 16rpx;
+  overflow: hidden;
 }
 
 .event-item {
@@ -23,6 +30,10 @@
   overflow: hidden;
   padding-left: 48rpx;
   box-sizing: border-box;
+}
+
+.event-item:not(:first-child) {
+  margin-top: 16rpx;
 }
 
 .icon-container {
