@@ -4,11 +4,11 @@
 
     <c-list @sticky="onSticky" :scroll-y="scrollTop">
       <view slot="fixed">
-        <tag />
+        <tag :hasRadius="hasRadius" :eventList="eventList" @changeTag="changeTag" />
       </view>
 
-      <view class="event-container bg-grey" v-for="(item, index) in eventList" :key="index">
-        <view class="event-item bg-white flex">
+      <view class="event-container bg-grey">
+        <view class="event-item bg-white flex" v-for="(item, index) in eventList" :key="index">
           <view class="icon-container" :style="{ background: item.iconColor[0].color }">
             <img class="icon-img" :src="item.iconSrc[0].src" />
           </view>

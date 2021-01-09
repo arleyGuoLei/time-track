@@ -1,9 +1,13 @@
 import { report } from '@/utils/cloud'
+
+interface Tag {
+  name: string
+}
 export interface ListItem {
   eventName: string
   iconSrc: string // id
   iconColor: string // id
-  tags: string[]
+  tags: Tag[]
   openCalc: boolean
   status?: 1 | 0
 }
@@ -19,9 +23,9 @@ export default {
       const {
         result: { data = [] },
       } = await db
-        .collection('events,icon_images,icon_colors')
+        .collection('events,icon_images,icon_colors,tags')
         .where('status==1 && user_id==$env.uid')
-        .field('eventName,iconSrc{src},iconColor{color},tags')
+        .field('eventName,iconSrc{src},iconColor{color},tags{name}')
         .orderBy('create_time asc')
         .get()
 

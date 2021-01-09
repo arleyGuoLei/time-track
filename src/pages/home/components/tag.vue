@@ -1,11 +1,12 @@
 <template>
-  <view class="tags">
+  <view class="tags" :class="hasRadius ? 'radius' : ''">
     <scroll-view
       :scroll-x="true"
       :scroll-into-view="'item_' + selectIndex"
       :scroll-with-animation="true"
       class="tags-scroll"
     >
+      <text class="tag-item" :class="[selectIndex === -1 ? 'tag-item__active' : '']" @click="onSelect(-1)">全部</text>
       <block v-for="(value, index) in list" :key="index">
         <text
           :id="'item_' + index"
@@ -13,7 +14,7 @@
           class="tag-item"
           @click="onSelect(index)"
         >
-          {{ value }}
+          {{ value.name }}
         </text>
       </block>
     </scroll-view>
@@ -26,35 +27,31 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { tagsModel } from '@/models'
+import { ListItem } from '@/models/tagsModel'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {
-  private list = [
-    '全部',
-    '日常',
-    '周卡',
-    '月卡',
-    '年卡',
-    '不定时',
-    '全部',
-    '日常',
-    '周卡',
-    '月卡',
-    '年卡',
-    '不定时',
-    '全部',
-    '日常',
-    '周卡',
-    '月卡',
-    '年卡',
-    '不定时',
-  ]
-  private selectIndex = 0
+  @Prop({ default: true }) private hasRadius!: boolean
+  private list: ListItem[] = []
+  private selectIndex = -1
+
+  onReady() {
+    this.getTagList()
+  }
+
+  async getTagList() {
+    this.list = await tagsModel.getList()
+  }
 
   onSelect(index: number) {
     this.selectIndex = index
-    console.log('log =>  ~ file: tag.vue ~ line 43 ~ extends ~ onSelect ~ index', index)
+    this.$emit('changeTag', index === -1 ? '' : this.list[index].name)
+  }
+
+  onSticky() {
+    console.log(this.$refs)
   }
 }
 </script>
@@ -63,8 +60,11 @@ export default class extends Vue {
   height: 100rpx;
   background: #ffffff;
   display: flex;
+}
+.radius {
   border-top-left-radius: 32rpx;
   border-top-right-radius: 32rpx;
+  transition: all 0.5s ease-in-out;
 }
 .tags-scroll {
   width: 650rpx;
