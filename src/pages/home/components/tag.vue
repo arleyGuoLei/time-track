@@ -1,5 +1,5 @@
 <template>
-  <view class="tags" :class="hasRadius ? 'radius' : ''">
+  <view class="tags" :class="sticky ? '' : 'radius'">
     <scroll-view
       :scroll-x="true"
       :scroll-into-view="'item_' + selectIndex"
@@ -29,16 +29,19 @@
 <script lang="ts">
 import { tagsModel } from '@/models'
 import { ListItem } from '@/models/tagsModel'
+import { DEFAULT_TAG_ID } from '@/utils/constant'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {
-  @Prop({ default: true }) private hasRadius!: boolean
+  @Prop({ default: false }) private sticky!: boolean
   private list: ListItem[] = []
   private selectIndex = -1
 
-  onReady() {
-    this.getTagList()
+  mounted() {
+    this.$nextTick(() => {
+      ;(this as any).$loading('getTagList', this.getTagList.bind(this))
+    })
   }
 
   async getTagList() {
@@ -46,12 +49,11 @@ export default class extends Vue {
   }
 
   onSelect(index: number) {
+    if (this.selectIndex === index) {
+      return
+    }
     this.selectIndex = index
-    this.$emit('changeTag', index === -1 ? '' : this.list[index].name)
-  }
-
-  onSticky() {
-    console.log(this.$refs)
+    this.$emit('changeTag', index === -1 ? DEFAULT_TAG_ID : this.list[index]._id)
   }
 }
 </script>
@@ -60,11 +62,11 @@ export default class extends Vue {
   height: 100rpx;
   background: #ffffff;
   display: flex;
+  border-bottom: 1rpx solid #f5f5f5;
 }
 .radius {
   border-top-left-radius: 32rpx;
   border-top-right-radius: 32rpx;
-  transition: all 0.5s ease-in-out;
 }
 .tags-scroll {
   width: 650rpx;

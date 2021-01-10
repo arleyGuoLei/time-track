@@ -53,6 +53,5 @@ export default class extends Vue {
 .list-sticky {
   width: 750rpx;
   position: sticky;
-  z-index: 999;
 }
 </style>
