@@ -5,7 +5,7 @@ interface Page {
   $vm: Vue
 }
 
-function getLoaingRef() {
+export function getLoaingRef() {
   const page = getCurrentPages<Page>()
   const $vm = page[page.length - 1].$vm
   return $vm.$refs['loading'] || null
