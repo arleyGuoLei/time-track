@@ -17,6 +17,8 @@ export default class extends Mixins(scrollTopMixin) {
   private imgAnimation = {}
   private eventList = []
   private sticky = false
+  // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
+  private load = false
 
   /* ----分页数据---- */
   private onBottom = false
@@ -28,6 +30,8 @@ export default class extends Mixins(scrollTopMixin) {
   private tagId = DEFAULT_TAG_ID
 
   onLoad() {
+    this.load = true
+    console.log('home onLoad')
     ;(this as any).$loading('getList', this.getList.bind(this))
   }
 
@@ -71,6 +75,15 @@ export default class extends Mixins(scrollTopMixin) {
     // 数据总和小于查询的size
     if (count <= size) {
       this.onBottom = true
+    } else {
+      /**
+       * 有更多数据 且 是第一页则进行预取
+        if (page === 1) {
+          setTimeout(() => {
+            this.getList(tagId, page + 1)
+          }, 200)
+        }
+       */
     }
 
     this.eventTotal = count
