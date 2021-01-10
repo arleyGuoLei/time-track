@@ -1,13 +1,11 @@
+import { DEFAULT_TAG_ID, PAGE_SIZE } from './../utils/constant'
 import { report } from '@/utils/cloud'
 
-interface Tag {
-  name: string
-}
 export interface ListItem {
   eventName: string
   iconSrc: string // id
   iconColor: string // id
-  tags: Tag[]
+  tags: string[]
   openCalc: boolean
   status?: 1 | 0
 }
@@ -17,19 +15,30 @@ export default {
     const db = getApp<App>().globalData.db
     return db.collection('events').add(item)
   },
-  async getAllEvents() {
+  async getList(tagId: string, page: number) {
+    const size = PAGE_SIZE
     const db = getApp<App>().globalData.db
+
     try {
       const {
-        result: { data = [] },
+        result: { data = [], count },
       } = await db
-        .collection('events,icon_images,icon_colors,tags')
-        .where('status==1 && user_id==$env.uid')
-        .field('eventName,iconSrc{src},iconColor{color},tags{name}')
+        .collection('events,icon_images,icon_colors')
+        .where('status==1 && user_id==$env.uid' + (tagId !== DEFAULT_TAG_ID ? ` && tags in ["${tagId}"]` : ''))
+        .field('eventName,iconSrc{src},iconColor{color}')
         .orderBy('create_time asc')
-        .get()
 
-      return data
+        .skip(size * (page - 1))
+        .limit(size)
+        .get({
+          getCount: true,
+        })
+
+      return {
+        data,
+        count,
+        size,
+      }
     } catch (error) {
       report(error, 'error')
       throw error

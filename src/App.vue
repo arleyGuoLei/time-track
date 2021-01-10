@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { userModel } from './models'
 import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
 import { initCloud } from './utils/cloud'
-import './style/commen.css'
+import './style/common.css'
 
 export default {
   mpType: 'app',
@@ -65,6 +65,7 @@ export default {
     ;((this as any) as App).globalData.$onLaunched = Promise.all([
       (this as any).initUI(),
       (this as any).initCloud(),
+      // TODO:登录成功后在请求其他接口 目前这还有BUG 待解
       (this as any).login(),
     ])
   },

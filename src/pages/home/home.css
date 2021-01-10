@@ -20,6 +20,8 @@
 .event-container {
   padding-top: 16rpx;
   overflow: hidden;
+  box-sizing: border-box;
+  min-height: 200rpx;
 }
 
 .event-item {
@@ -74,14 +76,20 @@
   width: 150rpx;
   height: 150rpx;
   background: rgba(194, 228, 255, 0.5);
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .finger-img {
   width: 48rpx;
   height: 84rpx;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+}
+
+.on-bottom {
+  display: block;
+  width: 750rpx;
+  text-align: center;
+  margin-top: 32rpx;
+  margin-bottom: 64rpx;
 }
