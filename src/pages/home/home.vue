@@ -1,10 +1,12 @@
 <template>
   <view class="page">
+    <c-loading ref="loading" />
+
     <c-header imgSrc="http://img.i7xy.cn/20201208234148.png" />
 
     <c-list @sticky="onSticky" :scroll-y="scrollTop">
       <view slot="fixed">
-        <tag :hasRadius="hasRadius" :eventList="eventList" @changeTag="changeTag" />
+        <tag :sticky="sticky" @changeTag="onTagChange" />
       </view>
 
       <view class="event-container bg-grey">
@@ -28,6 +30,9 @@
         </view>
       </view>
     </c-list>
+
+    <!-- TODO: 空白页 -->
+    <text v-if="onBottom" class="on-bottom text-grey text-sm">- 到底了 -</text>
 
     <router-link to="/pages/addEvent/addEvent">
       <img :animation="imgAnimation" class="add-event" src="@/static/home-add-event.png" />

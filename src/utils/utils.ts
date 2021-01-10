@@ -18,6 +18,6 @@ export function showTip(title: string) {
   uni.showToast({
     title,
     icon: 'none',
-    duration: 2000
+    duration: 2000,
   })
 }
