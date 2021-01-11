@@ -39,6 +39,7 @@ export default class extends Vue {
   private selectIndex = -1
 
   mounted() {
+    console.log('tag components mounted')
     this.$nextTick(() => {
       ;(this as any).$loading('getTagList', this.getTagList.bind(this))
     })

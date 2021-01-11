@@ -31,6 +31,10 @@
   margin-right: 32rpx;
 }
 
+.margin-bottom-sm {
+  margin-bottom: 16rpx;
+}
+
 /* =============================  背景  ============================== */
 
 .bg-theme {

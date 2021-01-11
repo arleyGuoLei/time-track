@@ -6,7 +6,7 @@
 
     <c-list v-show="load" @sticky="onSticky" :scroll-y="scrollTop">
       <view slot="fixed">
-        <tag :sticky="sticky" @changeTag="onTagChange" />
+        <tag ref="tag" :sticky="sticky" @changeTag="onTagChange" />
       </view>
 
       <view class="event-container bg-grey">
@@ -31,8 +31,11 @@
       </view>
     </c-list>
 
-    <!-- TODO: 空白页 -->
-    <text v-if="onBottom" class="on-bottom text-grey text-sm">- 到底了 -</text>
+    <view class="blank" v-if="eventList.length === 0">
+      <img class="blank-img margin-bottom-sm" src="./../../static/blank.png" />
+      <text class="text-sm text-grey">无任何事件</text>
+    </view>
+    <text v-if="onBottom && eventList.length !== 0" class="on-bottom text-grey text-sm">— 到底了 —</text>
 
     <router-link to="/pages/addEvent/addEvent">
       <img :animation="imgAnimation" class="add-event" src="@/static/home-add-event.png" />

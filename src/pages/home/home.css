@@ -3,6 +3,9 @@
   width: 84rpx;
   height: 84rpx;
   right: 48rpx;
+
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.12);
+  border-radius: 50%;
   /* #ifndef H5 */
     bottom: 64rpx;
   /* #endif */
@@ -92,4 +95,15 @@
   text-align: center;
   margin-top: 32rpx;
   margin-bottom: 64rpx;
+}
+
+.blank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blank-img {
+  width: 234rpx;
+  height: 200rpx;
 }
