@@ -100,4 +100,14 @@ export default class extends Mixins(scrollTopMixin) {
       this.onBottom = true
     }
   }
+
+  async onPullDownRefresh() {
+    this.onBottom = false
+    this.page = 1
+    this.eventTotal = 0
+    this.pageSize = PAGE_SIZE
+    await (this as any).$loading('getList', this.getList.bind(this), true, '加载中', this.tagId, 1)
+    await (this as any).$loading('getTagList', (this.$refs.tag as any).getTagList)
+    uni.stopPullDownRefresh()
+  }
 }
