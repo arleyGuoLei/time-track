@@ -19,6 +19,7 @@ export default class extends Mixins(scrollTopMixin) {
   private sticky = false
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
   private load = false
+  private isLoading = false
 
   /* ----分页数据---- */
   private onBottom = false
@@ -65,6 +66,7 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async getList(tagId = DEFAULT_TAG_ID, page = 1) {
+    this.isLoading = true
     const { data, count, size } = await eventsModel.getList(tagId, page)
     if (page === 1) {
       this.eventList = data
@@ -89,6 +91,16 @@ export default class extends Mixins(scrollTopMixin) {
     this.eventTotal = count
     this.pageSize = size
     this.page = page + 1
+    this.isLoading = false
+  }
+
+  onLongPressSign() {
+    console.log('长按')
+    uni.vibrateShort({})
+  }
+
+  onTapSign() {
+    console.log('点击')
   }
 
   onReachBottom() {
