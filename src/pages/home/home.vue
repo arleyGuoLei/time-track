@@ -24,14 +24,14 @@
               </view>
             </view>
           </view>
-          <view class="finger-container">
+          <view class="finger-container" @longpress="onLongPressSign" @tap="onTapSign">
             <img class="finger-img" src="@/static/home-finger.png" />
           </view>
         </view>
       </view>
     </c-list>
 
-    <view class="blank" v-if="eventList.length === 0">
+    <view class="blank" v-if="eventList.length === 0 && !isLoading">
       <img class="blank-img margin-bottom-sm" src="./../../static/blank.png" />
       <text class="text-sm text-grey">无任何事件</text>
     </view>

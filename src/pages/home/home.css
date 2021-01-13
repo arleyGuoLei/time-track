@@ -84,6 +84,10 @@
   justify-content: center;
 }
 
+.finger-container:active {
+  background: rgba(194, 228, 255, 0.6);
+}
+
 .finger-img {
   width: 48rpx;
   height: 84rpx;

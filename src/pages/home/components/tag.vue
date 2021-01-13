@@ -74,12 +74,26 @@ export default class extends Vue {
   height: 100rpx;
   /* 不加white-space不能滚动中文 */
   white-space: nowrap;
+  position: relative;
+}
+.tags-scroll::after {
+  display: block;
+  content: '';
+  position: absolute;
+  height: 100rpx;
+  width: 84rpx;
+  right: 0;
+  top: 0;
+  background-image: linear-gradient(270deg, #fff, hsla(0, 0%, 100%, 0));
 }
 .tag-item {
   font-size: 34rpx;
   color: #818181;
   line-height: 100rpx;
   padding: 0 24rpx 0 48rpx;
+}
+.tag-item:last-child {
+  margin-right: 64rpx;
 }
 .tag-item__active {
   color: #333333;
