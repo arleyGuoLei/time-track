@@ -19,7 +19,10 @@ export default class extends Mixins(scrollTopMixin) {
   private sticky = false
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
   private load = false
+<<<<<<< HEAD
   private isLoading = false
+=======
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
 
   /* ----分页数据---- */
   private onBottom = false
@@ -66,7 +69,10 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async getList(tagId = DEFAULT_TAG_ID, page = 1) {
+<<<<<<< HEAD
     this.isLoading = true
+=======
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
     const { data, count, size } = await eventsModel.getList(tagId, page)
     if (page === 1) {
       this.eventList = data
@@ -91,6 +97,7 @@ export default class extends Mixins(scrollTopMixin) {
     this.eventTotal = count
     this.pageSize = size
     this.page = page + 1
+<<<<<<< HEAD
     this.isLoading = false
   }
 
@@ -101,6 +108,8 @@ export default class extends Mixins(scrollTopMixin) {
 
   onTapSign() {
     console.log('点击')
+=======
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
   }
 
   onReachBottom() {
@@ -111,6 +120,7 @@ export default class extends Mixins(scrollTopMixin) {
     } else {
       this.onBottom = true
     }
+<<<<<<< HEAD
   }
 
   async onPullDownRefresh() {
@@ -121,5 +131,7 @@ export default class extends Mixins(scrollTopMixin) {
     await (this as any).$loading('getList', this.getList.bind(this), true, '加载中', this.tagId, 1)
     await (this as any).$loading('getTagList', (this.$refs.tag as any).getTagList)
     uni.stopPullDownRefresh()
+=======
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
   }
 }

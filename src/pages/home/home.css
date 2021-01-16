@@ -84,10 +84,13 @@
   justify-content: center;
 }
 
+<<<<<<< HEAD
 .finger-container:active {
   background: rgba(194, 228, 255, 0.6);
 }
 
+=======
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
 .finger-img {
   width: 48rpx;
   height: 84rpx;
@@ -99,6 +102,7 @@
   text-align: center;
   margin-top: 32rpx;
   margin-bottom: 64rpx;
+<<<<<<< HEAD
 }
 
 .blank {
@@ -111,3 +115,6 @@
   width: 234rpx;
   height: 200rpx;
 }
+=======
+}
+>>>>>>> 42dc621fb9059f808b08e6fb034bd50fc0530910
