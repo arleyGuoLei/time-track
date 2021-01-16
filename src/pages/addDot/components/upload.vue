@@ -3,11 +3,11 @@
     <view class="img-wrap" v-for="(url, index) in list" :key="index">
       <img class="img" @click="onPreviewImg(index)" :src="url" />
       <view class="img-delete">
-        <img class="img-delete__icon" @click="onDelete(index)" src="./../../../static/delete.png" />
+        <img class="img-delete__icon" @click="onDelete(index)" src="@/static/delete.png" />
       </view>
     </view>
     <view v-if="list.length < 9" class="upload-btn" @click="onUpload">
-      <img class="upload-btn__icon" src="./../../../static/upload.png" />
+      <img class="upload-btn__icon" src="@/static/upload.png" />
     </view>
   </view>
 </template>
@@ -104,7 +104,6 @@ export default class extends Vue {
 }
 .img-wrap:nth-child(3n) {
   margin-right: 0;
-  margin-bottom: 0;
 }
 .img {
   display: flex;
