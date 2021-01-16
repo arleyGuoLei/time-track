@@ -63,6 +63,16 @@
 					"scrollIndicator": "none"
 				}
 			}
+		},
+		{
+			"path":"pages/eventDetail/eventDetail",
+			"style": {
+				"bounce": "none",
+				"titleNView": false,
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
+			}
 		}
 	],
 	"globalStyle": {
@@ -106,6 +116,16 @@
   "condition" : {
     "current": 0,
     "list": [
+			{
+        "name": "edit Tag Page",
+        "path": "pages/editTags/editTags",
+        "query": ""
+			},
+			{
+        "name": "event Detail Page",
+        "path": "pages/eventDetail/eventDetail",
+        "query": ""
+      },
       {
         "name": "add Event Page",
         "path": "pages/addEvent/addEvent",

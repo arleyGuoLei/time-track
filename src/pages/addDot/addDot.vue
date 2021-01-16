@@ -7,7 +7,7 @@
     <c-upload @upload="onUploaded" @delete="onDeleteImage" :list="imageList" />
 
     <view class="line">
-      <img class="line-icon" src="./../../static/time.png" />
+      <img class="line-icon" src="@/static/time.png" />
       <view class="line-text line-date">
         <picker mode="date" :value="date" @change="onDateChange">
           <text class="line-text">{{ date }}</text>
@@ -21,13 +21,13 @@
 
     <!-- #ifndef MP-TOUTIAO__TODO: 头条点击问题 -->
     <view class="line">
-      <img class="line-icon" src="./../../static/position.png" />
+      <img class="line-icon" src="@/static/position.png" />
       <text class="line-text text-cut" @click="onChooseLocation">{{ position.name + ' ' + position.address }}</text>
     </view>
     <!-- #endif -->
 
     <view class="line">
-      <img class="line-icon" src="./../../static/calc.png" />
+      <img class="line-icon" src="@/static/calc.png" />
       <input class="line-text" placeholder="输入量化值 (可用于事件自动求和)" type="text" v-model="score" />
     </view>
 
