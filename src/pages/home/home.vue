@@ -24,7 +24,11 @@
               </view>
             </view>
           </view>
-          <view class="finger-container" @longpress="onLongPressSign" @tap="onTapSign">
+          <view
+            class="finger-container"
+            @longpress="onLongPressSign(item._id)"
+            @tap="onTapSign(item._id, item.eventName)"
+          >
             <img class="finger-img" src="@/static/home-finger.png" />
           </view>
         </view>
