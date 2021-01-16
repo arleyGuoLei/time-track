@@ -5,12 +5,6 @@
 <script lang="ts">
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
-interface UniEvent extends Event {
-  detail: {
-    value: string
-  }
-}
-
 @Component
 export default class extends Vue {
   private _value = ''
