@@ -13,6 +13,20 @@
         }
       }
     },
+    {
+			"path":"pages/addDot/addDot",
+			"style": {
+				"navigationStyle": "default",
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#93C0F2",
+				"bounce": "none",
+        "titleNView": false,
+        "backgroundColor": "#FFFFFF",
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
+			}
+		},
 		{
 			"path":"pages/editTags/editTags",
 			"style": {
@@ -116,7 +130,12 @@
         "name": "add Event Page",
         "path": "pages/addEvent/addEvent",
         "query": ""
-			}
+      },
+      {
+        "name": "增加打点",
+        "path":"pages/addDot/addDot",
+        "query": ""
+      }
     ]
   }
 }

@@ -26,7 +26,11 @@
               </view>
             </view>
           </router-link>
-          <view class="finger-container">
+          <view
+            class="finger-container"
+            @longpress="onLongPressSign(item._id)"
+            @tap="onTapSign(item._id, item.eventName)"
+          >
             <img class="finger-img" src="@/static/home-finger.png" />
           </view>
         </view>

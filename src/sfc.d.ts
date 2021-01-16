@@ -51,3 +51,11 @@ interface App {
     $onLaunched: Promise<[void, void, void]>
   }
 }
+
+declare interface UniEvent extends Event {
+  detail: {
+    value: string
+  }
+}
+
+declare module '*.js'
