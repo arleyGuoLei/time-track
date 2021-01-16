@@ -9,3 +9,6 @@ export const DEFAULT_TAG_ID = '-1'
 
 /* 默认分页查询每页的数据量 */
 export const PAGE_SIZE = 20
+
+/* 上传图片的最大图片数目 */
+export const IMAGE_LIST_LENGTH = 9

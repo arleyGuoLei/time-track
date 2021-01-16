@@ -4,7 +4,8 @@ import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
-import { eventsModel } from '@/models'
+import { eventsModel, dotsModel } from '@/models'
+import { showTip } from '@/utils/utils'
 
 @Component({
   components: {
@@ -94,13 +95,22 @@ export default class extends Mixins(scrollTopMixin) {
     this.isLoading = false
   }
 
-  onLongPressSign() {
-    console.log('长按')
-    uni.vibrateShort({})
+  async onLongPressSign(eventId: string) {
+    try {
+      await dotsModel.addDotQuick(eventId)
+      uni.vibrateShort({})
+      // TODO: 最后的打点时间、打点次数+1(action)、打点动画
+      showTip('快速打点成功')
+    } catch (error) {
+      showTip('打点失败, 请重试')
+    }
   }
 
-  onTapSign() {
-    console.log('点击')
+  onTapSign(eventId: string, eventName: string) {
+    if (!(eventId && eventName)) {
+      return showTip('获取事件ID和事件名称失败')
+    }
+    this.$Router.push({ path: '/pages/addDot/addDot', query: { type: 'add', eventId, eventName } })
   }
 
   onReachBottom() {
