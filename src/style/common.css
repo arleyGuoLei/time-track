@@ -1,4 +1,8 @@
 /* =============================  文字  ============================== */
+.text-black {
+  color: #333333;
+}
+
 .text-grey {
   color: #818181;
 }
@@ -11,12 +15,24 @@
   color: #FFFFFF;
 }
 
+.text-xs {
+  font-size: 24rpx;
+}
+
 .text-sm {
   font-size: 28rpx;
 }
 
 .text {
   font-size: 34rpx;
+}
+
+.text-large {
+  font-size: 40rpx;
+}
+
+.text-bold {
+  font-weight: 700;
 }
 
 /* =============================  布局  ============================== */
@@ -29,6 +45,18 @@
 /* =============================  边距  ============================== */
 .margin-right {
   margin-right: 32rpx;
+}
+.margin-left {
+  margin-left: 32rpx;
+}
+.margin-top {
+  margin-top: 32rpx;
+}
+.margin-bottom {
+  margin-bottom: 32rpx;
+}
+.margin-right-sm {
+  margin-right: 8rpx;
 }
 
 .margin-bottom-sm {
