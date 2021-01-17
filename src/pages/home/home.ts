@@ -5,6 +5,7 @@ import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import { eventsModel, dotsModel } from '@/models'
+import { ListItem as eventItem } from '@/models/eventsModel'
 import { showTip } from '@/utils/utils'
 
 @Component({
@@ -16,7 +17,7 @@ import { showTip } from '@/utils/utils'
 })
 export default class extends Mixins(scrollTopMixin) {
   private imgAnimation = {}
-  private eventList = []
+  private eventList: eventItem[] = []
   private sticky = false
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
   private load = false
@@ -95,12 +96,28 @@ export default class extends Mixins(scrollTopMixin) {
     this.isLoading = false
   }
 
+  updateDotUI(eventId: string) {
+    console.log(eventId)
+    for (const [index, event] of Object.entries(this.eventList)) {
+      if ((event as any)._id === eventId) {
+        this.$set(
+          this.eventList,
+          +index,
+          Object.assign(this.eventList[+index], {
+            lastTime: Date.now(),
+            signNumber: this.eventList[+index].signNumber! + 1,
+          }),
+        )
+      }
+    }
+  }
+
   async onLongPressSign(eventId: string) {
     try {
-      await dotsModel.addDotQuick(eventId)
       uni.vibrateShort({})
-      // TODO: 最后的打点时间、打点次数+1(action)、打点动画
+      dotsModel.addDotQuick(eventId)
       showTip('快速打点成功')
+      this.updateDotUI(eventId)
     } catch (error) {
       showTip('打点失败, 请重试')
     }

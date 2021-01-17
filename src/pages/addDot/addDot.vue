@@ -33,7 +33,7 @@
 
     <button class="save" @click="onSave">打 点</button>
 
-    <text class="text-grey text-sm">tip: “首页”长按打卡可快速打点</text>
+    <text class="text-grey text-sm">提示: “首页”长按打卡可快速打点</text>
   </view>
 </template>
 
