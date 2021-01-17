@@ -33,7 +33,10 @@ export default {
   addDot(item: DotItem) {
     try {
       const db = getApp<App>().globalData.db
-      return db.collection('dots').add(item)
+      return db
+        .action('update-dot')
+        .collection('dots')
+        .add(item)
     } catch (error) {
       report(error)
       throw report

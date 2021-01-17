@@ -31,6 +31,16 @@
         "maxLength": "{label}不能多于 {maxLength} 个字符"
       }
     },
+    "signNumber": {
+      "bsonType": "int",
+      "description": "打点次数",
+      "defaultValue": 0
+    },
+    "lastTime": {
+      "bsonType": "timestamp",
+      "description": "上次打点时间",
+      "defaultValue": 0
+    },
     "iconSrc": {
       "bsonType": "string",
       "description": "事件图标图片id",

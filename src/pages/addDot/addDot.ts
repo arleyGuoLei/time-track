@@ -3,7 +3,7 @@ import { DotItem } from '../../models/dotsModel'
 import { dotsModel } from '../../models'
 import { Component, Vue } from 'vue-property-decorator'
 import cUpload from './components/upload.vue'
-import { showTip } from '@/utils/utils'
+import { showTip, authSetting } from '@/utils/utils'
 
 function validateForm(item: DotItem) {
   const fail = (msg: string) => {
@@ -97,7 +97,8 @@ export default class extends Vue {
     this.time = event.detail.value
   }
 
-  onChooseLocation() {
+  async onChooseLocation() {
+    await authSetting('scope.userLocation', '无位置信息获取权限，将为你打开授权设置', '打开', '请打开位置权限设置')
     uni.chooseLocation({
       success: position => {
         if (position.address || position.name) {

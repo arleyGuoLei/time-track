@@ -31,6 +31,9 @@
   border-radius: 32rpx;
   color: #FFFFFF;
   max-height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .input {

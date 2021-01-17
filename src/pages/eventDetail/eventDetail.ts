@@ -25,7 +25,7 @@ export default class extends Vue {
             year: '2021',
             day: '16',
             month: '1',
-            hour: '16 : 40',
+            hour: '16:40',
           },
           count: 999,
           content: {

@@ -18,10 +18,10 @@
             <view class="content-container">
               <p class="text event-name">{{ item.eventName }}</p>
               <view class="text-grey text-sm flex time-container">
-                <text class="times">打点999次</text>
-                <view class="clock flex">
+                <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
+                <view class="clock flex" v-if="item.signNumber">
                   <img class="icon-time" src="@/static/home-time.png" />
-                  <text>100天</text>
+                  <text class="text-cut">{{ item.lastTime | timeago }}</text>
                 </view>
               </view>
             </view>

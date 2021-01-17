@@ -6,7 +6,7 @@
       <view class="edit-content flex" v-if="showEdit && editId === item._id">
         <input class="text input" type="text" placeholder="请输入标签" focus v-model="item.name" />
         <view class="action-btn text-sm bg-theme text-sm margin-right" @click="onUpdate(item)">确认修改</view>
-        <view class="action-btn text-sm bg-red text-sm" @click="showEdit = false">取消</view>
+        <view class="action-btn text-sm bg-red text-sm" @click="showEdit = false">取 消</view>
       </view>
       <view class="tag-content flex" v-else>
         <view class="flex">
@@ -23,7 +23,7 @@
 
     <view class="tag-item-container flex">
       <input class="text" type="text" placeholder="请输入标签" v-model="tagValue" />
-      <view class="action-btn text-sm bg-theme text-sm" @click="onSave">保存</view>
+      <view class="action-btn text-sm bg-theme text-sm" @click="onSave">保 存</view>
     </view>
   </view>
 </template>
