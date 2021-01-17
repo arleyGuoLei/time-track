@@ -42,7 +42,12 @@ export default class extends Vue {
     console.log('tag components mounted')
     this.$nextTick(() => {
       ;(this as any).$loading('getTagList', this.getTagList.bind(this))
+      uni.$on('onTagsChange', this.onTagsChange)
     })
+  }
+
+  destroyed() {
+    uni.$off('onTagsChange', this.onTagsChange)
   }
 
   async getTagList() {
@@ -55,6 +60,27 @@ export default class extends Vue {
     }
     this.selectIndex = index
     this.$emit('changeTag', index === -1 ? DEFAULT_TAG_ID : this.list[index]._id)
+  }
+
+  onTagsChange(data: any) {
+    const { tagList }: { tagList: ListItem[] } = data
+    if (this.selectIndex === -1) {
+      this.list = tagList
+      return
+    }
+    const oldTag = this.list[this.selectIndex]
+    for (const [index, tag] of Object.entries(tagList)) {
+      if (oldTag._id === (tag as ListItem)._id) {
+        this.selectIndex = +index
+        break
+      } else {
+        if (+index + 1 === tagList.length) {
+          // 已经循环所有列表项，没找到以前的id 说明老的tag被删除了，这个时候切回全部
+          this.onSelect(-1)
+        }
+      }
+    }
+    this.list = tagList
   }
 }
 </script>

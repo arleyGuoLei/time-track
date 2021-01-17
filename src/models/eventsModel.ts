@@ -2,11 +2,14 @@ import { DEFAULT_TAG_ID, PAGE_SIZE } from './../utils/constant'
 import { report } from '@/utils/cloud'
 
 export interface ListItem {
+  _id?: string
   eventName: string
   iconSrc: string // id
   iconColor: string // id
   tags: string[]
   openCalc: boolean
+  signNumber?: number
+  lastTime?: number
   status?: 1 | 0
 }
 
@@ -28,9 +31,10 @@ export default {
       } = await db
         .collection('events,icon_images,icon_colors')
         .where('status==1 && user_id==$env.uid' + (tagId !== DEFAULT_TAG_ID ? ` && tags in ["${tagId}"]` : ''))
-        .field('eventName,iconSrc{src},iconColor{color}')
-        .orderBy('create_time asc')
-
+        .field('eventName,iconSrc{src},iconColor{color},signNumber,lastTime')
+        // 打点次数字段 、 最后一次打点时间 (时间戳)
+        // 创建时间，打点次数，和当前时间最接近打卡习惯的事件(日期 星期)
+        .orderBy('create_time desc, signNumber desc, lastTime asc')
         .skip(size * (page - 1))
         .limit(size)
         .get({

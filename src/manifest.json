@@ -63,6 +63,11 @@
         "setting" : {
             "urlCheck" : false,
             "es6" : false
+        },
+        "permission": {
+          "scope.userLocation": {
+            "desc": "你的位置信息将用于记录打卡位置"
+          }
         }
     },
     "mp-alipay" : {
@@ -73,7 +78,11 @@
     },
     "mp-toutiao" : {
         "usingComponents" : true,
-        "appid" : "tt3f2d4990a0161dee"
+        "appid" : "tt3f2d4990a0161dee",
+        "setting" : {
+          "urlCheck" : false,
+          "es6" : false
+        }
     },
     "mp-qq" : {
         "usingComponents" : true,
