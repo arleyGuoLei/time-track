@@ -65,6 +65,7 @@ export default {
       return text
     },
     gotoPage() {
+      this.$emit('click')
       if (this.stopNavto) {
         return true
       }

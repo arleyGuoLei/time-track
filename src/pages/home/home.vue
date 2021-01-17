@@ -38,7 +38,7 @@
     </c-list>
 
     <view class="blank" v-if="eventList.length === 0 && !isLoading">
-      <img class="blank-img margin-bottom-sm" src="./../../static/blank.png" />
+      <img class="blank-img margin-bottom-sm" src="@/static/blank.png" />
       <text class="text-sm text-grey">无任何事件</text>
     </view>
     <text v-if="onBottom && eventList.length !== 0" class="on-bottom text-grey text-sm">— 到底了 —</text>

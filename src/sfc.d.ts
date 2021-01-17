@@ -31,6 +31,7 @@ namespace UniCloud {
 
   interface DatabaseRes {
     collection: any
+    action: any
     on: (eventName: string, cb: function) => any
     off: (eventName: string, cb: function) => any
   }

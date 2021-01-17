@@ -3,7 +3,7 @@
   "description": "事件集合",
   "required": ["name", "index"],
   "permission": {
-    "read": true,
+    "read": "doc.user_id == auth.uid",
     "create": true,
     "update": "doc.user_id == auth.uid",
     "delete": "doc.user_id == auth.uid"

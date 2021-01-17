@@ -94,4 +94,8 @@ export default class extends Vue {
       showTip('已经置顶了')
     }
   }
+
+  onUnload() {
+    uni.$emit('onTagsChange', { tagList: this.tagsList })
+  }
 }

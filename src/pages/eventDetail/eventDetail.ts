@@ -2,7 +2,6 @@ import { Component, Vue } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
 import cInput from '@/components/cInput.vue'
-import cSelect from '@/components/cSelect.vue'
 import cList from '@/components/cList.vue'
 // import uCharts from '@/utils/uCharts'
 
@@ -12,7 +11,6 @@ import cList from '@/components/cList.vue'
     cList,
     cTitle,
     cInput,
-    cSelect,
   },
 })
 export default class extends Vue {
