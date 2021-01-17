@@ -15,25 +15,31 @@
         <icon-setting
           :iconSrc="iconSrc.src"
           :iconColor="iconColor.color"
+          @initIcon="onInitIcon"
           @selectIconSrc="onSelectIconSrc"
           @selectIconColor="onSelectIconColor"
         />
 
         <c-title title="标签设置 (可多选)">
           <view slot="right" class="tag-edit">
-            <router-link to="/pages/editTags/editTags">
+            <router-link @click="onEditTag" to="/pages/editTags/editTags">
               <img src="@/static/tag-edit.png" />
               <text>编辑标签</text>
             </router-link>
           </view>
         </c-title>
 
-        <block v-for="(item, index) in tags" :key="index">
-          <c-select :title="item.name" v-model="item.selected" />
+        <block v-for="(item, index) in tags" :key="item.id">
+          <c-select :title="item.name" :value="item.selected" @change="onTagSelectChange(index)" />
         </block>
 
+        <view class="tag-blank margin-top" v-if="tags.length === 0">
+          <img class="blank-img margin-bottom-sm" src="@/static/blank2.png" />
+          <text class="text-sm text-grey">无任何标签</text>
+        </view>
+
         <c-title title="其他设置" />
-        <c-select title="开启量化值 (打点数据求和)" v-model="openCalc" />
+        <c-select title="开启量化值 (打点数据求和)" :value="openCalc" @change="onCalcSelectChange" />
 
         <button class="save" @click="onSave">保 存</button>
       </view>

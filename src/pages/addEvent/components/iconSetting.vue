@@ -64,7 +64,11 @@ export default class extends Vue {
         .then(([srcList, colorList]) => {
           Array.isArray(srcList) && (this.srcList = chunkArr(srcList, this.srcLine))
           Array.isArray(colorList) && (this.colorList = chunkArr(colorList, this.colorLine))
-          resolve('')
+          this.$emit('initIcon', {
+            src: srcList[0],
+            color: colorList[0],
+          })
+          resolve({ srcList, colorList })
         })
         .catch(err => {
           reject(err)

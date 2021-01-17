@@ -13,7 +13,10 @@ export interface ListItem {
 export default {
   addEvent(item: ListItem) {
     const db = getApp<App>().globalData.db
-    return db.collection('events').add(item)
+    return db
+      .action('save-event')
+      .collection('events')
+      .add(item)
   },
   async getList(tagId: string, page: number) {
     const size = PAGE_SIZE

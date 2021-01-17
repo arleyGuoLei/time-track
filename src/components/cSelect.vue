@@ -1,7 +1,7 @@
 <template>
   <view class="select" @click="onSelect">
     <text class="select-title">{{ title }}</text>
-    <img class="select-icon" v-if="isSelected" src="@/static/selected.png" />
+    <img class="select-icon" v-if="value" src="@/static/selected.png" />
     <img class="select-icon" v-else src="@/static/unselect.png" />
   </view>
 </template>
@@ -14,16 +14,9 @@ export default class extends Vue {
   @Prop({ default: '' }) private title!: string
   @Prop({ default: false }) private value!: boolean
 
-  private isSelected = false
-
-  created() {
-    this.isSelected = this.value
-  }
-
-  @Emit('input')
+  @Emit('change')
   onSelect() {
-    this.isSelected = !this.isSelected
-    return this.isSelected
+    return !this.value
   }
 }
 </script>
