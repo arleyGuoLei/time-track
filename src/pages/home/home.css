@@ -41,6 +41,11 @@
   margin-top: 16rpx;
 }
 
+.event-item:active {
+  transform: scale(1.01);
+  /* transition: transform ease-in-out 100ms; */
+}
+
 .icon-container {
   width: 100rpx;
   height: 100rpx;
@@ -62,7 +67,8 @@
 
 .times {
   display: inline-block;
-  width: 160rpx;
+  /* min-width: 160rpx; */
+  margin-right: 32rpx;
 }
 
 .icon-time {

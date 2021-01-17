@@ -86,7 +86,7 @@
 		"app-plus":{
 			"scrollIndicator": "none"
 		}
-	},
+  },
 	"tabBar": {
     "color": "#D3D8E5",
     "selectedColor": "#4F9BFA",

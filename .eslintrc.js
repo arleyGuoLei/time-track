@@ -21,7 +21,8 @@ module.exports = {
     "semi": ["error", "never"],
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/camelcase": 0
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-non-null-assertion": 0
   },
   globals: {
     uni: true,

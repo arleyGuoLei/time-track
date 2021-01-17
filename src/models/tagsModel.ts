@@ -1,15 +1,13 @@
 import { report } from '@/utils/cloud'
 
-export interface ListItem {
-  _id: string
-  name: string
-  index: number
-  eventNumber: number
-}
 export interface Tag {
   name: string
   index: number
   eventNumber: number
+}
+
+export interface ListItem extends Tag {
+  _id: string
 }
 
 export default {
