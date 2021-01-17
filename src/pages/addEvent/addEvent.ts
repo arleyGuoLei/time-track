@@ -17,6 +17,17 @@ interface Tag extends TagItem {
   selected: boolean
 }
 
+interface IconData {
+  src: {
+    _id: string
+    src: string
+  }
+  color: {
+    _id: string
+    color: string
+  }
+}
+
 function getSelectTagsId(tags: Tag[]) {
   return tags.filter(item => item.selected).map(item => item._id)
 }
@@ -58,13 +69,13 @@ export default class extends Vue {
   private eventName = ''
   /* 图标 */
   private iconSrc = {
-    src: 'http://img.i7xy.cn/20201226154230.png',
-    _id: '5fe8b2ff1ee4f50001dcb234',
+    src: '',
+    _id: '',
   }
   /* 图标颜色 */
   private iconColor = {
-    color: '#EDF7F2',
-    _id: '5fe8b2fe1ee4f50001dcb231',
+    color: '',
+    _id: '',
   }
   /* tags */
   private tags: Tag[] = []
@@ -77,8 +88,37 @@ export default class extends Vue {
     })
   }
 
+  onEditTag() {
+    uni.$once('onTagsChange', data => {
+      const { tagList } = data
+      this.tags = tagList.map((tag: Tag) => {
+        tag.selected = this.tags.some(oldTag => {
+          return oldTag._id === tag._id && oldTag.selected
+        })
+        return tag
+      })
+    })
+  }
+
+  onTagSelectChange(index: number) {
+    this.$set(this.tags, index, {
+      ...this.tags[index],
+      selected: !this.tags[index].selected,
+    })
+  }
+
+  onCalcSelectChange() {
+    this.openCalc = !this.openCalc
+  }
+
   async getTags() {
     this.tags = (await tagsModel.getList()).map(item => ({ ...item, selected: false }))
+  }
+
+  onInitIcon(data: IconData) {
+    const { src, color } = data
+    this.iconSrc = src
+    this.iconColor = color
   }
 
   onSelectIconSrc(data: ImageItem) {
