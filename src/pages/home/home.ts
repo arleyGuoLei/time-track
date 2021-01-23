@@ -130,6 +130,13 @@ export default class extends Mixins(scrollTopMixin) {
     this.$Router.push({ path: '/pages/addDot/addDot', query: { type: 'add', eventId, eventName } })
   }
 
+  onTapDetail(eventId: string, eventName: string) {
+    if (!(eventId && eventName)) {
+      return showTip('获取事件ID和事件名称失败')
+    }
+    this.$Router.push({ path: '/pages/eventDetail/eventDetail', query: { eventId, eventName } })
+  }
+
   onReachBottom() {
     const { page, eventTotal, pageSize: size, tagId, onBottom } = this
     const pageSize = Math.ceil(eventTotal / size)

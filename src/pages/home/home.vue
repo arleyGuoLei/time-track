@@ -20,18 +20,16 @@
           <view class="icon-container" :style="{ background: item.iconColor[0].color }">
             <img class="icon-img" :src="item.iconSrc[0].src" />
           </view>
-          <router-link to="/pages/eventDetail/eventDetail">
-            <view class="content-container">
-              <p class="text event-name">{{ item.eventName }}</p>
-              <view class="text-grey text-sm flex time-container">
-                <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
-                <view class="clock flex" v-if="item.signNumber">
-                  <img class="icon-time" src="@/static/home-time.png" />
-                  <text class="text-cut">{{ item.lastTime | timeago }}</text>
-                </view>
+          <view class="content-container" @tap="onTapDetail(item._id, item.eventName)">
+            <p class="text event-name">{{ item.eventName }}</p>
+            <view class="text-grey text-sm flex time-container">
+              <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
+              <view class="clock flex" v-if="item.signNumber">
+                <img class="icon-time" src="@/static/home-time.png" />
+                <text class="text-cut">{{ item.lastTime | timeago }}</text>
               </view>
             </view>
-          </router-link>
+          </view>
           <view
             class="finger-container"
             @longpress="onLongPressSign(item._id)"
