@@ -2,7 +2,13 @@
   <view class="page">
     <c-loading ref="loading" />
 
-    <c-header showBack title="新增事件" imgSrc="http://img.i7xy.cn/20201220134440.png" />
+    <c-header
+      showBack
+      header-type="backgroundColor"
+      title="新增事件"
+      imgSrc="http://img.i7xy.cn/20201220134440.png"
+      :scroll-y="scrollTop"
+    />
 
     <c-list>
       <view class="list-content">

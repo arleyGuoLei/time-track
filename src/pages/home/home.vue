@@ -2,7 +2,13 @@
   <view class="page">
     <c-loading ref="loading" />
 
-    <c-header v-show="load" imgSrc="http://img.i7xy.cn/20201208234148.png" />
+    <c-header
+      v-show="load"
+      header-type="backgroundColor"
+      title="时间打点"
+      imgSrc="http://img.i7xy.cn/20201208234148.png"
+      :scroll-y="scrollTop"
+    />
 
     <c-list v-show="load" @sticky="onSticky" :scroll-y="scrollTop">
       <view slot="fixed">

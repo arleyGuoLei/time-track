@@ -5,7 +5,8 @@ import { ListItem as ImageItem } from './../../models/iconImagesModel'
 import { ListItem as ColorItem } from './../../models/iconColorsModel'
 import { ListItem as TagItem } from './../../models/tagsModel'
 import { ListItem as eventItem } from './../../models/eventsModel'
-import { Component, Vue } from 'vue-property-decorator'
+import { scrollTopMixin } from '@/plugins/onScroll.mixin'
+import { Component, Mixins } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
 import cInput from '@/components/cInput.vue'
@@ -64,7 +65,7 @@ function validateForm(e: eventItem) {
     cSelect,
   },
 })
-export default class extends Vue {
+export default class extends Mixins(scrollTopMixin) {
   /* 事件名称 */
   private eventName = ''
   /* 图标 */
