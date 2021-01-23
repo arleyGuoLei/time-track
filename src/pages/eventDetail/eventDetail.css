@@ -16,7 +16,7 @@
 }
 
 .base-container, .year {
-  padding: 0 48rpx;
+  padding: 0 32rpx;
   box-sizing: border-box;
 }
 
@@ -44,7 +44,7 @@
 .chart-container {
   width: 750rpx;
   height: 380rpx;
-  padding: 0 48rpx;
+  padding: 0 32rpx;
   box-sizing: border-box;
 }
 
@@ -52,7 +52,7 @@
   width: 750rpx;
   margin: 0 auto;
   align-items: flex-start;
-  padding: 0 48rpx;
+  padding: 0 32rpx;
   box-sizing: border-box;
 }
 
@@ -81,4 +81,12 @@
 .local-name {
   display: inline-block;
   width: 494rpx;
+}
+
+.charts {
+  width: 1372rpx;
+  height: 760rpx;
+  /* 二倍图 增加清晰度 */
+  transform: scale(0.5);
+  transform-origin: top left;
 }
