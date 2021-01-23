@@ -2,12 +2,19 @@
   <view>
     <img :src="imgSrc" class="bg" />
     <view class="bar" :style="{ zIndex, height: barHeight + 'px' }">
-      <view class="bar-bg" :style="{ backgroundImage: 'url(' + imgSrc + ')' }" />
+      <view v-if="'backgroundImg' === headerType" class="bar-bg" :style="{ backgroundImage: 'url(' + imgSrc + ')' }" />
+      <view v-else class="bar-bg" :style="{ backgroundColor: bgColor, opacity: bgOpacity }"></view>
       <view class="bar-content" :style="{ top: statusHeight + 'px', height: barHeight - statusHeight + 'px' }">
         <slot name="content">
           <view class="bar-content__default">
             <img v-if="showBack" @click="onBackPage" class="default-icon" src="@/static/header-back.png" />
-            <text class="default-title">{{ title }}</text>
+            <text v-if="'backgroundImg' === headerType" class="default-title">{{ title }}</text>
+            <text
+              v-else
+              class="default-title center-title"
+              :style="{ opacity: bgOpacity, transform: 'translateY(' + (1 - bgOpacity) * 20 + 'px)' }"
+              >{{ title }}</text
+            >
           </view>
         </slot>
       </view>
@@ -19,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -28,14 +35,32 @@ declare module 'vue/types/vue' {
   }
 }
 
+type HeaderType = 'backgroundImg' | 'backgroundColor'
+
 @Component
 export default class extends Vue {
   @Prop({ default: '' }) private imgSrc!: string
   @Prop({ default: '' }) private title!: string
   @Prop({ default: false }) private showBack!: boolean
   @Prop({ default: 99 }) private zIndex!: number
+  @Prop({ default: 0 }) private scrollY!: number
+
+  /** HeaderType为backgroundColor时候的背景色 */
+  @Prop({ default: '#93C0F2' }) private bgColor!: string
+  @Prop({ default: 'backgroundImg' }) private headerType!: HeaderType
   private barHeight = 0
   private statusHeight = 0
+  private bgOpacity = 0
+
+  @Watch('scrollY')
+  onScroll(y: number) {
+    const distanceY = 0 // 距离distanceY像素变为全不透明
+    const paddingTop = uni.upx2px(250) - distanceY
+    if (this.headerType === 'backgroundColor') {
+      const div = y / paddingTop
+      this.bgOpacity = div >= 1 ? 1 : div
+    }
+  }
 
   created() {
     this.barHeight = this.CustomBar
@@ -88,11 +113,21 @@ export default class extends Vue {
   width: 36rpx;
   height: 36rpx;
   margin: 0 32rpx;
+  z-index: 1;
 }
 .default-title {
   font-size: 32rpx;
   font-weight: 500;
   color: #ffffff;
   letter-spacing: 12rpx;
+}
+.center-title {
+  font-size: 34rpx;
+  font-weight: 800;
+  display: block;
+  text-align: center;
+  width: 750rpx;
+  position: absolute;
+  z-index: 0;
 }
 </style>
