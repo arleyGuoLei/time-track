@@ -2,11 +2,17 @@
   <view class="page">
     <c-loading ref="loading" />
 
-    <c-header showBack title="打点详情" imgSrc="http://img.i7xy.cn/20210113232214.png" />
+    <c-header
+      showBack
+      header-type="backgroundColor"
+      :title="eventName"
+      imgSrc="http://img.i7xy.cn/20210113232214.png"
+      :scroll-y="scrollTop"
+    />
 
     <c-list class="bg-white">
       <view class="list-content">
-        <text class="list-title">到达公司</text>
+        <text class="list-title">{{ eventName }}</text>
 
         <c-title title="基础数据">
           <view slot="right">
@@ -34,8 +40,10 @@
         <c-title title="折线数据" />
 
         <view class="chart-container">
-          <canvas canvas-id="charts" id="charts" class="charts" style="width: 100%; height: 100%"></canvas>
+          <canvas canvas-id="charts" id="charts" class="charts"></canvas>
         </view>
+
+        <c-title title="标签" />
 
         <c-title title="时间动态" />
 
