@@ -51,4 +51,20 @@ export default {
       throw error
     }
   },
+  async getDetail(eventId: string) {
+    const db = getApp<App>().globalData.db
+    try {
+      const {
+        result: { data },
+      } = await db
+        .collection('events')
+        .where(`_id=='${eventId}' && user_id==$env.uid`)
+        .get()
+
+      return data
+    } catch (error) {
+      report(error, 'error')
+      throw error
+    }
+  },
 }

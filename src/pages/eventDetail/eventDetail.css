@@ -28,7 +28,7 @@
 .base-icon {
   width: 32rpx;
   height: 32rpx;
-  margin-right: 7rpx;
+  margin-right: 24rpx;
 }
 
 .base-input {
@@ -50,19 +50,20 @@
 
 .history-list {
   width: 750rpx;
-  margin: 0 auto;
+  margin: 0 auto 32rpx;
   align-items: flex-start;
   padding: 0 32rpx;
   box-sizing: border-box;
 }
 
 .right {
-  width: 538rpx;
+  width: 550rpx;
+  padding-top: 12rpx;
 }
 
 .history-img {
-  width: 170rpx;
-  height: 170rpx;
+  width: 150rpx;
+  height: 150rpx;
   border-radius: 24rpx;
   margin-right: 14rpx;
   margin-bottom: 14rpx;
@@ -80,7 +81,7 @@
 
 .local-name {
   display: inline-block;
-  width: 494rpx;
+  width: 500rpx;
 }
 
 .charts {
