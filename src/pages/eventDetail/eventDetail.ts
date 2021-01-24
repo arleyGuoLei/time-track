@@ -5,6 +5,13 @@ import cInput from '@/components/cInput.vue'
 import cList from '@/components/cList.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import uCharts from '@/utils/uCharts.js'
+import eventsModel from '@/models/eventsModel'
+import docsModel, { DotItem } from '@/models/dotsModel'
+import { PAGE_SIZE } from '@/utils/constant'
+
+interface HistoryItem {
+  [year: string]: DotItem[]
+}
 
 @Component({
   components: {
@@ -17,48 +24,42 @@ import uCharts from '@/utils/uCharts.js'
 export default class extends Mixins(scrollTopMixin) {
   private eventId = ''
   private eventName = ''
+  private signNumber = 999
+  private score = 0
+  private openCalc = false // 是否开启量化值
 
-  private number = 999
-  private count = 999
-
-  private historyList = [
-    {
-      year: '2021',
-      data: [
-        {
-          time: {
-            year: '2021',
-            day: '16',
-            month: '1',
-            hour: '16:40',
-          },
-          count: 999,
-          content: {
-            text:
-              '我是很长的备注信息，我是备注信息，我是很长的备注信息，我是备注信息，我是很长的备注信息，我是备注信息，我是很长的备注信息，我是备注信息，我是很长的备注信息，我是备注信息，我是很长的备注信息，我是备注信息，我是很长的备注信息。',
-            imgList: ['http://img.i7xy.cn/20210113232214.png', 'http://img.i7xy.cn/20210113232214.png'],
-            location: '北京市昌平区北京市昌平区北京市昌平区北京市昌平区北京市昌平区',
-          },
-        },
-      ],
-    },
-  ]
+  private docList = []
+  private historyList: HistoryItem = {}
   private charts = null
 
-  onLoad() {
-    this.initData()
+  // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
+  private load = false
+  private isLoading = false
 
+  /* ----分页数据---- */
+  private onBottom = false
+  private page = 1
+  private eventTotal = 0
+  private pageSize = PAGE_SIZE
+  /* ############## */
+
+  onLoad() {
+    ;(this as any).$loading('initData', this.initData.bind(this))
     // DEMO
     this.initLineChart()
   }
 
-  initData() {
+  async initData() {
     const { eventName, eventId } = this.$Route.query
-    uni.setNavigationBarTitle({
-      title: eventName,
-    })
+
+    const baseData = await eventsModel.getDetail(eventId)
+    this.getHistoryList(eventId)
+
+    uni.setNavigationBarTitle({ title: eventName })
     this.eventName = eventName
     this.eventId = eventId
+    this.signNumber = baseData[0].signNumber
+    this.openCalc = baseData[0].openCalc
   }
 
   initLineChart() {
@@ -118,4 +119,39 @@ export default class extends Mixins(scrollTopMixin) {
       },
     })
   }
+
+  async getHistoryList(eventId: string, page = 1) {
+    const { data } = await docsModel.getDocList(eventId, page)
+    if (page === 1) {
+      this.docList = data
+    } else {
+      this.docList = this.docList.concat(data)
+    }
+
+    this.historyListFormat(data)
+  }
+
+  historyListFormat(list: DotItem[]) {
+    const { historyList } = this
+    list.forEach((item: DotItem) => {
+      const [year] = item.date.split('-')
+      if (year in historyList) {
+        historyList[year].push(item)
+      } else {
+        historyList[year] = [item]
+      }
+    })
+
+    this.historyList = historyList
+  }
+
+  // onReachBottom() {
+  //   const { page, eventTotal, pageSize: size, onBottom } = this
+  //   const pageSize = Math.ceil(eventTotal / size)
+  //   if (!onBottom && page <= pageSize) {
+  //     ;(this as any).$loading('getHistoryList', this.getHistoryList.bind(this), true, '加载中', page)
+  //   } else {
+  //     this.onBottom = true
+  //   }
+  // }
 }

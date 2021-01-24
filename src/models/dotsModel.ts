@@ -1,5 +1,6 @@
 import { dateFormat } from './../utils/utils'
 import { report } from '@/utils/cloud'
+import { PAGE_SIZE } from '@/utils/constant'
 
 export interface DotItem {
   event_id: string
@@ -40,6 +41,31 @@ export default {
     } catch (error) {
       report(error)
       throw report
+    }
+  },
+  async getDocList(eventId: string, page: number) {
+    const size = PAGE_SIZE
+    const db = getApp<App>().globalData.db
+
+    try {
+      const {
+        result: { data = [], count },
+      } = await db
+        .collection('dots')
+        .where(`event_id=='${eventId}'`)
+        .skip(size * (page - 1))
+        .get({
+          getCount: true,
+        })
+
+      return {
+        data,
+        count,
+        size,
+      }
+    } catch (error) {
+      report(error, 'error')
+      throw error
     }
   },
 }

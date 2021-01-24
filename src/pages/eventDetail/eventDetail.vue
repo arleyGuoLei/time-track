@@ -24,16 +24,16 @@
           <view class="time flex margin-bottom">
             <view class="title flex">
               <img class="base-icon" src="@/static/event-detail-time.png" />
-              <text class="text-black text">打点次数</text>
+              <text class="text-black text-32">打点次数</text>
             </view>
-            <view class="base-input">{{ number }}</view>
+            <view class="base-input">{{ signNumber }}</view>
           </view>
-          <view class="sum flex">
+          <view class="sum flex" v-if="openCalc">
             <view class="title flex">
               <img class="base-icon" src="@/static/event-detail-sum.png" />
-              <text class="text-black text">量化总和</text>
+              <text class="text-black text-32">量化总和</text>
             </view>
-            <view class="base-input">{{ count }}</view>
+            <view class="base-input">{{ score }}</view>
           </view>
         </view>
 
@@ -48,28 +48,34 @@
         <c-title title="时间动态" />
 
         <view class="history-container bg-white">
-          <view class="history-item" v-for="(list, index) in historyList" :key="index">
+          <view class="history-item" v-for="(list, year, index) in historyList" :key="index">
             <view class="year margin-bottom">
-              <text class="text-large text-bold margin-right-sm">{{ list.year }}</text>
+              <text class="text-large text-bold margin-right-sm">{{ year }}</text>
               <text class="text-xs">年</text>
             </view>
-            <view class="history-list flex" v-for="(item, key) in list.data" :key="key">
+            <view class="history-list flex" v-for="(item, key) in list" :key="key">
               <view class="left">
                 <view>
-                  <text class="text-large margin-right-sm">{{ item.time.day }}</text>
-                  <text class="text-xs">{{ item.time.month }}月</text>
+                  <text class="text-large margin-right-sm">{{ item.date.split('-')[2] }}</text>
+                  <text class="text-xs">{{ item.date.split('-')[1] }}月</text>
                 </view>
-                <view class="text-xs text-grey">{{ item.time.hour }}</view>
-                <view class="text-xs text-grey">值: {{ item.count }}</view>
+                <view class="text-xs text-grey">{{ item.time }}</view>
+                <view class="text-xs text-grey" v-if="item.score">值: {{ item.score }}</view>
               </view>
               <view class="right">
-                <view class="content text-sm text-grey margin-bottom">{{ item.content.text }}</view>
+                <view class="content text-sm text-grey margin-bottom">{{ item.describe }}</view>
                 <view class="img-container">
-                  <img class="history-img" v-for="(img, index) in item.content.imgList" :key="index" :src="img" />
+                  <img
+                    mode="aspectFill"
+                    class="history-img"
+                    v-for="(img, index) in item.imageList"
+                    :key="index"
+                    :src="img"
+                  />
                 </view>
-                <view class="local-container flex">
+                <view class="local-container flex" v-if="item.position">
                   <img class="local-icon" src="@/static/event-detail-local.png" />
-                  <text class="local-name text-sm text-grey text-cut">{{ item.content.location }}</text>
+                  <text class="local-name text-sm text-grey text-cut">{{ item.position.name }}</text>
                 </view>
               </view>
             </view>
