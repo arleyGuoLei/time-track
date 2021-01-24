@@ -1,4 +1,4 @@
-import { getLoaingRef } from './../plugins/loading'
+import { getLoaingRef } from '@/plugins/loading'
 import { RouterMount, createRouter } from 'uni-simple-router'
 import { report } from './cloud'
 
