@@ -100,7 +100,7 @@ export default class extends Vue {
   right: 0;
   bottom: 0;
   background: radial-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.05) 100%);
-  z-index: -1;
+  pointer-events: none;
 }
 .img-wrap:nth-child(3n) {
   margin-right: 0;
