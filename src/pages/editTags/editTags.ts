@@ -1,6 +1,6 @@
 import { Component, Vue } from 'vue-property-decorator'
-import { tagsModel } from './../../models'
-import { showTip } from '../../utils/utils'
+import { tagsModel } from '@/models'
+import { showTip } from '@/utils/utils'
 import { ListItem } from '@/models/tagsModel'
 
 function swapArray(list: ListItem[], upIndex: number, downIndex: number) {

@@ -1,4 +1,4 @@
-import { dateFormat } from './../utils/utils'
+import { dateFormat, time2Timestamp } from '@/utils/utils'
 import { report } from '@/utils/cloud'
 
 export interface DotItem {
@@ -17,6 +17,7 @@ export interface DotItem {
     name: string
   }
   status?: 1 | 0
+  dotTimestamp: number
 }
 
 export default {
@@ -28,6 +29,7 @@ export default {
       event_id: eventId,
       time,
       date,
+      dotTimestamp: time2Timestamp(date, time),
     })
   },
   addDot(item: DotItem) {

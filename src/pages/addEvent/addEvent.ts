@@ -1,10 +1,9 @@
-import { showTip } from './../../utils/utils'
-import { eventsModel } from './../../models/index'
-import { tagsModel } from './../../models'
-import { ListItem as ImageItem } from './../../models/iconImagesModel'
-import { ListItem as ColorItem } from './../../models/iconColorsModel'
-import { ListItem as TagItem } from './../../models/tagsModel'
-import { ListItem as eventItem } from './../../models/eventsModel'
+import { showTip } from '@/utils/utils'
+import { eventsModel, tagsModel } from '@/models'
+import { ListItem as ImageItem } from '@/models/iconImagesModel'
+import { ListItem as ColorItem } from '@/models/iconColorsModel'
+import { ListItem as TagItem } from '@/models/tagsModel'
+import { ListItem as eventItem } from '@/models/eventsModel'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import { Component, Mixins } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
@@ -145,7 +144,21 @@ export default class extends Mixins(scrollTopMixin) {
         result: { id },
       } = await (this as any).$loading('addEvent', eventsModel.addEvent.bind(this), false, '保存中', item)
       console.log('log =>  ~ file: addEvent.ts ~ line 106 ~ extends ~ onSave ~ id', id)
-      showTip('保存成功')
+
+      uni.$emit('onListUpdate', {
+        type: 'addItem',
+        id: id,
+        data: {
+          ...item,
+          _id: id,
+          iconSrc: [iconSrc],
+          iconColor: [iconColor],
+          signNumber: 0,
+          lastTime: Date.now(),
+        },
+      })
+      await showTip('保存成功', 800)
+      this.$Router.back(1)
     } else {
       showTip(v.msg)
     }
