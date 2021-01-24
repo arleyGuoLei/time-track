@@ -1,4 +1,4 @@
-import { DEFAULT_TAG_ID, PAGE_SIZE } from './../../utils/constant'
+import { DEFAULT_TAG_ID, PAGE_SIZE } from '@/utils/constant'
 import { Component, Mixins } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
@@ -7,6 +7,22 @@ import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import { eventsModel, dotsModel } from '@/models'
 import { ListItem as eventItem } from '@/models/eventsModel'
 import { showTip } from '@/utils/utils'
+
+interface UpdateItem {
+  /** 更新的字段 */
+  key: string
+  /** 更新的值 */
+  value: number | string
+  /** 怎么更新 */
+  updateType: 'replace' | 'inc'
+}
+
+interface ListUpdateItem {
+  type: 'updateItem' | 'addItem'
+  /**事件id */
+  id: string
+  data: UpdateItem[] | eventItem
+}
 
 @Component({
   components: {
@@ -36,6 +52,12 @@ export default class extends Mixins(scrollTopMixin) {
     this.load = true
     console.log('home onLoad')
     ;(this as any).$loading('getList', this.getList.bind(this))
+    /**监听list数据被其他页面修改，比如打点、新增事件等 */
+    uni.$on('onListUpdate', this.onListUpdate)
+  }
+
+  onUnload() {
+    uni.$off('onListUpdate', this.onListUpdate)
   }
 
   /**
@@ -155,5 +177,45 @@ export default class extends Mixins(scrollTopMixin) {
     await (this as any).$loading('getList', this.getList.bind(this), true, '加载中', this.tagId, 1)
     await (this as any).$loading('getTagList', (this.$refs.tag as any).getTagList)
     uni.stopPullDownRefresh()
+  }
+
+  addItem(item: eventItem) {
+    console.log(item)
+    if (item.tags.includes(this.tagId) || this.tagId === DEFAULT_TAG_ID) {
+      this.eventList = [item].concat(this.eventList)
+    }
+  }
+
+  updateItem(item: ListUpdateItem) {
+    const { id, data } = item
+    this.eventList = this.eventList.map(event => {
+      if (event._id === id) {
+        const newItem = {
+          ...event,
+          ...(data as UpdateItem[]).reduce((prevObj: any, currentItem) => {
+            if (currentItem.updateType === 'replace') {
+              prevObj[currentItem['key']] = currentItem['value']
+            } else if (currentItem.updateType === 'inc') {
+              prevObj[currentItem['key']] = (currentItem['value'] as number) + ((event as any)[currentItem['key']] || 0)
+              return prevObj
+            }
+            return prevObj
+          }, {}),
+        }
+        console.log('更新后的对象:', newItem)
+        return newItem
+      }
+      return event
+    })
+  }
+
+  onListUpdate(item: ListUpdateItem) {
+    const { type } = item
+    if (type === 'updateItem') {
+      this.updateItem(item) // 更新list中的item字段值
+    }
+    if (type === 'addItem') {
+      this.addItem(item.data as eventItem) // 新增事件
+    }
   }
 }

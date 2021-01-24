@@ -3,19 +3,39 @@ const eventsModel = db.collection('events')
 const dbCmd = db.command
 
 async function createDot(data, auth) {
-  const { status, event_id } = data
+  const { status, event_id, date, time } = data
+
+  // -28800000 = 8小时
+  const lastTime = Date.parse(`${date} ${time}`.replace(/-/g, '/')) - 28800000
+
+  console.log('@date: ', date)
+  console.log('@time: ', time)
+  console.log('@lastTime: ', lastTime)
+
   if (status === 1) {
-    // 最后一次打点时间、打点次数
-    const eventRes = await eventsModel
+    // 打点次数
+    const incRes = await eventsModel
       .where({
         _id: event_id,
         user_id: auth.uid,
       })
       .update({
         signNumber: dbCmd.inc(1),
-        lastTime: Date.now(),
       })
-    console.log(eventRes)
+    console.log(incRes)
+
+    // 最后一次打点时间
+    const lastTimeRes = await eventsModel
+      .where({
+        _id: event_id,
+        user_id: auth.uid,
+        // 数据库小于lastTime的时候更新最后打点时间
+        lastTime: dbCmd.lt(lastTime),
+      })
+      .update({
+        lastTime,
+      })
+    console.log(lastTimeRes)
   }
 }
 

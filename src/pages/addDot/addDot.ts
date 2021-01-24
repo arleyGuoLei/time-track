@@ -1,9 +1,8 @@
-import { dateFormat } from './../../utils/utils'
-import { DotItem } from '../../models/dotsModel'
-import { dotsModel } from '../../models'
+import { DotItem } from '@/models/dotsModel'
+import { dotsModel } from '@/models'
 import { Component, Vue } from 'vue-property-decorator'
 import cUpload from './components/upload.vue'
-import { showTip, authSetting } from '@/utils/utils'
+import { showTip, authSetting, dateFormat, time2Timestamp } from '@/utils/utils'
 
 function validateForm(item: DotItem) {
   const fail = (msg: string) => {
@@ -37,6 +36,7 @@ export default class extends Vue {
   private describe = ''
   private date = ''
   private time = ''
+  private endDate = ''
   private score = ''
   private position = {
     point: {
@@ -60,6 +60,8 @@ export default class extends Vue {
 
   onLoad() {
     console.log('onLoad')
+
+    this.endDate = dateFormat('YYYY-mm-dd', new Date())
     if (this.$Route.query.type === 'update') {
       // TODO: 更新打点事件数据初始化 数据库查询
     } else {
@@ -68,6 +70,7 @@ export default class extends Vue {
   }
   async onSave() {
     const { describe, date, time, score, position, imageList, event_id } = this
+    const dotTimestamp = time2Timestamp(date, time)
     const item: DotItem = {
       describe,
       date,
@@ -75,6 +78,7 @@ export default class extends Vue {
       score: +score,
       imageList,
       event_id,
+      dotTimestamp,
     }
     position.name !== '选择位置' && (item.position = position)
     const v = validateForm(item)
@@ -82,8 +86,25 @@ export default class extends Vue {
       const {
         result: { id },
       } = await (this as any).$loading('addEvent', dotsModel.addDot.bind(this), false, '打点中', item)
-      showTip('打点成功')
-      console.log('id:', id)
+      uni.$emit('onListUpdate', {
+        type: 'updateItem',
+        id: event_id,
+        data: [
+          {
+            key: 'lastTime',
+            value: dotTimestamp,
+            updateType: 'replace',
+          },
+          {
+            key: 'signNumber',
+            value: 1,
+            updateType: 'inc',
+          },
+        ],
+      })
+      await showTip('打点成功', 800)
+      this.$Router.back(1)
+      console.log('打点的dotId:', id)
     } else {
       showTip(v.msg)
     }

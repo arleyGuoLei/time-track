@@ -14,11 +14,18 @@ export function getClientRect(select: string, pos: any): Promise<UniApp.NodeInfo
   })
 }
 
-export function showTip(title: string) {
-  uni.showToast({
-    title,
-    icon: 'none',
-    duration: 2000,
+export function showTip(title: string, duration = 2000) {
+  return new Promise(resolve => {
+    uni.showToast({
+      title,
+      icon: 'none',
+      duration,
+      complete: () => {
+        setTimeout(() => {
+          resolve(title)
+        }, duration)
+      },
+    })
   })
 }
 
@@ -83,4 +90,13 @@ export function dateFormat(fmt = 'YYYY-mm-dd HH:MM:SS', date = new Date()) {
     }
   }
   return fmt
+}
+
+/**
+ * 日期+时间转换为时间戳
+ * @param date 日期
+ * @param time 时间
+ */
+export function time2Timestamp(date: string, time: string) {
+  return Date.parse(`${date} ${time}`.replace(/-/g, '/'))
 }

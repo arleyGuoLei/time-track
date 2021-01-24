@@ -9,7 +9,7 @@
     <view class="line">
       <img class="line-icon" src="@/static/time.png" />
       <view class="line-text line-date">
-        <picker mode="date" :value="date" @change="onDateChange">
+        <picker mode="date" :end="endDate" :value="date" @change="onDateChange">
           <text class="line-text">{{ date }}</text>
         </picker>
         <view class="separator">|</view>

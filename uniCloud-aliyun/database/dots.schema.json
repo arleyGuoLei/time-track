@@ -49,6 +49,11 @@
       "bsonType": "string",
       "description": "打点时间 hh:mm"
     },
+    "dotTimestamp": {
+      "bsonType": "timestamp",
+      "description": "打点时间戳",
+      "defaultValue": 0
+    },
     "position": {
       "bsonType": "object",
 			"description": "地理位置信息",
