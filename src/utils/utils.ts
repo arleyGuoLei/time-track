@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 export function getClientRect(select: string, pos: any): Promise<UniApp.NodeInfo> {
   const query = uni.createSelectorQuery().in(pos)
   return new Promise((resolve, reject) => {
@@ -72,24 +74,14 @@ export const authSetting = (scope: string, content: string, confirmText: string,
   })
 }
 
-export function dateFormat(fmt = 'YYYY-mm-dd HH:MM:SS', date = new Date()) {
-  let ret
-  const opt = {
-    'Y+': date.getFullYear().toString(), // 年
-    'm+': (date.getMonth() + 1).toString(), // 月
-    'd+': date.getDate().toString(), // 日
-    'H+': date.getHours().toString(), // 时
-    'M+': date.getMinutes().toString(), // 分
-    'S+': date.getSeconds().toString(), // 秒
-  }
-  type K = 'Y+' | 'm+' | 'd+' | 'H+' | 'M+' | 'S+'
-  for (const k in opt) {
-    ret = new RegExp('(' + k + ')').exec(fmt)
-    if (ret) {
-      fmt = fmt.replace(ret[1], ret[1].length === 1 ? opt[k as K] : opt[k as K].padStart(ret[1].length, '0'))
-    }
-  }
-  return fmt
+/**
+ * 格式化时间
+ * @param fmt
+ * @param date
+ * https://day.js.org/docs/zh-CN/display/format
+ */
+export function dateFormat(fmt = 'YYYY-MM-DD HH:mm:ss', date = new Date()) {
+  return dayjs(date).format(fmt)
 }
 
 /**
