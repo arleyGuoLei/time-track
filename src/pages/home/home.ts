@@ -54,7 +54,6 @@ export default class extends Mixins(scrollTopMixin) {
     ;(this as any).$loading('getList', this.getList.bind(this))
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
-    uni.$on('onTagChange', this.onTagChange)
   }
 
   onUnload() {
@@ -81,6 +80,8 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   onTagChange(tagId: string) {
+    console.log(tagId)
+
     this.tagId = tagId
     this.onBottom = false
     this.page = 1

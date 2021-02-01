@@ -51,6 +51,7 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async initData() {
+    // TODO: 请求不要互相阻塞
     const { eventName, eventId } = this.$Route.query
 
     const baseData = await eventsModel.getDetail(eventId)
@@ -169,7 +170,7 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   onTapHome(tagId: string) {
-    uni.$emit('onTagChange', tagId)
+    uni.$emit('onTagSelect', tagId)
     this.$Router.pushTab({ path: '/pages/home/home' })
   }
 }
