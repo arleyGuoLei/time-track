@@ -100,3 +100,9 @@
 
 <script lang="ts" src="./eventDetail.ts"></script>
 <style src="./eventDetail.css" scoped></style>
+
+<style>
+page {
+  background-color: #ffffff;
+}
+</style>
