@@ -49,7 +49,7 @@ export default class extends Vue {
   private selectDate = ''
   private weekDots = {}
 
-  async initWeekTime(date = Date()) {
+  async initWeekTime(date = Date(), backstage = false) {
     const now = dayjs(date)
     const weekDotData: WeekData = {
       selectDate: now.format('YYYY-MM-DD'),
@@ -73,11 +73,17 @@ export default class extends Vue {
     this.selectDate = weekDotData.selectDate
     this.weekDots = weekDotData.dots
 
-    this.$emit('date-change', weekDotData.selectDate)
+    this.$emit('date-change', weekDotData.selectDate, backstage)
   }
-  initData() {
+
+  mounted() {
     // TODO: 日历面板需要显示每一天有多少次打点数据
     ;(this as any).$loading('dotsModel_getCountByDate', this.initWeekTime.bind(this), true)
+    uni.$on('dot', this.onDot)
+  }
+
+  destroyed() {
+    uni.$off('dot', this.onDot)
   }
 
   onOpenCalendar() {
@@ -100,6 +106,20 @@ export default class extends Vue {
     }
     this.selectDate = date
     this.$emit('date-change', date)
+  }
+
+  /**
+   * 监听打点
+   */
+  onDot(date: string) {
+    const { week } = this
+    if (
+      dayjs(date).isAfter(dayjs(week[0].format).subtract(1, 'day')) &&
+      dayjs(date).isBefore(dayjs(week[week.length - 1].format).add(1, 'day'))
+    ) {
+      console.log('打点的日期在横版日历范围 刷新数据')
+      this.initWeekTime(date, true)
+    }
   }
 }
 </script>

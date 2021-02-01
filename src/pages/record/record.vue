@@ -2,7 +2,7 @@
   <view class="page">
     <c-loading ref="loading" />
 
-    <calendar-horizontal ref="calendar" @date-change="onDateChange" />
+    <calendar-horizontal @date-change="onDateChange" />
 
     <block v-for="(item, index) in dotList" :key="index">
       <item
