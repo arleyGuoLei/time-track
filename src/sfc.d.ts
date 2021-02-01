@@ -34,6 +34,7 @@ namespace UniCloud {
     action: any
     on: (eventName: string, cb: function) => any
     off: (eventName: string, cb: function) => any
+    command: any
   }
 
   interface UniCloud {

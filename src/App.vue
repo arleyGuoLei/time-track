@@ -64,7 +64,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import 'cl-uni/index.scss';
+
 .text-cut {
   text-overflow: ellipsis;
   white-space: nowrap;
