@@ -57,8 +57,9 @@ export default {
       const {
         result: { data },
       } = await db
-        .collection('events')
+        .collection('events,tags')
         .where(`_id=='${eventId}' && user_id==$env.uid`)
+        .field('eventName,signNumber,openCalc,tags{name}')
         .get()
 
       return data

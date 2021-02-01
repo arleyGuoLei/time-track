@@ -124,7 +124,7 @@
 			{
         "name": "event Detail Page",
         "path": "pages/eventDetail/eventDetail",
-        "query": "eventId=6003fec19fea3c000191c398&eventName=%E5%90%83%E9%A5%AD"
+        "query": "eventId=600d17b5b2f9d80001480e67&eventName=%E5%90%83%E9%A5%AD"
       },
       {
         "name": "add Event Page",
