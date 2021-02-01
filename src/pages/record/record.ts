@@ -27,16 +27,16 @@ export default class extends Vue {
     console.log('record')
   }
 
-  onShow() {
-    ;(this.$refs['calendar'] as any).initData()
-  }
-
   /**
    * 选择日期后更新列表
    * @param date 日期
    */
-  onDateChange(date: string) {
-    ;(this as any).$loading('getList', this.getList.bind(this), true, '加载中', date, 1)
+  onDateChange(date: string, backstage = false) {
+    console.log(backstage)
+
+    backstage
+      ? this.getList(date, 1)
+      : (this as any).$loading('getList', this.getList.bind(this), true, '加载中', date, 1)
     this.date = date
     this.onBottom = false
     this.page = 1
