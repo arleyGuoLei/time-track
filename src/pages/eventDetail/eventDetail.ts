@@ -27,6 +27,7 @@ export default class extends Mixins(scrollTopMixin) {
   private signNumber = 999
   private score = 0
   private openCalc = false // 是否开启量化值
+  private tags = []
 
   private docList = []
   private historyList: HistoryItem = {}
@@ -46,20 +47,21 @@ export default class extends Mixins(scrollTopMixin) {
   onLoad() {
     ;(this as any).$loading('initData', this.initData.bind(this))
     // DEMO
-    this.initLineChart()
+    // this.initLineChart()
   }
 
   async initData() {
     const { eventName, eventId } = this.$Route.query
 
     const baseData = await eventsModel.getDetail(eventId)
-    this.getHistoryList(eventId)
+    ;(this as any).$loading('getHistoryList', this.getHistoryList.bind(this), true, '加载中', eventId)
 
     uni.setNavigationBarTitle({ title: eventName })
     this.eventName = eventName
     this.eventId = eventId
     this.signNumber = baseData[0].signNumber
     this.openCalc = baseData[0].openCalc
+    this.tags = baseData[0].tags
   }
 
   initLineChart() {
@@ -67,26 +69,18 @@ export default class extends Mixins(scrollTopMixin) {
       $this: this,
       canvasId: 'charts',
       type: 'line',
-      fontSize: 11,
+      fontSize: 2,
       legend: true,
       dataLabel: false,
       dataPointShape: true,
       background: '#FFFFFF',
       pixelRatio: 2,
-      categories: ['2012', '2013', '2014', '2015', '2016', '2017'],
+      categories: ['2012', '2013', '2014', '2015'],
       series: [
         {
           name: '成交量A',
           data: [35, 20, 25, 37, 4, 20],
           color: '#000000',
-        },
-        {
-          name: '成交量B',
-          data: [70, 40, 65, 100, 44, 68],
-        },
-        {
-          name: '成交量C',
-          data: [100, 80, 95, 150, 112, 132],
         },
       ],
       animation: true,
@@ -107,11 +101,11 @@ export default class extends Mixins(scrollTopMixin) {
         min: 10,
         max: 180,
         format: (val: any) => {
-          return val.toFixed(0) + '元'
+          return val.toFixed(0)
         },
       },
-      width: uni.upx2px(1372),
-      height: uni.upx2px(760),
+      width: uni.upx2px(686),
+      height: uni.upx2px(380),
       extra: {
         line: {
           type: 'straight',
@@ -121,12 +115,17 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async getHistoryList(eventId: string, page = 1) {
-    const { data } = await docsModel.getDocList(eventId, page)
+    const { data, count, size } = await docsModel.getDotList(eventId, page)
     if (page === 1) {
       this.docList = data
     } else {
       this.docList = this.docList.concat(data)
     }
+
+    this.eventTotal = count
+    this.pageSize = size
+    this.page = page + 1
+    this.isLoading = false
 
     this.historyListFormat(data)
   }
@@ -135,23 +134,42 @@ export default class extends Mixins(scrollTopMixin) {
     const { historyList } = this
     list.forEach((item: DotItem) => {
       const [year] = item.date.split('-')
-      if (year in historyList) {
-        historyList[year].push(item)
+      if (`_${year}` in historyList) {
+        historyList[`_${year}`].push(item)
       } else {
-        historyList[year] = [item]
+        historyList[`_${year}`] = [item]
       }
     })
-
     this.historyList = historyList
   }
 
-  // onReachBottom() {
-  //   const { page, eventTotal, pageSize: size, onBottom } = this
-  //   const pageSize = Math.ceil(eventTotal / size)
-  //   if (!onBottom && page <= pageSize) {
-  //     ;(this as any).$loading('getHistoryList', this.getHistoryList.bind(this), true, '加载中', page)
-  //   } else {
-  //     this.onBottom = true
-  //   }
-  // }
+  onPreviewImg(current: string, imageList: string[]) {
+    uni.previewImage({
+      current,
+      urls: imageList,
+    })
+  }
+
+  openMap(coordinates: number[], name: string) {
+    uni.openLocation({
+      longitude: coordinates[0],
+      latitude: coordinates[1],
+      name: name,
+    })
+  }
+
+  onReachBottom() {
+    const { page, eventTotal, pageSize: size, onBottom, eventId } = this
+    const pageSize = Math.ceil(eventTotal / size)
+    if (!onBottom && page <= pageSize) {
+      ;(this as any).$loading('getHistoryList', this.getHistoryList.bind(this), false, '加载中', eventId, page)
+    } else {
+      this.onBottom = true
+    }
+  }
+
+  onTapHome(tagId: string) {
+    uni.$emit('onTagChange', tagId)
+    this.$Router.pushTab({ path: '/pages/home/home' })
+  }
 }
