@@ -46,10 +46,25 @@
   justify-content: space-between;
 }
 
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.justify-content__center {
+  justify-content: center;
+}
+
 /* =============================  边距  ============================== */
 .margin-right {
   margin-right: 32rpx;
 }
+
+.mr-16 {
+  margin-right: 16rpx;
+}
+
 .margin-left {
   margin-left: 32rpx;
 }

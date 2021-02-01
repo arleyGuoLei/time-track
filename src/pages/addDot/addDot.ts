@@ -50,8 +50,9 @@ export default class extends Vue {
 
   initAddData() {
     const now = new Date()
-    this.time = dateFormat('HH:MM', now)
-    this.date = dateFormat('YYYY-mm-dd', now)
+
+    this.time = dateFormat('HH:mm', now)
+    this.date = dateFormat('YYYY-MM-DD', now)
     uni.setNavigationBarTitle({
       title: this.$Route.query.eventName,
     })
@@ -61,7 +62,7 @@ export default class extends Vue {
   onLoad() {
     console.log('onLoad')
 
-    this.endDate = dateFormat('YYYY-mm-dd', new Date())
+    this.endDate = dateFormat('YYYY-MM-DD', new Date())
     if (this.$Route.query.type === 'update') {
       // TODO: 更新打点事件数据初始化 数据库查询
     } else {

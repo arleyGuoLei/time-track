@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 16rpx;
+  width: 750rpx;
+}
+
+.blank {
+  margin-top: 140rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blank-img {
+  width: 430rpx;
+  height: 288rpx;
+}
