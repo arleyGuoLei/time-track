@@ -58,6 +58,7 @@ export default {
         result: { data },
       } = await db
         .collection('events,tags')
+        // TODO: && tags.status == 1 删除标签的时候 需要删除事件数据tags里对应的标签
         .where(`_id=='${eventId}' && user_id==$env.uid`)
         .field('eventName,signNumber,openCalc,tags{name}')
         .get()

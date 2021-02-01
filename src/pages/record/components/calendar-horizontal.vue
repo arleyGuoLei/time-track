@@ -1,17 +1,14 @@
 <template>
   <view class="calendar">
     <view class="calendar-horizontal">
-      <view class="oneday" v-for="(item, index) in week" :key="index">
+      <view class="oneday" @click="onDateClick(item.format)" v-for="(item, index) in week" :key="index">
         <text class="oneday-title">{{ item.title }}</text>
-        <text
-          class="oneday-date"
-          :class="item.format === selectDate ? 'select-date' : ''"
-          @click="onDateClick(item.format)"
-          >{{ item.date }}</text
-        >
+        <text class="oneday-date" :class="item.format === selectDate ? 'select-date' : ''">{{ item.date }}</text>
         <text class="oneday-dot">{{ weekDots[item.format] }}</text>
       </view>
-      <img @click="onOpenCalendar" class="pull-down" src="@/static/pulldown.png" />
+      <view class="pull-down" @click="onOpenCalendar">
+        <img class="pull-down__icon" src="@/static/pulldown.png" />
+      </view>
     </view>
 
     <cl-calendar @change="onChangeCalendar" ref="clCalendar" v-model="selectDate" />
@@ -98,6 +95,9 @@ export default class extends Vue {
   }
 
   onDateClick(date: string) {
+    if (this.selectDate === date) {
+      return
+    }
     this.selectDate = date
     this.$emit('date-change', date)
   }
@@ -155,12 +155,18 @@ export default class extends Vue {
 
 .pull-down {
   position: absolute;
-  height: 32rpx;
-  width: 32rpx;
-  bottom: 12rpx;
-  left: 0;
-  right: 0;
+  bottom: 0;
   margin-left: auto;
   margin-right: auto;
+  height: 64rpx;
+  width: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pull-down__icon {
+  height: 32rpx;
+  width: 32rpx;
 }
 </style>
