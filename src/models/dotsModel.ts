@@ -68,6 +68,7 @@ export default {
     })
   },
   addDot(item: DotItem) {
+    uni.$emit('dot', item.date)
     try {
       const db = getApp<App>().globalData.db
       return db
