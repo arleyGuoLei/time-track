@@ -43,15 +43,28 @@ export default class extends Vue {
     this.$nextTick(() => {
       ;(this as any).$loading('getTagList', this.getTagList.bind(this))
       uni.$on('onTagsChange', this.onTagsChange)
+      uni.$on('onTagSelect', this.onTagSelect)
     })
   }
 
   destroyed() {
     uni.$off('onTagsChange', this.onTagsChange)
+    uni.$off('onTagSelect', this.onTagSelect)
   }
 
   async getTagList() {
     this.list = await tagsModel.getList()
+  }
+
+  onTagSelect(tag: { _id: string }) {
+    let selectIndex = -1
+    for (let index = 0; index < this.list.length; index++) {
+      if (this.list[index]._id === tag._id) {
+        selectIndex = index
+        break
+      }
+    }
+    this.onSelect(selectIndex)
   }
 
   onSelect(index: number) {

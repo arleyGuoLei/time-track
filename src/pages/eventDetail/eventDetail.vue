@@ -47,7 +47,7 @@
         <c-title title="标签" paddingLR="32" />
 
         <view class="tags-container flex">
-          <view class="tags margin-right text-32" v-for="item in tags" :key="item._id" @click="onTapHome(item._id)">
+          <view class="tags margin-right text-32" v-for="item in tags" :key="item._id" @click="onTapHome(item)">
             {{ item.name }}
           </view>
         </view>
