@@ -43,8 +43,14 @@
 		{
 			"path":"pages/record/record",
 			"style": {
+				"navigationStyle": "default",
+        "navigationBarTitleText": "",
+        "navigationBarBackgroundColor": "#93C0F2",
 				"bounce": "none",
-				"titleNView": false
+				"titleNView": false,
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
 			}
 		},
 		{
@@ -117,6 +123,11 @@
     "current": 0,
     "list": [
 			{
+        "name": "日志",
+        "path": "pages/record/record",
+        "query": ""
+			},
+			{
         "name": "edit Tag Page",
         "path": "pages/editTags/editTags",
         "query": ""
@@ -137,5 +148,11 @@
         "query": ""
       }
     ]
-  }
+  },
+  "easycom": {
+		"autoscan": true,
+		"custom": {
+      "cl-(.*)": "cl-uni/components/cl-$1/cl-$1.vue"
+		}
+	}
 }
