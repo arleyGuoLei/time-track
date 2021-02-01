@@ -1,5 +1,5 @@
 <template>
-  <view class="title">
+  <view class="title" :style="{ padding: `36rpx ${paddingLR}rpx` }">
     <view class="title-main">
       <view class="line"></view>
       <text class="text">{{ title }}</text>
@@ -14,6 +14,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 @Component
 export default class extends Vue {
   @Prop({ default: '' }) private title!: string
+  @Prop({ default: 48 }) private paddingLR?: number
 }
 </script>
 <style scoped>
@@ -22,7 +23,6 @@ export default class extends Vue {
   align-items: center;
   width: 750rpx;
   box-sizing: border-box;
-  padding: 36rpx 48rpx;
   justify-content: space-between;
 }
 .title-main {

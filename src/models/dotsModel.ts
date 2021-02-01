@@ -45,7 +45,7 @@ export default {
       throw report
     }
   },
-  async getDocList(eventId: string, page: number) {
+  async getDotList(eventId: string, page: number) {
     const size = PAGE_SIZE
     const db = getApp<App>().globalData.db
 
@@ -55,7 +55,9 @@ export default {
       } = await db
         .collection('dots')
         .where(`event_id=='${eventId}'`)
+        .orderBy('dotTimestamp desc')
         .skip(size * (page - 1))
+        .limit(size)
         .get({
           getCount: true,
         })
