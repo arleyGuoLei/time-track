@@ -13,7 +13,7 @@ export default {
         result: { data = [] },
       } = await db
         .collection('icon_colors')
-        .field('color,_id')
+        .field('color,_id,use_times')
         .where({ status: 1 })
         .orderBy('use_times desc')
         .get()

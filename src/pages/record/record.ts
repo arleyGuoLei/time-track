@@ -31,19 +31,19 @@ export default class extends Vue {
    * 选择日期后更新列表
    * @param date 日期
    */
-  onDateChange(date: string, backstage = false) {
-    console.log(backstage)
+  async onDateChange(date: string, backstage = false) {
+    uni.setNavigationBarTitle({ title: date })
 
-    backstage
-      ? this.getList(date, 1)
-      : (this as any).$loading('getList', this.getList.bind(this), true, '加载中', date, 1)
     this.date = date
     this.onBottom = false
     this.page = 1
     this.dotTotal = 0
     this.pageSize = PAGE_SIZE
     this.dotList = []
-    uni.setNavigationBarTitle({ title: date })
+
+    backstage
+      ? await this.getList(date, 1)
+      : await (this as any).$loading('getList', this.getList.bind(this), true, '加载中', date, 1)
   }
 
   async getList(date: string, page = 1) {
@@ -76,5 +76,13 @@ export default class extends Vue {
     } else {
       this.onBottom = true
     }
+  }
+
+  async onPullDownRefresh() {
+    await Promise.all([
+      this.onDateChange(this.date, false),
+      (this.$refs['calendarHorizontal'] as any).initWeekTime(this.date, false, false),
+    ])
+    uni.stopPullDownRefresh()
   }
 }

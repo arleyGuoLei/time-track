@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 16rpx;
   width: 750rpx;
+  padding-top: 284rpx;
 }
 
 .blank {

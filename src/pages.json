@@ -44,6 +44,7 @@
 			"path":"pages/record/record",
 			"style": {
 				"navigationStyle": "default",
+        "enablePullDownRefresh": true,
         "navigationBarTitleText": "",
         "navigationBarBackgroundColor": "#93C0F2",
 				"bounce": "none",
