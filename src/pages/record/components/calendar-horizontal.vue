@@ -1,17 +1,20 @@
 <template>
-  <view class="calendar">
-    <view class="calendar-horizontal">
-      <view class="oneday" @click="onDateClick(item.format)" v-for="(item, index) in week" :key="index">
-        <text class="oneday-title">{{ item.title }}</text>
-        <text class="oneday-date" :class="item.format === selectDate ? 'select-date' : ''">{{ item.date }}</text>
-        <text class="oneday-dot">{{ weekDots[item.format] }}</text>
+  <view>
+    <view class="calendar">
+      <view class="calendar-horizontal">
+        <view class="oneday" @click="onDateClick(item.format)" v-for="(item, index) in week" :key="index">
+          <text class="oneday-title">{{ item.title }}</text>
+          <text class="oneday-date" :class="item.format === selectDate ? 'select-date' : ''">{{ item.date }}</text>
+          <text class="oneday-dot">{{ weekDots[item.format] }}</text>
+        </view>
+        <view class="pull-down" @click="onOpenCalendar">
+          <img class="pull-down__icon" src="@/static/pulldown.png" />
+        </view>
       </view>
-      <view class="pull-down" @click="onOpenCalendar">
-        <img class="pull-down__icon" src="@/static/pulldown.png" />
-      </view>
-    </view>
 
-    <cl-calendar @change="onChangeCalendar" ref="clCalendar" v-model="selectDate" />
+      <cl-calendar @change="onChangeCalendar" ref="clCalendar" v-model="selectDate" :customList="timesList" />
+    </view>
+    <view class="hidden-block"></view>
   </view>
 </template>
 
@@ -48,8 +51,9 @@ export default class extends Vue {
   private week: DayObject[] = []
   private selectDate = ''
   private weekDots = {}
+  private timesList: { date: string; remark: number }[] = []
 
-  async initWeekTime(date = Date(), backstage = false) {
+  async initWeekTime(date = Date(), backstage = false, updateList = true) {
     const now = dayjs(date)
     const weekDotData: WeekData = {
       selectDate: now.format('YYYY-MM-DD'),
@@ -65,6 +69,9 @@ export default class extends Vue {
       })
     }
 
+    // 请求列表数据
+    updateList && this.$emit('date-change', weekDotData.selectDate, backstage)
+
     weekDotData.dots = await dotsModel.getCountByDate(
       weekDotData.week[0].format,
       weekDotData.week[weekDotData.week.length - 1].format,
@@ -72,8 +79,7 @@ export default class extends Vue {
     this.week = weekDotData.week
     this.selectDate = weekDotData.selectDate
     this.weekDots = weekDotData.dots
-
-    this.$emit('date-change', weekDotData.selectDate, backstage)
+    this.getCalendarTimesList(date)
   }
 
   mounted() {
@@ -111,15 +117,45 @@ export default class extends Vue {
   /**
    * 监听打点
    */
-  onDot(date: string) {
+  onDot({ date, backstage = true }: { date: string; backstage: boolean }) {
     const { week } = this
     if (
       dayjs(date).isAfter(dayjs(week[0].format).subtract(1, 'day')) &&
       dayjs(date).isBefore(dayjs(week[week.length - 1].format).add(1, 'day'))
     ) {
       console.log('打点的日期在横版日历范围 刷新数据')
-      this.initWeekTime(date, true)
+      this.initWeekTime(date, backstage, true)
     }
+  }
+
+  /**
+   * 日历组件自定义列表
+   * https://docs.cool-js.com/uni/components/advanced/calendar.html
+   */
+  async getCalendarTimesList(date = '2021-02-13') {
+    const monthStartDay = dayjs(date)
+      .set('date', 1)
+      .format('YYYY-MM-DD')
+
+    const monthEndDay = dayjs(date)
+      .set(
+        'date',
+        +dayjs(date)
+          .endOf('month')
+          .format('D'),
+      )
+      .format('YYYY-MM-DD')
+
+    const dotList = await dotsModel.getCountByDate(monthStartDay, monthEndDay)
+    this.timesList = Object.keys(dotList).map(date => {
+      return {
+        date: date,
+        remark: dotList[date] || '0',
+        color: dotList[date] ? '#EC735D' : '',
+      }
+    })
+
+    console.log('更新日历打点次数::', dotList)
   }
 }
 </script>
@@ -129,11 +165,25 @@ export default class extends Vue {
   height: 256rpx;
   background: #ffffff;
   border-radius: 16rpx;
-  padding-top: 28rpx;
   box-sizing: border-box;
   display: flex;
   justify-content: space-around;
-  position: relative;
+  padding-top: 28rpx;
+  position: fixed;
+  top: 28rpx;
+  left: 16rpx;
+  z-index: 2;
+  box-shadow: 0 6rpx 20rpx 0 rgba(0, 0, 0, 0.1);
+}
+
+.hidden-block {
+  position: fixed;
+  width: 750rpx;
+  height: 268rpx;
+  top: 0;
+  left: 0;
+  background-color: #f5f5f5;
+  z-index: 1;
 }
 
 .oneday {

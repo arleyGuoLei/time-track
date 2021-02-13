@@ -13,7 +13,7 @@ export default {
         result: { data = [] },
       } = await db
         .collection('icon_images')
-        .field('src,_id')
+        .field('src,_id,use_times')
         .where({ status: 1 })
         .orderBy('use_times desc')
         .get()
