@@ -68,13 +68,17 @@ export default {
     })
   },
   addDot(item: DotItem) {
-    uni.$emit('dot', item.date)
     try {
       const db = getApp<App>().globalData.db
-      return db
+      const dotRes = db
         .action('update-dot')
         .collection('dots')
         .add(item)
+      // 打点数据写入数据库后 再进行查询最新数据的操作
+      setTimeout(() => {
+        uni.$emit('dot', { date: item.date, backstage: true })
+      }, 0)
+      return dotRes
     } catch (error) {
       report(error)
       throw report
@@ -97,8 +101,8 @@ export default {
         .collection('dots,events,icon_images,icon_colors')
         .where(`status==1 && user_id==$env.uid && date == "${date}"`)
         // 主表：_id,time 事件表：event_id{eventName,iconSrc{src},iconColor{color}}
-        .field('_id,time,event_id,event_id{eventName,iconSrc{src},iconColor{color}}')
-        .orderBy('dotTimestamp asc')
+        .field('_id,time,dotTimestamp,event_id,event_id{eventName,iconSrc{src},iconColor{color}}')
+        .orderBy('dotTimestamp')
         .skip(size * (page - 1))
         .limit(size)
         .get({
