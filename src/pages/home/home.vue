@@ -21,7 +21,7 @@
             <img class="icon-img" :src="item.iconSrc[0].src" />
           </view>
           <view class="content-container" @tap="onTapDetail(item._id, item.eventName)">
-            <p class="text event-name">{{ item.eventName }}</p>
+            <p class="text event-name text-cut">{{ item.eventName }}</p>
             <view class="text-grey text-sm flex time-container">
               <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
               <view class="clock flex" v-if="item.signNumber">
