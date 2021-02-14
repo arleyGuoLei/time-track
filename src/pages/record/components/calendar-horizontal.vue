@@ -83,7 +83,6 @@ export default class extends Vue {
   }
 
   mounted() {
-    // TODO: 日历面板需要显示每一天有多少次打点数据
     ;(this as any).$loading('dotsModel_getCountByDate', this.initWeekTime.bind(this), true)
     uni.$on('dot', this.onDot)
   }

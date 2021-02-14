@@ -39,7 +39,6 @@ export default class extends Vue {
     this.page = 1
     this.dotTotal = 0
     this.pageSize = PAGE_SIZE
-    this.dotList = []
 
     backstage
       ? await this.getList(date, 1)

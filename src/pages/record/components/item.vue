@@ -4,7 +4,7 @@
       <img class="icon-img" :src="iconSrc" />
     </view>
     <view class="content-container" @tap="onTapDetail(itemId)">
-      <p class="text text-black">{{ eventName }}</p>
+      <p class="text text-black text-cut">{{ eventName }}</p>
       <view class="text-grey text-sm event-time">
         <img class="icon-time mr-16" src="@/static/home-time.png" />
         <text class="text-cut">打点时间 {{ signTime }}</text>

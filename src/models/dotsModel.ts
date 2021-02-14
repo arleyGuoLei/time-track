@@ -135,11 +135,11 @@ export default {
       } = await db
         .collection('dots')
         .where(
-          `status==1 && user_id==$env.uid 
-        && dotTimestamp >= ${dayjs(startTime).valueOf()} 
-        && dotTimestamp <= ${dayjs(endTime)
-          .add(1, 'day')
-          .valueOf()}`,
+          `status==1 && user_id==$env.uid && dotTimestamp >= ${dayjs(startTime).valueOf()} && dotTimestamp <= ${dayjs(
+            endTime,
+          )
+            .add(1, 'day')
+            .valueOf()}`,
         )
         .groupBy('date')
         .groupField('count(*) as totalDots')
@@ -174,6 +174,31 @@ export default {
         .get()
 
       return formatDotData(data, dates)
+    } catch (error) {
+      report(error, 'error')
+      throw error
+    }
+  },
+
+  async getDotListByEventIdAndDateRange(eventId: string, startTime: string, endTime: string) {
+    const db = getApp<App>().globalData.db
+    try {
+      const {
+        result: { data = [] },
+      } = await db
+        .collection('dots')
+        .where(
+          `status==1 && user_id==$env.uid && dotTimestamp >= ${dayjs(startTime).valueOf()} && dotTimestamp <= ${dayjs(
+            endTime,
+          )
+            .add(1, 'day')
+            .valueOf()} && event_id == "${eventId}"`,
+        )
+        .orderBy('dotTimestamp desc')
+        .get()
+
+      const dates = getDatesByRange(startTime, endTime)
+      console.log(data)
     } catch (error) {
       report(error, 'error')
       throw error

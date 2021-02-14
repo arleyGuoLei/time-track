@@ -64,6 +64,17 @@
   margin: 0 auto;
 }
 
+.tag-blank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blank-img {
+  width: 430rpx;
+  height: 288rpx;
+}
+
 .tags {
   border: 1px solid #4F9BFA;
   background-color: #D3E6FE;
@@ -122,10 +133,29 @@
   width: 500rpx;
 }
 
-.charts {
-  width: 1372rpx;
-  height: 760rpx;
-  /* 二倍图 增加清晰度 */
-  transform: scale(0.5);
-  transform-origin: top left;
+.calendar-select {
+  display: flex;
+}
+
+.calendar-select img {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.calendar-select__text {
+  height: 64rpx;
+  box-sizing: border-box;
+  padding: 0 48rpx;
+}
+
+.calendar-select__week {
+  width: 132rpx;
+  height: 48rpx;
+  background: #A5CAF1;
+  border-radius: 24rpx;
+  color: #ffffff;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 28rpx;
+  line-height: 48rpx;
 }

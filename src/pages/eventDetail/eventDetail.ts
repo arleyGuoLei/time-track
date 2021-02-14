@@ -3,14 +3,24 @@ import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
 import cInput from '@/components/cInput.vue'
 import cList from '@/components/cList.vue'
+import cCharts from './components/charts.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
-import uCharts from '@/utils/uCharts.js'
 import eventsModel from '@/models/eventsModel'
 import docsModel, { DotItem } from '@/models/dotsModel'
 import { PAGE_SIZE } from '@/utils/constant'
+import dayjs from 'dayjs'
+import { dotsModel } from '@/models'
 
 interface HistoryItem {
   [year: string]: DotItem[]
+}
+
+/**
+ * 获取最近的7天日期开始至结束
+ */
+function getLately7days() {
+  const now = dayjs()
+  return [now.subtract(7, 'day').format('YYYY-MM-DD'), now.format('YYYY-MM-DD')]
 }
 
 @Component({
@@ -19,19 +29,20 @@ interface HistoryItem {
     cList,
     cTitle,
     cInput,
+    cCharts,
   },
 })
 export default class extends Mixins(scrollTopMixin) {
   private eventId = ''
   private eventName = ''
-  private signNumber = 999
+  private signNumber = ''
   private score = 0
   private openCalc = false // 是否开启量化值
   private tags = []
+  private dateRange: string[] = []
 
   private docList = []
   private historyList: HistoryItem = {}
-  private charts = null
 
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
   private load = false
@@ -46,73 +57,22 @@ export default class extends Mixins(scrollTopMixin) {
 
   onLoad() {
     ;(this as any).$loading('initData', this.initData.bind(this))
-    // DEMO
-    // this.initLineChart()
   }
 
   async initData() {
-    // TODO: 请求不要互相阻塞
-    const { eventName, eventId } = this.$Route.query
-
-    const baseData = await eventsModel.getDetail(eventId)
-    ;(this as any).$loading('getHistoryList', this.getHistoryList.bind(this), true, '加载中', eventId)
-
-    uni.setNavigationBarTitle({ title: eventName })
-    this.eventName = eventName
+    const { eventId } = this.$Route.query
     this.eventId = eventId
+
+    const [, baseData] = await Promise.all([
+      this.getHistoryList(eventId),
+      eventsModel.getDetail(eventId),
+      this.initCharts(),
+    ])
+    uni.setNavigationBarTitle({ title: baseData[0].eventName })
+    this.eventName = baseData[0].eventName
     this.signNumber = baseData[0].signNumber
     this.openCalc = baseData[0].openCalc
     this.tags = baseData[0].tags
-  }
-
-  initLineChart() {
-    new uCharts({
-      $this: this,
-      canvasId: 'charts',
-      type: 'line',
-      fontSize: 2,
-      legend: true,
-      dataLabel: false,
-      dataPointShape: true,
-      background: '#FFFFFF',
-      pixelRatio: 2,
-      categories: ['2012', '2013', '2014', '2015'],
-      series: [
-        {
-          name: '成交量A',
-          data: [35, 20, 25, 37, 4, 20],
-          color: '#000000',
-        },
-      ],
-      animation: true,
-      enableScroll: true,
-      xAxis: {
-        type: 'grid',
-        gridColor: '#CCCCCC',
-        gridType: 'dash',
-        dashLength: 8,
-        itemCount: 4,
-        scrollShow: true,
-      },
-      yAxis: {
-        gridType: 'dash',
-        gridColor: '#CCCCCC',
-        dashLength: 8,
-        splitNumber: 5,
-        min: 10,
-        max: 180,
-        format: (val: any) => {
-          return val.toFixed(0)
-        },
-      },
-      width: uni.upx2px(686),
-      height: uni.upx2px(380),
-      extra: {
-        line: {
-          type: 'straight',
-        },
-      },
-    })
   }
 
   async getHistoryList(eventId: string, page = 1) {
@@ -172,5 +132,20 @@ export default class extends Mixins(scrollTopMixin) {
   onTapHome(tagId: string) {
     uni.$emit('onTagSelect', tagId)
     this.$Router.pushTab({ path: '/pages/home/home' })
+  }
+
+  onOpenDateRange() {
+    ;(this.$refs['clCalendar'] as any).open()
+  }
+
+  onChangeDateRange(range: string[]) {
+    console.log(range)
+  }
+
+  initCharts() {
+    const { eventId } = this
+    const dateRange = getLately7days()
+    this.dateRange = dateRange
+    dotsModel.getDotListByEventIdAndDateRange(eventId, dateRange[0], dateRange[1])
   }
 }

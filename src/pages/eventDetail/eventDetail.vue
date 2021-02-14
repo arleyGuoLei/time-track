@@ -14,7 +14,7 @@
       <view class="list-content">
         <view class="list-title-container flex">
           <text class="list-title">{{ eventName }}</text>
-          <view slot="right">
+          <view>
             <img class="title-icon" src="@/static/event-detail-set.png" />
           </view>
         </view>
@@ -38,18 +38,36 @@
           </view>
         </view>
 
-        <!-- <c-title title="折线数据" paddingLR="32" />
+        <c-title title="折线数据" paddingLR="32">
+          <view slot="right" class="calendar-select flex" @click="onOpenDateRange">
+            <img class="mr-16" src="@/static/calendar.png" />
+            <text class="text-grey text-sm">日期范围</text>
+          </view>
+        </c-title>
+
+        <view class="calendar-select__text flex margin-bottom">
+          <text v-if="dateRange.length >= 2" class="fw-500 text text-black"
+            >{{ dateRange[0] }} 至 {{ dateRange[1] }}</text
+          >
+          <text class="calendar-select__week" @click="initCharts">近七天</text>
+        </view>
+
+        <cl-calendar @change="onChangeDateRange" ref="clCalendar" type="daterange" v-model="dateRange" />
 
         <view class="chart-container">
-          <canvas canvas-id="charts" id="charts" class="charts"></canvas>
-        </view> -->
+          <c-charts />
+        </view>
 
         <c-title title="标签" paddingLR="32" />
 
-        <view class="tags-container flex">
+        <view v-if="tags.length !== 0" class="tags-container flex">
           <view class="tags margin-right text-32" v-for="item in tags" :key="item._id" @click="onTapHome(item)">
             {{ item.name }}
           </view>
+        </view>
+        <view v-else class="tag-blank margin-top">
+          <img class="blank-img margin-bottom-sm" src="@/static/blank2.png" />
+          <text class="text-sm text-grey margin-top">未添加标签</text>
         </view>
 
         <c-title title="时间动态" paddingLR="32" />
