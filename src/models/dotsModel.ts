@@ -180,6 +180,12 @@ export default {
     }
   },
 
+  /**
+   * 根据事件id和日期范围获取数据
+   * @param eventId 事件ID
+   * @param startTime 开始日期
+   * @param endTime 结束日期
+   */
   async getDotListByEventIdAndDateRange(eventId: string, startTime: string, endTime: string) {
     const db = getApp<App>().globalData.db
     try {
