@@ -44,13 +44,6 @@
   padding-left: 32rpx;
 }
 
-.chart-container {
-  width: 750rpx;
-  height: 380rpx;
-  padding: 0 32rpx;
-  box-sizing: border-box;
-}
-
 .history-list, .tags-container {
   width: 750rpx;
   margin: 0 auto 32rpx;
@@ -140,22 +133,4 @@
 .calendar-select img {
   width: 32rpx;
   height: 32rpx;
-}
-
-.calendar-select__text {
-  height: 64rpx;
-  box-sizing: border-box;
-  padding: 0 48rpx;
-}
-
-.calendar-select__week {
-  width: 132rpx;
-  height: 48rpx;
-  background: #A5CAF1;
-  border-radius: 24rpx;
-  color: #ffffff;
-  box-sizing: border-box;
-  text-align: center;
-  font-size: 28rpx;
-  line-height: 48rpx;
 }

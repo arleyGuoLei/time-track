@@ -3,33 +3,20 @@ import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
 import cInput from '@/components/cInput.vue'
 import cList from '@/components/cList.vue'
-import cCharts from './components/charts.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
-import eventsModel from '@/models/eventsModel'
-import docsModel, { DotItem } from '@/models/dotsModel'
+import { DotItem } from '@/models/dotsModel'
 import { PAGE_SIZE } from '@/utils/constant'
-import dayjs from 'dayjs'
-import { dotsModel } from '@/models'
+import { dotsModel, eventsModel } from '@/models'
 
 interface HistoryItem {
   [year: string]: DotItem[]
 }
-
-/**
- * 获取最近的7天日期开始至结束
- */
-function getLately7days() {
-  const now = dayjs()
-  return [now.subtract(7, 'day').format('YYYY-MM-DD'), now.format('YYYY-MM-DD')]
-}
-
 @Component({
   components: {
     cHeader,
     cList,
     cTitle,
     cInput,
-    cCharts,
   },
 })
 export default class extends Mixins(scrollTopMixin) {
@@ -39,9 +26,8 @@ export default class extends Mixins(scrollTopMixin) {
   private score = 0
   private openCalc = false // 是否开启量化值
   private tags = []
-  private dateRange: string[] = []
 
-  private docList = []
+  private dotList = []
   private historyList: HistoryItem = {}
 
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
@@ -63,11 +49,7 @@ export default class extends Mixins(scrollTopMixin) {
     const { eventId } = this.$Route.query
     this.eventId = eventId
 
-    const [, baseData] = await Promise.all([
-      this.getHistoryList(eventId),
-      eventsModel.getDetail(eventId),
-      this.initCharts(),
-    ])
+    const [, baseData] = await Promise.all([this.getHistoryList(eventId), eventsModel.getDetail(eventId)])
     uni.setNavigationBarTitle({ title: baseData[0].eventName })
     this.eventName = baseData[0].eventName
     this.signNumber = baseData[0].signNumber
@@ -76,11 +58,11 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async getHistoryList(eventId: string, page = 1) {
-    const { data, count, size } = await docsModel.getDotList(eventId, page)
+    const { data, count, size } = await dotsModel.getDotList(eventId, page)
     if (page === 1) {
-      this.docList = data
+      this.dotList = data
     } else {
-      this.docList = this.docList.concat(data)
+      this.dotList = this.dotList.concat(data)
     }
 
     this.eventTotal = count
@@ -132,20 +114,5 @@ export default class extends Mixins(scrollTopMixin) {
   onTapHome(tagId: string) {
     uni.$emit('onTagSelect', tagId)
     this.$Router.pushTab({ path: '/pages/home/home' })
-  }
-
-  onOpenDateRange() {
-    ;(this.$refs['clCalendar'] as any).open()
-  }
-
-  onChangeDateRange(range: string[]) {
-    console.log(range)
-  }
-
-  initCharts() {
-    const { eventId } = this
-    const dateRange = getLately7days()
-    this.dateRange = dateRange
-    dotsModel.getDotListByEventIdAndDateRange(eventId, dateRange[0], dateRange[1])
   }
 }
