@@ -38,26 +38,6 @@
           </view>
         </view>
 
-        <c-title title="折线数据" paddingLR="32">
-          <view slot="right" class="calendar-select flex" @click="onOpenDateRange">
-            <img class="mr-16" src="@/static/calendar.png" />
-            <text class="text-grey text-sm">日期范围</text>
-          </view>
-        </c-title>
-
-        <view class="calendar-select__text flex margin-bottom">
-          <text v-if="dateRange.length >= 2" class="fw-500 text text-black"
-            >{{ dateRange[0] }} 至 {{ dateRange[1] }}</text
-          >
-          <text class="calendar-select__week" @click="initCharts">近七天</text>
-        </view>
-
-        <cl-calendar @change="onChangeDateRange" ref="clCalendar" type="daterange" v-model="dateRange" />
-
-        <view class="chart-container">
-          <c-charts />
-        </view>
-
         <c-title title="标签" paddingLR="32" />
 
         <view v-if="tags.length !== 0" class="tags-container flex">
