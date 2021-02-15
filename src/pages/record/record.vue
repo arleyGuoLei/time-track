@@ -4,13 +4,17 @@
 
     <calendar-horizontal @date-change="onDateChange" ref="calendarHorizontal" />
 
+    <dot-detail v-if="detailInfo.show" :detail-info="detailInfo" :dot-list="dotList" @onClose="onCloseDetail" />
+
     <block v-for="(item, index) in dotList" :key="index">
       <item
         :item-id="item._id"
+        :item-index="index"
         :iconSrc="item.event_id[0].iconSrc[0].src"
         :iconColor="item.event_id[0].iconColor[0].color"
         :eventName="item.event_id[0].eventName"
         :signTime="item.time"
+        @onShowDetail="onShowDetail"
       ></item>
     </block>
 

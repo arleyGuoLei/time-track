@@ -76,6 +76,8 @@ export default class extends Vue {
       weekDotData.week[0].format,
       weekDotData.week[weekDotData.week.length - 1].format,
     )
+    console.log('weekDotData.dots::', weekDotData.dots)
+
     this.week = weekDotData.week
     this.selectDate = weekDotData.selectDate
     this.weekDots = weekDotData.dots
