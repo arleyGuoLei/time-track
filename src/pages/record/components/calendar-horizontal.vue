@@ -90,10 +90,12 @@ export default class extends Vue {
       this.initWeekTime.bind(this),
       true,
       '加载中',
-      getApp()?.globalData?.recordDate,
+      getApp<App>().globalData.recordDate || Date(),
     )
     uni.$on('dot', this.onDot)
     uni.$on('onCalendarShow', this.onCalendarShow)
+
+    getApp<App>().globalData.recordDate = undefined
   }
 
   onCalendarShow(date: string) {
@@ -104,7 +106,7 @@ export default class extends Vue {
     uni.$off('dot', this.onDot)
     uni.$off('onCalendarShow', this.onCalendarShow)
     const app = getApp<App>()
-    app.globalData.recordDate = ''
+    app.globalData.recordDate = undefined
   }
 
   onOpenCalendar() {
@@ -117,7 +119,15 @@ export default class extends Vue {
     const { week } = this
     if (dayjs(date).isAfter(dayjs(week[week.length - 1].format)) || dayjs(date).isBefore(dayjs(week[0].format))) {
       console.log('选择的日期不在横版日历范围 刷新数据')
-      ;(this as any).$loading('dotsModel_getCountByDate', this.initWeekTime.bind(this), true, '加载中', date)
+      ;(this as any).$loading(
+        'dotsModel_getCountByDate',
+        this.initWeekTime.bind(this),
+        true,
+        '加载中',
+        date,
+        false,
+        false,
+      )
     }
   }
 

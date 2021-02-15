@@ -51,7 +51,7 @@ interface App {
     cloud: UniCloud.UniCloud
     db: UniCloud.DatabaseRes
     $onLaunched: Promise<[void, void, void]>
-    recordDate: string
+    recordDate?: string
   }
 }
 
