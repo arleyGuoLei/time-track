@@ -83,12 +83,26 @@ export default class extends Vue {
   }
 
   mounted() {
-    ;(this as any).$loading('dotsModel_getCountByDate', this.initWeekTime.bind(this), true)
+    ;(this as any).$loading(
+      'dotsModel_getCountByDate',
+      this.initWeekTime.bind(this),
+      true,
+      '加载中',
+      getApp()?.globalData?.recordDate,
+    )
     uni.$on('dot', this.onDot)
+    uni.$on('onCalendarShow', this.onCalendarShow)
+  }
+
+  onCalendarShow(date: string) {
+    ;(this as any).$loading('dotsModel_getCountByDate', this.initWeekTime.bind(this), true, '加载中', date)
   }
 
   destroyed() {
     uni.$off('dot', this.onDot)
+    uni.$off('onCalendarShow', this.onCalendarShow)
+    const app = getApp<App>()
+    app.globalData.recordDate = ''
   }
 
   onOpenCalendar() {

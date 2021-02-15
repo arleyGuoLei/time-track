@@ -64,10 +64,12 @@ export default class extends Vue {
         .then(([srcList, colorList]) => {
           Array.isArray(srcList) && (this.srcList = chunkArr(srcList, this.srcLine))
           Array.isArray(colorList) && (this.colorList = chunkArr(colorList, this.colorLine))
-          this.$emit('initIcon', {
-            src: srcList[0],
-            color: colorList[0],
-          })
+          if (Object.keys(this.$Route.query).length === 0) {
+            this.$emit('initIcon', {
+              src: srcList[0],
+              color: colorList[0],
+            })
+          }
           resolve({ srcList, colorList })
         })
         .catch(err => {

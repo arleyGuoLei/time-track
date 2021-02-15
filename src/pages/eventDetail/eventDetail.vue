@@ -14,7 +14,7 @@
       <view class="list-content">
         <view class="list-title-container flex">
           <text class="list-title">{{ eventName }}</text>
-          <view>
+          <view @click="onSelectAction">
             <img class="title-icon" src="@/static/event-detail-set.png" />
           </view>
         </view>
@@ -59,7 +59,7 @@
               <text class="text-xs">年</text>
             </view>
             <view class="history-list flex" v-for="item in list" :key="item._id">
-              <view class="left">
+              <view class="left" @click="goToRecord(item.date)">
                 <view>
                   <text class="text-large margin-right-sm">{{ item.date.split('-')[2] }}</text>
                   <text class="text-xs">{{ item.date.split('-')[1] }}月</text>

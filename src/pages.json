@@ -136,7 +136,7 @@
 			{
         "name": "event Detail Page",
         "path": "pages/eventDetail/eventDetail",
-        "query": "eventId=6017feed54282900015c5481&eventName=洗澡"
+        "query": "eventId=60180b5348a32d0001861016&eventName=洗澡"
       },
       {
         "name": "add Event Page",
