@@ -228,6 +228,7 @@ export default class extends Vue {
   padding-top: 48rpx;
   padding-left: 48rpx;
   padding-right: 48rpx;
+  box-shadow: 0 6rpx 20rpx 0 rgba(0, 0, 0, 0.1);
 }
 .card-list {
   width: 100%;

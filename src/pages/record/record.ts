@@ -109,8 +109,4 @@ export default class extends Vue {
       index: -1,
     }
   }
-
-  onHide() {
-    this.onCloseDetail()
-  }
 }
