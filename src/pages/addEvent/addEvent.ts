@@ -65,7 +65,8 @@ function validateForm(e: eventItem) {
   },
 })
 export default class extends Mixins(scrollTopMixin) {
-  /* 事件名称 */
+  /* 事件 */
+  private eventId = ''
   private eventName = ''
   /* 图标 */
   private iconSrc = {
@@ -81,8 +82,19 @@ export default class extends Mixins(scrollTopMixin) {
   private tags: Tag[] = []
   /* 开启量化值 */
   private openCalc = false
+  /* 新建 or 更新 */
+  private isUpdate = false
 
   onLoad() {
+    if (this.$Route.query.type === 'update') {
+      const { eventId, eventName, openCalc, iconColor, iconSrc } = this.$Route.query
+      this.eventId = eventId
+      this.eventName = eventName
+      this.openCalc = openCalc
+      this.iconColor = iconColor
+      this.iconSrc = iconSrc
+      this.isUpdate = true
+    }
     this.$nextTick(() => {
       ;(this as any).$loading('getTags', this.getTags.bind(this))
     })
@@ -113,6 +125,21 @@ export default class extends Mixins(scrollTopMixin) {
 
   async getTags() {
     this.tags = (await tagsModel.getList()).map(item => ({ ...item, selected: false }))
+    if (this.$Route.query.type === 'update') {
+      this.tags = this.tags.map((item: Tag) => {
+        const { tags } = this.$Route.query
+        if (tags && tags.findIndex((v: TagItem) => v._id === item._id) > -1) {
+          return {
+            ...item,
+            selected: true,
+          }
+        } else {
+          return {
+            ...item,
+          }
+        }
+      })
+    }
   }
 
   onInitIcon(data: IconData) {
@@ -130,7 +157,7 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async onSave() {
-    const { eventName, iconSrc, iconColor, tags, openCalc } = this
+    const { eventName, iconSrc, iconColor, tags, openCalc, isUpdate, eventId } = this
     const item = {
       eventName,
       iconSrc: iconSrc._id,
@@ -140,25 +167,62 @@ export default class extends Mixins(scrollTopMixin) {
     }
     const v = validateForm(item)
     if (v.status) {
-      const {
-        result: { id },
-      } = await (this as any).$loading('addEvent', eventsModel.addEvent.bind(this), false, '保存中', item)
-      console.log('log =>  ~ file: addEvent.ts ~ line 106 ~ extends ~ onSave ~ id', id)
-
-      uni.$emit('onListUpdate', {
-        type: 'addItem',
-        id: id,
-        data: {
-          ...item,
-          _id: id,
-          iconSrc: [iconSrc],
-          iconColor: [iconColor],
-          signNumber: 0,
-          lastTime: Date.now(),
-        },
-      })
-      await showTip('保存成功', 800)
-      this.$Router.back(1)
+      if (isUpdate) {
+        await (this as any).$loading('updateEvent', eventsModel.updateEvent.bind(this), false, '修改中', eventId, item)
+        uni.$emit('onListUpdate', {
+          type: 'updateItem',
+          id: eventId,
+          data: [
+            {
+              key: 'eventName',
+              value: eventName,
+              updateType: 'replace',
+            },
+            {
+              key: 'iconSrc',
+              value: [iconSrc],
+              updateType: 'replace',
+            },
+            {
+              key: 'iconColor',
+              value: [iconColor],
+              updateType: 'replace',
+            },
+            {
+              key: 'tags',
+              value: getSelectTagsId(tags),
+              updateType: 'replace',
+            },
+            {
+              key: 'openCalc',
+              value: openCalc,
+              updateType: 'replace',
+            },
+          ],
+        })
+        await showTip('修改成功', 800)
+        uni.switchTab({
+          url: '/pages/home/home',
+        })
+      } else {
+        const {
+          result: { id },
+        } = await (this as any).$loading('addEvent', eventsModel.addEvent.bind(this), false, '保存中', item)
+        uni.$emit('onListUpdate', {
+          type: 'addItem',
+          id,
+          data: {
+            ...item,
+            _id: id,
+            iconSrc: [iconSrc],
+            iconColor: [iconColor],
+            signNumber: 0,
+            lastTime: Date.now(),
+          },
+        })
+        await showTip('保存成功', 800)
+        this.$Router.back(1)
+      }
     } else {
       showTip(v.msg)
     }
