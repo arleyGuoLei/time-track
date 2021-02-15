@@ -3,7 +3,7 @@
     <view class="icon-container" :style="{ background: iconColor }">
       <img class="icon-img" :src="iconSrc" />
     </view>
-    <view class="content-container" @tap="onTapDetail(itemId)">
+    <view class="content-container" @tap="onTapDetail(itemId, itemIndex)">
       <p class="text text-black text-cut">{{ eventName }}</p>
       <view class="text-grey text-sm event-time">
         <img class="icon-time mr-16" src="@/static/home-time.png" />
@@ -18,11 +18,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {
   @Prop({ default: '' }) private itemId!: string
+  @Prop({ default: -1 }) private itemIndex!: number
   @Prop({ default: '' }) private iconSrc!: string
   @Prop({ default: '' }) private iconColor!: string
   @Prop({ default: '' }) private eventName!: string
@@ -32,8 +33,9 @@ export default class extends Vue {
     console.log(id)
   }
 
-  onTapDetail(id: string) {
-    console.log(id)
+  @Emit('onShowDetail')
+  onTapDetail(id: string, index: number) {
+    return { id, index }
   }
 }
 </script>

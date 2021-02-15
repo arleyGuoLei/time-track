@@ -3,11 +3,13 @@ import { dotsModel } from '@/models'
 import { Vue, Component } from 'vue-property-decorator'
 import calendarHorizontal from './components/calendar-horizontal.vue'
 import item from './components/item.vue'
+import dotDetail from './components/dot-detail.vue'
 
 @Component({
   components: {
     calendarHorizontal,
     item,
+    dotDetail,
   },
 })
 export default class extends Vue {
@@ -15,6 +17,11 @@ export default class extends Vue {
   private dotList = []
 
   private date = ''
+  private detailInfo = {
+    show: false,
+    id: '',
+    index: -1,
+  }
 
   /* ----分页数据---- */
   private onBottom = false
@@ -34,7 +41,6 @@ export default class extends Vue {
   async onDateChange(date: string, backstage = false) {
     uni.setNavigationBarTitle({ title: date })
 
-    this.date = date
     this.onBottom = false
     this.page = 1
     this.dotTotal = 0
@@ -43,11 +49,14 @@ export default class extends Vue {
     backstage
       ? await this.getList(date, 1)
       : await (this as any).$loading('getList', this.getList.bind(this), true, '加载中', date, 1)
+
+    this.date = date
   }
 
   async getList(date: string, page = 1) {
     this.isLoading = true
     const { data, count, size } = await dotsModel.getDotListByDate(date, page)
+    console.log('getList::', data)
 
     if (page === 1) {
       this.dotList = data
@@ -83,5 +92,25 @@ export default class extends Vue {
       (this.$refs['calendarHorizontal'] as any).initWeekTime(this.date, false, false),
     ])
     uni.stopPullDownRefresh()
+  }
+
+  onShowDetail(data: { id: string; index: number }) {
+    this.detailInfo = {
+      show: true,
+      id: data.id,
+      index: data.index,
+    }
+  }
+
+  onCloseDetail() {
+    this.detailInfo = {
+      show: false,
+      id: '',
+      index: -1,
+    }
+  }
+
+  onHide() {
+    this.onCloseDetail()
   }
 }
