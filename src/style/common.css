@@ -1,4 +1,10 @@
 /* =============================  文字  ============================== */
+.text-cut {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .text-black {
   color: #333333;
 }
@@ -13,6 +19,10 @@
 
 .text-white {
   color: #FFFFFF;
+}
+
+.text-blue {
+  color: #4F9BFA;
 }
 
 .text-xs {
@@ -43,6 +53,10 @@
   font-weight: 500;
 }
 
+.fw-600 {
+  font-weight: 600;
+}
+
 /* =============================  布局  ============================== */
 .flex {
   display: flex;
@@ -69,6 +83,18 @@
   margin-right: 16rpx;
 }
 
+.mr-24 {
+  margin-right: 24rpx;
+}
+
+.mt-16 {
+  margin-top: 16rpx;
+}
+
+.mt-28 {
+  margin-top: 28rpx;
+}
+
 .margin-left {
   margin-left: 32rpx;
 }
@@ -84,6 +110,10 @@
 
 .margin-bottom-sm {
   margin-bottom: 16rpx;
+}
+
+.pb-28 {
+  padding-bottom: 28rpx;
 }
 
 /* =============================  背景  ============================== */

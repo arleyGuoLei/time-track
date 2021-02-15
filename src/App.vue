@@ -68,11 +68,6 @@ export default {
 <style lang="scss">
 @import 'cl-uni/index.scss';
 
-.text-cut {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
 ::-webkit-scrollbar {
   display: none;
   width: 0 !important;
