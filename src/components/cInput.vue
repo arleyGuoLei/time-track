@@ -1,20 +1,25 @@
 <template>
-  <input class="input" @input="onInput" :placeholder="placeholder" :value="_value" :maxlength="maxlength" />
+  <input class="input" @input="onInput" :placeholder="placeholder" :value="inputValue" :maxlength="maxlength" />
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+import { Vue, Component, Prop, Emit, Watch } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {
-  private _value = ''
+  private inputValue = ''
 
   @Prop({ default: '' }) private placeholder!: string
   @Prop({ default: '' }) private value!: string
   @Prop({ default: -1 }) private maxlength!: number
 
   created() {
-    this._value = this.value
+    this.inputValue = this.value
+  }
+
+  @Watch('value')
+  updateValue(value: string) {
+    this.inputValue = value
   }
 
   @Emit('input')

@@ -5,14 +5,14 @@
     <c-header
       showBack
       header-type="backgroundColor"
-      title="新增事件"
+      :title="isUpdate ? '修改事件' : '新增事件'"
       imgSrc="http://img.i7xy.cn/20201220134440.png"
       :scroll-y="scrollTop"
     />
 
     <c-list>
       <view class="list-content">
-        <text class="list-title">新增事件</text>
+        <text class="list-title">{{ isUpdate ? '修改事件' : '新增事件' }}</text>
 
         <c-title title="事件名称" />
         <c-input placeholder="输入 (例如: 看电影)" v-model="eventName" />
@@ -47,7 +47,7 @@
         <c-title title="其他设置" />
         <c-select title="开启量化值 (打点数据求和)" :value="openCalc" @change="onCalcSelectChange" />
 
-        <button class="save" @click="onSave">保 存</button>
+        <button class="save" @click="onSave">{{ isUpdate ? '保存更改' : '保 存' }}</button>
       </view>
     </c-list>
   </view>

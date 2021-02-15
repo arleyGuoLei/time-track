@@ -11,6 +11,7 @@ export default {
     cloud: null,
     db: null,
     $onLaunched: null,
+    recordDate: '',
   },
   methods: {
     async initUI() {

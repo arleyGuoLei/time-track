@@ -7,6 +7,7 @@ import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import { DotItem } from '@/models/dotsModel'
 import { PAGE_SIZE } from '@/utils/constant'
 import { dotsModel, eventsModel } from '@/models'
+import { showTip } from '@/utils/utils'
 
 interface HistoryItem {
   [year: string]: DotItem[]
@@ -26,6 +27,8 @@ export default class extends Mixins(scrollTopMixin) {
   private score = 0
   private openCalc = false // 是否开启量化值
   private tags = []
+  private iconColor = []
+  private iconSrc = []
 
   private dotList = []
   private historyList: HistoryItem = {}
@@ -55,6 +58,8 @@ export default class extends Mixins(scrollTopMixin) {
     this.signNumber = baseData[0].signNumber
     this.openCalc = baseData[0].openCalc
     this.tags = baseData[0].tags
+    this.iconColor = baseData[0].iconColor[0]
+    this.iconSrc = baseData[0].iconSrc[0]
   }
 
   async getHistoryList(eventId: string, page = 1) {
@@ -114,5 +119,67 @@ export default class extends Mixins(scrollTopMixin) {
   onTapHome(tagId: string) {
     uni.$emit('onTagSelect', tagId)
     this.$Router.pushTab({ path: '/pages/home/home' })
+  }
+
+  onSelectAction() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const _this = this
+    const { eventId, eventName, tags, openCalc, iconColor, iconSrc } = _this
+    uni.showActionSheet({
+      itemList: ['编辑', '删除'],
+      success(res) {
+        if (res.tapIndex === 0) {
+          // 编辑事件
+          console.log('编辑')
+          _this.$Router.push({
+            path: '/pages/addEvent/addEvent',
+            query: { type: 'update', eventId, eventName, tags, openCalc, iconColor, iconSrc },
+          })
+        } else if (res.tapIndex === 1) {
+          // 删除事件
+          console.log('删除')
+          uni.showModal({
+            title: '提示',
+            content: '是否确认删除该事件',
+            success: async res => {
+              if (res.confirm) {
+                await (_this as any).$loading(
+                  'deleteEvent',
+                  eventsModel.deleteEvent.bind(this),
+                  false,
+                  '删除中',
+                  eventId,
+                )
+                uni.$emit('onListUpdate', {
+                  type: 'updateItem',
+                  id: eventId,
+                  data: [
+                    {
+                      key: 'status',
+                      value: 0,
+                      updateType: 'replace',
+                    },
+                  ],
+                })
+                showTip('删除成功')
+                _this.$Router.back(1)
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            },
+          })
+        }
+      },
+      fail: function(res) {
+        console.log(res.errMsg)
+      },
+    })
+  }
+
+  goToRecord(date: string) {
+    const app = getApp<App>()
+    app.globalData.recordDate = date
+    uni.$emit('onCalendarShow', date)
+    this.$Router.pushTab({ path: '/pages/record/record' })
   }
 }

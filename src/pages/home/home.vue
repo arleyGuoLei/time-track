@@ -16,28 +16,30 @@
       </view>
 
       <view class="event-container bg-grey">
-        <view class="event-item bg-white flex" v-for="(item, index) in eventList" :key="index">
-          <view class="icon-container" :style="{ background: item.iconColor[0].color }">
-            <img class="icon-img" :src="item.iconSrc[0].src" />
-          </view>
-          <view class="content-container" @tap="onTapDetail(item._id, item.eventName)">
-            <p class="text event-name text-cut">{{ item.eventName }}</p>
-            <view class="text-grey text-sm flex time-container">
-              <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
-              <view class="clock flex" v-if="item.signNumber">
-                <img class="icon-time" src="@/static/home-time.png" />
-                <text class="text-cut">{{ item.lastTime | timeago }}</text>
+        <block v-for="(item, index) in eventList" :key="index">
+          <view class="event-item bg-white flex" v-if="item.status !== 0">
+            <view class="icon-container" :style="{ background: item.iconColor[0].color }">
+              <img class="icon-img" :src="item.iconSrc[0].src" />
+            </view>
+            <view class="content-container" @tap="onTapDetail(item._id, item.eventName)">
+              <p class="text event-name text-cut">{{ item.eventName }}</p>
+              <view class="text-grey text-sm flex time-container">
+                <text class="times">打点{{ item.signNumber ? item.signNumber : 0 }}次</text>
+                <view class="clock flex" v-if="item.signNumber">
+                  <img class="icon-time" src="@/static/home-time.png" />
+                  <text class="text-cut">{{ item.lastTime | timeago }}</text>
+                </view>
               </view>
             </view>
+            <view
+              class="finger-container"
+              @longpress="onLongPressSign(item._id)"
+              @tap="onTapSign(item._id, item.eventName)"
+            >
+              <img class="finger-img" src="@/static/home-finger.png" />
+            </view>
           </view>
-          <view
-            class="finger-container"
-            @longpress="onLongPressSign(item._id)"
-            @tap="onTapSign(item._id, item.eventName)"
-          >
-            <img class="finger-img" src="@/static/home-finger.png" />
-          </view>
-        </view>
+        </block>
       </view>
     </c-list>
 
