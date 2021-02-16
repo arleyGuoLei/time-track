@@ -31,9 +31,9 @@
       <input class="line-text" placeholder="输入量化值 (可用于事件自动求和)" type="text" v-model="score" />
     </view>
 
-    <button class="save" @click="onSave">打 点</button>
+    <button class="save" @click="onSave">{{ pageType === 'add' ? '打 点' : '更 新' }}</button>
 
-    <text class="text-grey text-sm">提示: “首页”长按打卡可快速打点</text>
+    <text class="text-grey text-sm margin-bottom">提示: “首页”长按打卡可快速打点</text>
   </view>
 </template>
 

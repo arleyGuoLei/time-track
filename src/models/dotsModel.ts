@@ -6,7 +6,8 @@ import minMax from 'dayjs/plugin/minMax'
 dayjs.extend(minMax)
 
 export interface DotItem {
-  event_id: string
+  _id?: string
+  event_id?: string
   describe?: string
   imageList?: string[]
   date: string
@@ -86,6 +87,26 @@ export default {
   },
 
   /**
+   * 根据id更新打点数据
+   * @param item 待更新的数据
+   * @param dotId dotId
+   */
+  async updateDot(item: Partiall<DotItem>, dotId: string) {
+    try {
+      const db = getApp<App>().globalData.db
+      console.log('updateDot::', item)
+      return await db
+        .action('update-dot') // TODO: 增加update action
+        .collection('dots')
+        .where(`user_id==$env.uid && _id=="${dotId}"`)
+        .update(item)
+    } catch (error) {
+      report(error)
+      throw report
+    }
+  },
+
+  /**
    * 根据日期查询打点数据
    * @param date 日期
    * @param page 页码
@@ -102,7 +123,7 @@ export default {
         .where(`status==1 && user_id==$env.uid && date == "${date}"`)
         // 主表：_id,time 事件表：event_id{eventName,iconSrc{src},iconColor{color}}
         .field(
-          '_id,time,describe,imageList,score,dotTimestamp,position,event_id,event_id{eventName,iconSrc{src},iconColor{color}}',
+          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id,event_id{eventName,iconSrc{src},iconColor{color}}',
         )
         .orderBy('dotTimestamp')
         .skip(size * (page - 1))
