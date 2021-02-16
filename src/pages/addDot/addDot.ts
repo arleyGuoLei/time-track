@@ -17,7 +17,7 @@ function validateForm(item: DotItem) {
   if (isNaN(item.score as number)) {
     return fail('量化值应为数字')
   }
-  if (item.event_id.length === 0) {
+  if (item.event_id!.length === 0) {
     return fail('事件获取失败，请重新进入打点页面')
   }
   return {
@@ -33,11 +33,15 @@ function validateForm(item: DotItem) {
 })
 export default class extends Vue {
   private event_id = ''
+  private dotId = '' // 更新的打点id
   private describe = ''
   private date = ''
   private time = ''
   private endDate = ''
   private score = ''
+  // TODO: UPDATE区分来源 根据来源处理不同的回调
+  // 更新或新增 add, update
+  private pageType: 'add' | 'update' = 'add'
   private position = {
     point: {
       longitude: 0,
@@ -59,12 +63,35 @@ export default class extends Vue {
     this.event_id = this.$Route.query.eventId
   }
 
+  initUpdateData() {
+    const { dotData } = this.$Route.query
+    uni.setNavigationBarTitle({
+      title: dotData.eventName,
+    })
+    this.pageType = 'update'
+    this.event_id = dotData.eventId
+    this.describe = dotData.describe
+    this.date = dotData.date
+    this.time = dotData.time
+    this.score = dotData.score
+    this.imageList = dotData.imageList || []
+    this.dotId = dotData.id
+    this.position = {
+      point: {
+        longitude: dotData.position?.point.coordinates[0] || 0,
+        latitude: dotData.position?.point.coordinates[1] || 0,
+      },
+      address: dotData.position?.address || '',
+      name: dotData.position?.name || '选择位置',
+    }
+  }
+
   onLoad() {
     console.log('onLoad')
 
     this.endDate = dateFormat('YYYY-MM-DD', new Date())
     if (this.$Route.query.type === 'update') {
-      // TODO: 更新打点事件数据初始化 数据库查询
+      this.initUpdateData()
     } else {
       this.initAddData()
     }
@@ -84,28 +111,35 @@ export default class extends Vue {
     position.name !== '选择位置' && (item.position = position)
     const v = validateForm(item)
     if (v.status) {
-      const {
-        result: { id },
-      } = await (this as any).$loading('addEvent', dotsModel.addDot.bind(this), false, '打点中', item)
-      uni.$emit('onListUpdate', {
-        type: 'updateItem',
-        id: event_id,
-        data: [
-          {
-            key: 'lastTime',
-            value: dotTimestamp,
-            updateType: 'replace',
-          },
-          {
-            key: 'signNumber',
-            value: 1,
-            updateType: 'inc',
-          },
-        ],
-      })
-      await showTip('打点成功', 800)
-      this.$Router.back(1)
-      console.log('打点的dotId:', id)
+      if (this.pageType === 'add') {
+        const {
+          result: { id },
+        } = await (this as any).$loading('addEvent', dotsModel.addDot.bind(this), false, '打点中', item)
+        // 首页列表
+        uni.$emit('onListUpdate', {
+          type: 'updateItem',
+          id: event_id,
+          data: [
+            {
+              key: 'lastTime',
+              value: dotTimestamp,
+              updateType: 'replace',
+            },
+            {
+              key: 'signNumber',
+              value: 1,
+              updateType: 'inc',
+            },
+          ],
+        })
+        await showTip('打点成功', 800)
+        this.$Router.back(1)
+        console.log('打点的dotId:', id)
+      } else {
+        delete item.event_id
+        await (this as any).$loading('addEvent', dotsModel.updateDot.bind(this), false, '更新中', item, this.dotId)
+        // TODO: 处理回调
+      }
     } else {
       showTip(v.msg)
     }
