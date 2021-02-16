@@ -7,11 +7,14 @@
         :style="{ maxHeight: listHeight + 'px' }"
         scroll-into-view="current"
       >
-        <block v-for="(item, index) in list" :key="item._id">
+        <block v-for="(item, index) in list" :key="index">
           <view class="previous flex-column" v-if="index !== list.length - 1">
             <view class="previous-title flex">
               <view class="previous-line mr-24"></view>
-              <text class="previous-title__text fw-500 text text-black text-cut">
+              <text
+                class="previous-title__text fw-500 text text-black text-cut"
+                @click="onTapDetail(item.eventId, item.eventName)"
+              >
                 {{ item.eventName }}
               </text>
             </view>
@@ -23,8 +26,11 @@
           <view id="current" class="current flex-column pb-28" v-else>
             <view class="current-title flex">
               <view class="current-line mr-24"></view>
-              <text class="current-title__text fw-500 text text-blue text-cut">
-                {{ item.eventName }}
+              <text
+                class="current-title__text fw-500 text text-blue text-cut"
+                @click="onTapDetail(item.eventId, item.eventName)"
+              >
+                {{ item.eventName + (item.score ? `  (+${item.score})` : '') }}
               </text>
               <text class="current-title__time text-sm text-blue">{{ item.time }}</text>
             </view>
@@ -58,7 +64,7 @@
       </scroll-view>
       <view class="footer flex">
         <view class="line"></view>
-        <text class="footer-edit text-sm text-blue">编辑</text>
+        <text class="footer-edit text-sm text-blue" @click="onEdit">编辑</text>
         <text class="footer-close text-sm text-grey" @click="onClose">关闭</text>
       </view>
     </view>
@@ -70,6 +76,7 @@ import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 import dayjs from 'dayjs'
 import toObject from 'dayjs/plugin/toObject'
 import Duration from 'dayjs/plugin/duration'
+import { showTip } from '@/utils/utils'
 dayjs.extend(toObject)
 dayjs.extend(Duration)
 
@@ -104,16 +111,21 @@ interface DotItem {
   score?: number
   imageList?: string[]
   position?: Position
+  date: string
 }
 
 interface Item {
+  id?: string
   eventName: string
+  eventId: string
+  date?: string
   time: string
   dotTimestamp: number
-  timeDuration: string
+  timeDuration?: string
   describe?: string
   imageList?: string[]
   position?: Position
+  score?: number
 }
 
 @Component
@@ -142,6 +154,14 @@ export default class extends Vue {
     this.listHeight = listHeight
   }
 
+  onEdit() {
+    const { list } = this
+    this.$Router.push({
+      path: '/pages/addDot/addDot',
+      query: { type: 'update', dotData: list[list.length - 1] },
+    })
+  }
+
   @Emit('onClose')
   onClose() {
     console.log('close')
@@ -154,9 +174,12 @@ export default class extends Vue {
     const list = []
     // 当前点击的项
     const lastItem: Item = {
-      eventName: dotList[index].event_id[0].eventName + (dotList[index].score ? ` (+${dotList[index].score})` : ''),
+      id: dotList[index]._id,
+      score: dotList[index].score,
+      date: dotList[index].date,
+      eventName: dotList[index].event_id[0].eventName,
+      eventId: dotList[index].event_id[0]._id,
       time: dotList[index].time,
-      timeDuration: '',
       dotTimestamp: dotList[index].dotTimestamp,
       describe: dotList[index].describe,
       imageList: dotList[index].imageList,
@@ -170,6 +193,7 @@ export default class extends Vue {
       const duration = dayjs.duration(endTime.diff(startTime)).format('距离HH小时mm分')
       list.push({
         eventName: dotList[i].event_id[0].eventName,
+        eventId: dotList[i].event_id[0]._id,
         time: dotList[i].time,
         timeDuration: duration,
         dotTimestamp: dotList[i].dotTimestamp,
@@ -198,6 +222,13 @@ export default class extends Vue {
       latitude: coordinates[1],
       name: name,
     })
+  }
+
+  onTapDetail(eventId: string, eventName: string) {
+    if (!(eventId && eventName)) {
+      return showTip('获取事件ID和事件名称失败')
+    }
+    this.$Router.push({ path: '/pages/eventDetail/eventDetail', query: { eventId, eventName } })
   }
 
   onMoveHandle() {
