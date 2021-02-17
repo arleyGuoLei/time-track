@@ -5,6 +5,54 @@ import calendarHorizontal from './components/calendar-horizontal.vue'
 import item from './components/item.vue'
 import dotDetail from './components/dot-detail.vue'
 
+export interface Position {
+  point: {
+    type: string
+    coordinates: number[]
+  }
+  address: string
+  name: string
+}
+
+interface EventItem {
+  _id: string
+  eventName: string
+  iconSrc: {
+    _id: string
+    src: string
+  }[]
+  iconColor: {
+    _id: string
+    color: string
+  }
+}
+
+export interface DotItem {
+  _id: string
+  describe: string
+  dotTimestamp: number
+  time: string
+  event_id: EventItem[]
+  score?: number
+  imageList?: string[]
+  position?: Position
+  date: string
+}
+
+interface UpdateDotItem {
+  id?: string
+  eventName: string
+  eventId: string
+  date?: string
+  time: string
+  dotTimestamp: number
+  timeDuration?: string
+  describe?: string
+  imageList?: string[]
+  position?: Position
+  score?: number
+}
+
 @Component({
   components: {
     calendarHorizontal,
@@ -14,7 +62,7 @@ import dotDetail from './components/dot-detail.vue'
 })
 export default class extends Vue {
   private isLoading = false
-  private dotList = []
+  private dotList: DotItem[] = []
 
   private date = ''
   private detailInfo = {
@@ -108,5 +156,30 @@ export default class extends Vue {
       id: '',
       index: -1,
     }
+  }
+
+  /**
+   * 更新打点信息
+   */
+  onUpdateDot(data: UpdateDotItem) {
+    console.log('详情卡片编辑，addDot更新打点数据, onUpdateDot::', data)
+    this.dotList = this.dotList.map(item => {
+      if (item._id !== data.id) {
+        return item
+      } else {
+        const { id, describe = '', dotTimestamp, time, score, imageList, date = this.date, position } = data
+        return {
+          _id: id,
+          describe,
+          dotTimestamp,
+          time,
+          event_id: item.event_id,
+          score,
+          imageList,
+          date,
+          position,
+        }
+      }
+    })
   }
 }

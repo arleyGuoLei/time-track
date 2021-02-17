@@ -57,7 +57,9 @@
               @click="onOpenMap"
             >
               <img class="local-icon" src="@/static/event-detail-local.png" />
-              <text class="local-name text-xs text-grey text-cut">{{ item.position.name }}</text>
+              <text class="local-name text-xs text-grey text-cut">{{
+                item.position.name + ' ' + item.position.address
+              }}</text>
             </view>
           </view>
         </block>
@@ -77,42 +79,11 @@ import dayjs from 'dayjs'
 import toObject from 'dayjs/plugin/toObject'
 import Duration from 'dayjs/plugin/duration'
 import { showTip } from '@/utils/utils'
+import { DotItem as DotModelItem } from '@/models/dotsModel'
+import { DotItem, Position } from '@/pages/record/record'
+
 dayjs.extend(toObject)
 dayjs.extend(Duration)
-
-interface EventItem {
-  _id: string
-  eventName: string
-  iconSrc: {
-    _id: string
-    src: string
-  }[]
-  iconColor: {
-    _id: string
-    color: string
-  }
-}
-
-interface Position {
-  point: {
-    type: string
-    coordinates: number[]
-  }
-  address: string
-  name: string
-}
-
-interface DotItem {
-  _id: string
-  describe: string
-  dotTimestamp: number
-  time: string
-  event_id: EventItem[]
-  score?: number
-  imageList?: string[]
-  position?: Position
-  date: string
-}
 
 interface Item {
   id?: string
@@ -126,6 +97,11 @@ interface Item {
   imageList?: string[]
   position?: Position
   score?: number
+}
+
+interface UpdateItem extends DotModelItem {
+  from: string
+  id: string
 }
 
 @Component
@@ -155,10 +131,42 @@ export default class extends Vue {
   }
 
   onEdit() {
+    const from = 'record'
+    uni.$once('onDotDataUpdate', (data: UpdateItem) => {
+      console.log('onDotDataUpdate::', data)
+      if (
+        data.from === from &&
+        this.list[this.list.length - 1].id === data.id &&
+        this.list[this.list.length - 1].date === data.date
+      ) {
+        const newItem: Item = {
+          ...this.list[this.list.length - 1],
+          ...data,
+          eventId: data.event_id!,
+          position: data.position && {
+            name: data.position.name,
+            address: data.position.address,
+            point: {
+              type: 'Point',
+              coordinates: [data.position.point.longitude, data.position.point.latitude],
+            },
+          },
+        }
+        this.$set(this.list, this.list.length - 1, newItem)
+        this.$emit('onUpdate', newItem)
+      } else {
+        if (data.from === from) {
+          // 日期变化、id对应不上则关闭弹窗
+          this.$emit('onClose')
+          uni.$emit('dot', { date: data.date, backstage: true })
+        }
+      }
+    })
     const { list } = this
     this.$Router.push({
       path: '/pages/addDot/addDot',
-      query: { type: 'update', dotData: list[list.length - 1] },
+      // from区分来源，record为日志页
+      query: { type: 'update', dotData: list[list.length - 1], from },
     })
   }
 
@@ -215,12 +223,14 @@ export default class extends Vue {
       positionInfo: {
         point: { coordinates },
         name,
+        address,
       },
     } = event.currentTarget.dataset
     uni.openLocation({
       longitude: coordinates[0],
       latitude: coordinates[1],
-      name: name,
+      name,
+      address,
     })
   }
 

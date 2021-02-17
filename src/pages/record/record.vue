@@ -4,7 +4,13 @@
 
     <calendar-horizontal @date-change="onDateChange" ref="calendarHorizontal" />
 
-    <dot-detail v-if="detailInfo.show" :detail-info="detailInfo" :dot-list="dotList" @onClose="onCloseDetail" />
+    <dot-detail
+      v-if="detailInfo.show"
+      :detail-info="detailInfo"
+      :dot-list="dotList"
+      @onClose="onCloseDetail"
+      @onUpdate="onUpdateDot"
+    />
 
     <block v-for="(item, index) in dotList" :key="index">
       <item
