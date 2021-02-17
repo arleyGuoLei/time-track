@@ -151,7 +151,7 @@ export default class extends Mixins(scrollTopMixin) {
     if (!(eventId && eventName)) {
       return showTip('获取事件ID和事件名称失败')
     }
-    this.$Router.push({ path: '/pages/addDot/addDot', query: { type: 'add', eventId, eventName } })
+    this.$Router.push({ path: '/pages/addDot/addDot', query: { type: 'add', eventId, eventName, from: 'home' } })
   }
 
   onTapDetail(eventId: string, eventName: string) {
