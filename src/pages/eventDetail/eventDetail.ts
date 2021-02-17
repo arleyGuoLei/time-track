@@ -1,17 +1,37 @@
-import { Component, Mixins } from 'vue-property-decorator'
+import { Component, Mixins, Watch } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cTitle from '@/components/cTitle.vue'
 import cInput from '@/components/cInput.vue'
 import cList from '@/components/cList.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
-import { DotItem } from '@/models/dotsModel'
 import { PAGE_SIZE } from '@/utils/constant'
 import { dotsModel, eventsModel } from '@/models'
 import { showTip } from '@/utils/utils'
+import { DotItem as DotModelItem } from '@/models/dotsModel'
+import { Position } from '@/pages/record/record'
 
 interface HistoryItem {
   [year: string]: DotItem[]
 }
+
+interface UpdateItem extends DotModelItem {
+  from: string
+  id: string
+}
+
+interface DotItem {
+  _id?: string
+  event_id?: string
+  describe?: string
+  imageList?: string[]
+  date: string
+  time: string
+  score?: number
+  status?: 1 | 0
+  dotTimestamp: number
+  position?: Position
+}
+
 @Component({
   components: {
     cHeader,
@@ -30,7 +50,7 @@ export default class extends Mixins(scrollTopMixin) {
   private iconColor = []
   private iconSrc = []
 
-  private dotList = []
+  private dotList: DotItem[] = []
   private historyList: HistoryItem = {}
 
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
@@ -74,12 +94,12 @@ export default class extends Mixins(scrollTopMixin) {
     this.pageSize = size
     this.page = page + 1
     this.isLoading = false
-
-    this.historyListFormat(data)
   }
 
+  @Watch('dotList')
   historyListFormat(list: DotItem[]) {
-    const { historyList } = this
+    console.log('dotList watch::', list)
+    const historyList: HistoryItem = {}
     list.forEach((item: DotItem) => {
       const [year] = item.date.split('-')
       if (`_${year}` in historyList) {
@@ -98,11 +118,12 @@ export default class extends Mixins(scrollTopMixin) {
     })
   }
 
-  openMap(coordinates: number[], name: string) {
+  openMap(coordinates: number[], name: string, address: string) {
     uni.openLocation({
       longitude: coordinates[0],
       latitude: coordinates[1],
-      name: name,
+      name,
+      address,
     })
   }
 
@@ -122,16 +143,14 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   onSelectAction() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const _this = this
-    const { eventId, eventName, tags, openCalc, iconColor, iconSrc } = _this
+    const { eventId, eventName, tags, openCalc, iconColor, iconSrc } = this
     uni.showActionSheet({
       itemList: ['编辑', '删除'],
-      success(res) {
+      success: res => {
         if (res.tapIndex === 0) {
           // 编辑事件
           console.log('编辑')
-          _this.$Router.push({
+          this.$Router.push({
             path: '/pages/addEvent/addEvent',
             query: { type: 'update', eventId, eventName, tags, openCalc, iconColor, iconSrc },
           })
@@ -143,7 +162,7 @@ export default class extends Mixins(scrollTopMixin) {
             content: '是否确认删除该事件',
             success: async res => {
               if (res.confirm) {
-                await (_this as any).$loading(
+                await (this as any).$loading(
                   'deleteEvent',
                   eventsModel.deleteEvent.bind(this),
                   false,
@@ -162,7 +181,7 @@ export default class extends Mixins(scrollTopMixin) {
                   ],
                 })
                 showTip('删除成功')
-                _this.$Router.back(1)
+                this.$Router.back(1)
               } else if (res.cancel) {
                 console.log('用户点击取消')
               }
@@ -170,7 +189,7 @@ export default class extends Mixins(scrollTopMixin) {
           })
         }
       },
-      fail: function(res) {
+      fail: res => {
         console.log(res.errMsg)
       },
     })
@@ -181,5 +200,72 @@ export default class extends Mixins(scrollTopMixin) {
     app.globalData.recordDate = date
     uni.$emit('onCalendarShow', date)
     this.$Router.pushTab({ path: '/pages/record/record' })
+  }
+
+  onTapDotDescribe(item: DotItem) {
+    console.log('onTapDotDescribe::', item)
+    uni.showActionSheet({
+      itemList: ['编辑', '删除'],
+      success: res => {
+        if (res.tapIndex === 0) {
+          // 编辑事件
+          const dotData = {
+            id: item._id,
+            score: item.score,
+            date: item.date,
+            eventName: this.eventName,
+            eventId: item.event_id,
+            time: item.time,
+            dotTimestamp: item.dotTimestamp,
+            describe: item.describe,
+            imageList: item.imageList,
+            position: item.position,
+          }
+
+          const from = 'eventDetail'
+
+          uni.$once('onDotDataUpdate', (data: UpdateItem) => {
+            console.log('onDotDataUpdate::', data)
+            if (data.from === from && this.eventId === data.event_id) {
+              this.dotList = this.dotList.map(dot => {
+                if (dot._id !== data.id) {
+                  return dot
+                } else {
+                  return {
+                    ...data,
+                    _id: data.id,
+                    position: data.position && {
+                      name: data.position.name,
+                      address: data.position.address,
+                      point: {
+                        type: 'Point',
+                        coordinates: [data.position.point.longitude, data.position.point.latitude],
+                      },
+                    },
+                  }
+                }
+              })
+            } else {
+              if (data.from === from) {
+                // 事件id变化
+                showTip('更新异常')
+              }
+            }
+          })
+
+          this.$Router.push({
+            path: '/pages/addDot/addDot',
+            // from区分来源
+            query: { type: 'update', dotData, from },
+          })
+        } else if (res.tapIndex === 1) {
+          // 删除事件
+          console.log('删除')
+        }
+      },
+      fail: function(res) {
+        console.log(res.errMsg)
+      },
+    })
   }
 }

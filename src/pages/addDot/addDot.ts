@@ -82,7 +82,7 @@ export default class extends Vue {
         latitude: dotData.position?.point.coordinates[1] || 0,
       },
       address: dotData.position?.address || '',
-      name: dotData.position?.name || '选择位置',
+      name: dotData.position?.name || (dotData.position?.address ? '' : '选择位置'),
     }
   }
 
@@ -136,9 +136,17 @@ export default class extends Vue {
         this.$Router.back(1)
         console.log('打点的dotId:', id)
       } else {
+        const event_id = item.event_id
         delete item.event_id
         await (this as any).$loading('addEvent', dotsModel.updateDot.bind(this), false, '更新中', item, this.dotId)
-        // TODO: 处理回调
+        uni.$emit('onDotDataUpdate', {
+          ...item,
+          id: this.dotId,
+          from: this.$Route.query.from,
+          event_id,
+        })
+        await showTip('更新成功', 800)
+        this.$Router.back(1)
       }
     } else {
       showTip(v.msg)

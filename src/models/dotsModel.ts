@@ -86,6 +86,20 @@ export default {
     }
   },
 
+  deleteDot(dotId: string) {
+    uni.showModal({
+      title: '提示',
+      content: '是否确认删除该打点',
+      success: async res => {
+        if (res.confirm) {
+          // 删除
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      },
+    })
+  },
+
   /**
    * 根据id更新打点数据
    * @param item 待更新的数据
@@ -243,8 +257,11 @@ export default {
         result: { data = [], count },
       } = await db
         .collection('dots')
-        .where(`event_id=='${eventId}'`)
+        .where(`status==1 && user_id==$env.uid && event_id=='${eventId}'`)
         .orderBy('dotTimestamp desc')
+        .field({
+          user_id: false,
+        })
         .skip(size * (page - 1))
         .limit(size)
         .get({
