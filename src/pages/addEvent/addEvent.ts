@@ -200,6 +200,9 @@ export default class extends Mixins(scrollTopMixin) {
             },
           ],
         })
+
+        // 更新日志页数据
+        uni.$emit('dot', { date: new Date(), backstage: true })
         await showTip('修改成功', 800)
         uni.switchTab({
           url: '/pages/home/home',

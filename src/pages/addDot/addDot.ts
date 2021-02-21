@@ -145,6 +145,10 @@ export default class extends Vue {
           from: this.$Route.query.from,
           event_id,
         })
+
+        // 更新日志页打点详情
+        uni.$emit('dot', { date: this.date, backstage: true })
+
         await showTip('更新成功', 800)
         this.$Router.back(1)
       }

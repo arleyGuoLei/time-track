@@ -52,7 +52,7 @@
 
         <c-title title="时间动态" paddingLR="32" />
 
-        <view class="history-container bg-white">
+        <view v-if="Object.keys(historyList).length !== 0" class="history-container bg-white">
           <view class="history-item" v-for="(list, year) in historyList" :key="year">
             <view class="year margin-bottom">
               <text class="text-large text-bold margin-right-sm">{{ year.slice(1) }}</text>
@@ -94,6 +94,10 @@
               </view>
             </view>
           </view>
+        </view>
+        <view v-else class="tag-blank margin-top">
+          <img class="blank-img__dot margin-bottom-sm" src="@/static/blank.png" />
+          <text class="text-sm text-grey margin-top">无打点动态</text>
         </view>
       </view>
     </c-list>

@@ -19,8 +19,11 @@
         :iconSrc="item.event_id[0].iconSrc[0].src"
         :iconColor="item.event_id[0].iconColor[0].color"
         :eventName="item.event_id[0].eventName"
+        :eventId="item.event_id[0]._id"
         :signTime="item.time"
+        :date="item.date"
         @onShowDetail="onShowDetail"
+        @onDelete="onDelete"
       ></item>
     </block>
 

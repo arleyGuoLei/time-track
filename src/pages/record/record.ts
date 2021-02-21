@@ -80,6 +80,12 @@ export default class extends Vue {
 
   onLoad() {
     console.log('record')
+    /**监听list数据被其他页面修改，比如打点、新增事件等 */
+    uni.$on('onDeleteDot', this.onDelete)
+  }
+
+  onUnload() {
+    uni.$off('onDeleteDot', this.onDelete)
   }
 
   /**
@@ -181,5 +187,10 @@ export default class extends Vue {
         }
       }
     })
+  }
+
+  onDelete({ id, date }: { id: string; date: string }): void {
+    this.dotList = this.dotList.filter(item => id !== item._id)
+    ;(this.$refs['calendarHorizontal'] as any).deleteDot(date)
   }
 }
