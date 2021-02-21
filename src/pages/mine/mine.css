@@ -1,0 +1,53 @@
+.user-container {
+  width: 750rpx;
+  height: 430rpx;
+  background: linear-gradient(180deg, #93C0F2 0%, rgba(137, 143, 215, 0.76) 100%, #C5E1FA 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20rpx;
+}
+.avator {
+  width: 140rpx;
+  height: 140rpx;
+  border: 2rpx solid #FFFFFF;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.info-container {
+  width: 55%;
+  margin: 28rpx auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.line {
+  width: 1px;
+  height: 60%;
+}
+.dot-num, .day-num {
+  text-align: center;
+}
+.list-container {
+  width: 750rpx;
+  height: calc(100vh - 430rpx + 50rpx);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-radius: 32rpx 32rpx 0 0;
+  padding: 48rpx;
+  box-sizing: border-box;
+}
+.list {
+  border-bottom: 1px dotted #EFEFEF;
+}
+.list-icon {
+  width: 48rpx;
+  height: 48rpx;
+}
+button{
+  background: none;
+  padding: 10rpx 0 !important;
+  font-size: 16px;
+  font-weight: normal;
+}
