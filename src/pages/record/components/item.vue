@@ -10,7 +10,7 @@
         <text class="text-cut">打点时间 {{ signTime }}</text>
       </view>
     </view>
-    <view class="delete-container flex-column justify-content__center" @tap="onTapDelete(itemId)">
+    <view class="delete-container flex-column justify-content__center" @tap="onTapDelete(itemId, date)">
       <img class="delete-icon" src="@/static/delete2.png" />
       <text class="text-red text-xs">删除</text>
     </view>
@@ -18,19 +18,52 @@
 </template>
 
 <script lang="ts">
+import { dotsModel } from '@/models'
+import { showTip } from '@/utils/utils'
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
 
 @Component
 export default class extends Vue {
   @Prop({ default: '' }) private itemId!: string
+  @Prop({ default: '' }) private date!: string
   @Prop({ default: -1 }) private itemIndex!: number
   @Prop({ default: '' }) private iconSrc!: string
   @Prop({ default: '' }) private iconColor!: string
   @Prop({ default: '' }) private eventName!: string
+  @Prop({ default: '' }) private eventId!: string
   @Prop({ default: '' }) private signTime!: string
 
-  onTapDelete(id: string) {
-    console.log(id)
+  async onTapDelete(id: string, date: string) {
+    uni.showModal({
+      title: '提示',
+      content: `是否确认删除「${this.eventName}」打点`,
+      success: async res => {
+        if (res.confirm) {
+          try {
+            const {
+              result: { updated = 0 },
+            } = await (this as any).$loading('deleteDot', dotsModel.deleteDot, false, '删除中', id)
+            if (updated === 0) {
+              throw new Error('no updated')
+            }
+            this.$emit('onDelete', { id, date })
+            uni.$emit('onListUpdate', {
+              type: 'updateItem',
+              id: this.eventId,
+              data: [
+                {
+                  key: 'signNumber',
+                  value: -1,
+                  updateType: 'inc',
+                },
+              ],
+            })
+          } catch (error) {
+            showTip('删除失败，请重试 ~')
+          }
+        }
+      },
+    })
   }
 
   @Emit('onShowDetail')

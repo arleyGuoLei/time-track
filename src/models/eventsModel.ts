@@ -38,7 +38,7 @@ export default {
     try {
       return await db
         .collection('events')
-        .doc(id)
+        .where(`status == 1 && user_id==$env.uid && _id=="${id}"`)
         .update({
           status: 0,
         })

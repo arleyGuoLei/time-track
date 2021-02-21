@@ -43,7 +43,7 @@ interface DotItem {
 export default class extends Mixins(scrollTopMixin) {
   private eventId = ''
   private eventName = ''
-  private signNumber = ''
+  private signNumber = 0
   private score = 0
   private openCalc = false // 是否开启量化值
   private tags = []
@@ -52,10 +52,6 @@ export default class extends Mixins(scrollTopMixin) {
 
   private dotList: DotItem[] = []
   private historyList: HistoryItem = {}
-
-  // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
-  private load = false
-  private isLoading = false
 
   /* ----分页数据---- */
   private onBottom = false
@@ -93,7 +89,6 @@ export default class extends Mixins(scrollTopMixin) {
     this.eventTotal = count
     this.pageSize = size
     this.page = page + 1
-    this.isLoading = false
   }
 
   @Watch('dotList')
@@ -202,6 +197,42 @@ export default class extends Mixins(scrollTopMixin) {
     this.$Router.pushTab({ path: '/pages/record/record' })
   }
 
+  async onTapDelete(id: string, date: string) {
+    uni.showModal({
+      title: '提示',
+      content: '是否确认删除该打点',
+      success: async res => {
+        if (res.confirm) {
+          try {
+            const {
+              result: { updated = 0 },
+            } = await (this as any).$loading('deleteDot', dotsModel.deleteDot, false, '删除中', id)
+            if (updated === 0) {
+              throw new Error('no updated')
+            }
+            this.dotList = this.dotList.filter(dot => dot._id !== id)
+            this.signNumber = this.signNumber > 0 ? this.signNumber - 1 : 0
+
+            uni.$emit('onDeleteDot', { id, date })
+            uni.$emit('onListUpdate', {
+              type: 'updateItem',
+              id: this.eventId,
+              data: [
+                {
+                  key: 'signNumber',
+                  value: -1,
+                  updateType: 'inc',
+                },
+              ],
+            })
+          } catch (error) {
+            showTip('删除失败，请重试 ~')
+          }
+        }
+      },
+    })
+  }
+
   onTapDotDescribe(item: DotItem) {
     console.log('onTapDotDescribe::', item)
     uni.showActionSheet({
@@ -259,8 +290,7 @@ export default class extends Mixins(scrollTopMixin) {
             query: { type: 'update', dotData, from },
           })
         } else if (res.tapIndex === 1) {
-          // 删除事件
-          console.log('删除')
+          this.onTapDelete(item._id!, item.date)
         }
       },
       fail: function(res) {

@@ -50,8 +50,8 @@ export default class extends Vue {
   /** 周数据 */
   private week: DayObject[] = []
   private selectDate = ''
-  private weekDots = {}
-  private timesList: { date: string; remark: number }[] = []
+  private weekDots: { [index: string]: number } = {}
+  private timesList: { date: string; remark: number | string; color?: string }[] = []
 
   async initWeekTime(date = Date(), backstage = false, updateList = true) {
     const now = dayjs(date)
@@ -157,7 +157,7 @@ export default class extends Vue {
    * 日历组件自定义列表
    * https://docs.cool-js.com/uni/components/advanced/calendar.html
    */
-  async getCalendarTimesList(date = '2021-02-13') {
+  async getCalendarTimesList(date: string) {
     const monthStartDay = dayjs(date)
       .set('date', 1)
       .format('YYYY-MM-DD')
@@ -181,6 +181,22 @@ export default class extends Vue {
     })
 
     console.log('更新日历打点次数::', dotList)
+  }
+
+  deleteDot(date: string) {
+    this.$set(this.weekDots, date, this.weekDots[date] ? this.weekDots[date] - 1 : 0)
+
+    this.timesList = this.timesList.map(item => {
+      if (item.date !== date) {
+        return item
+      }
+      const remark = +item.remark - 1
+      return {
+        date,
+        remark: remark > 0 ? remark : '0',
+        color: remark > 0 ? item.color : '',
+      }
+    })
   }
 }
 </script>
