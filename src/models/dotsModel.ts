@@ -68,17 +68,14 @@ export default {
       dotTimestamp: time2Timestamp(date, time),
     })
   },
-  addDot(item: DotItem) {
+  async addDot(item: DotItem) {
     try {
       const db = getApp<App>().globalData.db
-      const dotRes = db
+      const dotRes = await db
         .action('update-dot')
         .collection('dots')
         .add(item)
-      // 打点数据写入数据库后 再进行查询最新数据的操作
-      setTimeout(() => {
-        uni.$emit('dot', { date: item.date, backstage: true })
-      }, 200)
+      uni.$emit('dot', { date: item.date, backstage: true })
       return dotRes
     } catch (error) {
       report(error)
@@ -86,18 +83,20 @@ export default {
     }
   },
 
-  deleteDot(dotId: string) {
-    uni.showModal({
-      title: '提示',
-      content: '是否确认删除该打点',
-      success: async res => {
-        if (res.confirm) {
-          // 删除
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      },
-    })
+  async deleteDot(dotId: string): Promise<{ result: { updated: number } }> {
+    const db = getApp<App>().globalData.db
+    try {
+      return await db
+        .action('update-dot')
+        .collection('dots')
+        .where(`status == 1 && user_id==$env.uid && _id=="${dotId}"`)
+        .update({
+          status: 0,
+        })
+    } catch (error) {
+      report(error, 'error')
+      throw error
+    }
   },
 
   /**
@@ -110,7 +109,7 @@ export default {
       const db = getApp<App>().globalData.db
       console.log('updateDot::', item)
       return await db
-        .action('update-dot') // TODO: 增加update action
+        .action('update-dot')
         .collection('dots')
         .where(`user_id==$env.uid && _id=="${dotId}"`)
         .update(item)

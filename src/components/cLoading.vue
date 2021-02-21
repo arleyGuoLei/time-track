@@ -43,9 +43,10 @@ export default class extends Vue {
       const has = stash.some(item => item.status === s)
       if (has) {
         this.status = s as STATUS
-        break
+        return
       }
     }
+    this.status = 'none'
   }
 
   public add(key: string, fn: any, openReload = true, loadingText?: string) {
@@ -60,8 +61,10 @@ export default class extends Vue {
   public fail(key: string) {
     this.stash = this.stash.map(item => ({
       ...item,
-      status: key === item.key && item.openReload ? 'fail' : item.status,
+      status: key === item.key && item.openReload ? 'fail' : 'none',
     }))
+
+    console.log(this.stash)
   }
 
   public clear() {

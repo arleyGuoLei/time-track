@@ -68,6 +68,11 @@
   height: 288rpx;
 }
 
+.blank-img__dot {
+  width: 234rpx;
+  height: 200rpx;
+}
+
 .tags {
   border: 1px solid #4F9BFA;
   background-color: #D3E6FE;
