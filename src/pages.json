@@ -57,6 +57,9 @@
 		{
 			"path":"pages/mine/mine",
 			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "",
+				"navigationBarBackgroundColor": "#93C0F2",
 				"bounce": "none",
 				"titleNView": false
 			}
@@ -146,6 +149,11 @@
       {
         "name": "增加打点",
         "path":"pages/addDot/addDot",
+        "query": ""
+			},
+			{
+        "name": "我的",
+        "path":"pages/mine/mine",
         "query": ""
       }
     ]
