@@ -1,7 +1,7 @@
 .user-container {
   width: 750rpx;
   height: 430rpx;
-  background: linear-gradient(180deg, #93C0F2 0%, rgba(137, 143, 215, 0.76) 100%, #C5E1FA 100%);
+  background: linear-gradient(180deg, #93C0F2 0%, #5CA6FB 100%, #C5E1FA 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,9 +45,10 @@
   width: 48rpx;
   height: 48rpx;
 }
-button{
+button {
   background: none;
   padding: 10rpx 0 !important;
   font-size: 16px;
   font-weight: normal;
+  border-radius: 0;
 }
