@@ -37,7 +37,7 @@ export default class extends Mixins(scrollTopMixin) {
   private sticky = false
   // 为了优化onload生命周期还没执行，页面就渲染了一些元素的问题，因顶部计算导致闪硕
   private load = false
-  private isLoading = false
+  private isLoading = true
 
   /* ----分页数据---- */
   private onBottom = false
