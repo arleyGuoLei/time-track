@@ -61,7 +61,7 @@ interface UpdateDotItem {
   },
 })
 export default class extends Vue {
-  private isLoading = false
+  private isLoading = true
   private dotList: DotItem[] = []
 
   private date = ''

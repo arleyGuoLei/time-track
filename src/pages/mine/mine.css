@@ -14,6 +14,9 @@
   border-radius: 50%;
   overflow: hidden;
 }
+.name {
+  height: 48rpx;
+}
 .info-container {
   width: 55%;
   margin: 28rpx auto;
