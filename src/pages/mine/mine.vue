@@ -2,9 +2,15 @@
   <view class="page">
     <view class="user-container">
       <view class="avator">
-        <img src="http://img.i7xy.cn/20201208234148.png" />
+        <!-- #ifdef MP-WEIXIN	|| MP-BAIDU	|| MP-QQ -->
+        <open-data type="userAvatarUrl"></open-data>
+        <!-- #endif -->
       </view>
-      <view class="name mt-28 text-white">小木子</view>
+      <view class="name mt-28 text-white">
+        <!-- #ifdef MP-WEIXIN	|| MP-BAIDU	|| MP-QQ -->
+        <open-data type="userNickName"></open-data>
+        <!-- #endif -->
+      </view>
       <view class="info-container text-white">
         <view class="dot-num">
           <view class="num text-large text-bold">321</view>
@@ -18,7 +24,7 @@
       </view>
     </view>
     <view class="list-container bg-white">
-      <button class="list flex margin-bottom-sm" v-for="(item, index) in list" :key="index" :open-type="item.openType">
+      <button class="list flex" v-for="(item, index) in list" :key="index" :open-type="item.openType">
         <view class="left flex">
           <img class="list-icon mr-24" :src="`../../static/mine-${item.iconName}.png`" />
           <span>{{ item.title }}</span>
