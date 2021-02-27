@@ -30,7 +30,6 @@ async function appLaunched() {
     }
   } catch (error) {
     report(error, 'appLaunchedError')
-    // TODO: 跳转错误页 或 重启小程序
 
     throw error
   }

@@ -25,8 +25,11 @@ export default {
     const db = getApp<App>().globalData.db
     try {
       return await db
+        .action('save-event')
         .collection('events')
-        .doc(id)
+        .where({
+          _id: id,
+        })
         .update(item)
     } catch (error) {
       report(error, 'error')
@@ -84,9 +87,8 @@ export default {
         result: { data },
       } = await db
         .collection('events,tags,icon_images,icon_colors')
-        // TODO: && tags.status == 1 删除标签的时候 需要删除事件数据tags里对应的标签
         .where(`_id=='${eventId}' && user_id==$env.uid`)
-        .field('eventName,signNumber,openCalc,tags{name},iconSrc{src},iconColor{color}')
+        .field('eventName,signNumber,openCalc,tags{_id,name},iconSrc{_id,src},iconColor{_id,color}')
         .get()
 
       return data

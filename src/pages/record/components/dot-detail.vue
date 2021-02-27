@@ -18,7 +18,7 @@
                 {{ item.eventName }}
               </text>
             </view>
-            <text class="previous-title__desc text-grey mt-16 margin-bottom">
+            <text class="previous-title__desc text-grey text-sm mt-16 margin-bottom">
               {{ item.time }} ~ {{ item.timeDuration }}
             </text>
           </view>
@@ -269,11 +269,32 @@ export default class extends Vue {
   border-radius: 24rpx;
   overflow: hidden;
   box-sizing: border-box;
-  padding-top: 48rpx;
   padding-left: 48rpx;
   padding-right: 48rpx;
   box-shadow: 0 6rpx 20rpx 0 rgba(0, 0, 0, 0.1);
+  position: relative;
 }
+.card::before {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 64rpx;
+  left: 0;
+  content: ' ';
+  display: block;
+  z-index: 10;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.card-list .flex-column:first-child {
+  margin-top: 48rpx;
+}
+
 .card-list {
   width: 100%;
   scroll-behavior: smooth;
