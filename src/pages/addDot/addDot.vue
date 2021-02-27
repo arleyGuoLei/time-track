@@ -26,7 +26,7 @@
     </view>
     <!-- #endif -->
 
-    <view class="line">
+    <view class="line" v-if="openCalc">
       <img class="line-icon" src="@/static/calc.png" />
       <input class="line-text" placeholder="输入量化值 (可用于事件自动求和)" type="text" v-model="score" />
     </view>

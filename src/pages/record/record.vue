@@ -32,7 +32,7 @@
       <text class="text-sm text-grey">当日未打卡</text>
     </view>
     <text v-else-if="!isLoading" class="on-bottom text-grey text-sm margin-top margin-bottom"
-      >- 点击“卡片”可查看详情 -</text
+      >— 点击“卡片”可查看详情 —</text
     >
   </view>
 </template>

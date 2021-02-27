@@ -57,6 +57,7 @@
 		{
 			"path":"pages/mine/mine",
 			"style": {
+        "enablePullDownRefresh": false,
 				"navigationStyle": "default",
 				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor": "#93C0F2",

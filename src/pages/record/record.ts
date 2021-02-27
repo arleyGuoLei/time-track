@@ -25,6 +25,7 @@ interface EventItem {
     _id: string
     color: string
   }
+  openCalc: boolean
 }
 
 export interface DotItem {
@@ -86,6 +87,16 @@ export default class extends Vue {
 
   onUnload() {
     uni.$off('onDeleteDot', this.onDelete)
+  }
+
+  onHide() {
+    setTimeout(() => {
+      this.detailInfo = {
+        show: false,
+        id: '',
+        index: -1,
+      }
+    }, 200)
   }
 
   /**

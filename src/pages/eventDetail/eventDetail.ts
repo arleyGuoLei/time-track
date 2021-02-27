@@ -68,7 +68,11 @@ export default class extends Mixins(scrollTopMixin) {
     const { eventId } = this.$Route.query
     this.eventId = eventId
 
-    const [, baseData] = await Promise.all([this.getHistoryList(eventId), eventsModel.getDetail(eventId)])
+    const [, baseData, scoreSum] = await Promise.all([
+      this.getHistoryList(eventId),
+      eventsModel.getDetail(eventId),
+      dotsModel.getTotalScoreByEventId(eventId),
+    ])
     uni.setNavigationBarTitle({ title: baseData[0].eventName })
     this.eventName = baseData[0].eventName
     this.signNumber = baseData[0].signNumber
@@ -76,6 +80,7 @@ export default class extends Mixins(scrollTopMixin) {
     this.tags = baseData[0].tags
     this.iconColor = baseData[0].iconColor[0]
     this.iconSrc = baseData[0].iconSrc[0]
+    this.score = scoreSum
   }
 
   async getHistoryList(eventId: string, page = 1) {
@@ -210,7 +215,10 @@ export default class extends Mixins(scrollTopMixin) {
             if (updated === 0) {
               throw new Error('no updated')
             }
-            this.dotList = this.dotList.filter(dot => dot._id !== id)
+            this.dotList = this.dotList.filter(dot => {
+              dot._id === id && (this.score = this.score - (dot.score || 0))
+              return dot._id !== id
+            })
             this.signNumber = this.signNumber > 0 ? this.signNumber - 1 : 0
 
             uni.$emit('onDeleteDot', { id, date })
@@ -251,6 +259,7 @@ export default class extends Mixins(scrollTopMixin) {
             describe: item.describe,
             imageList: item.imageList,
             position: item.position,
+            openCalc: this.openCalc,
           }
 
           const from = 'eventDetail'
@@ -262,6 +271,7 @@ export default class extends Mixins(scrollTopMixin) {
                 if (dot._id !== data.id) {
                   return dot
                 } else {
+                  this.score = this.score - (dot.score || 0) + (data.score || 0)
                   return {
                     ...data,
                     _id: data.id,

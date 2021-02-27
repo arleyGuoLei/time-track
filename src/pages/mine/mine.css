@@ -33,13 +33,10 @@
 }
 .list-container {
   width: 750rpx;
-  height: calc(100vh - 430rpx + 50rpx);
-  position: absolute;
-  left: 0;
-  bottom: 0;
   border-radius: 32rpx 32rpx 0 0;
   padding: 48rpx;
   box-sizing: border-box;
+  margin-top: -64rpx;
 }
 .list {
   border-bottom: 1px dotted #EFEFEF;
