@@ -37,8 +37,11 @@ export default {
     const db = getApp<App>().globalData.db
     try {
       return await db
+        .action('delete-event-tag')
         .collection('tags')
-        .doc(_id)
+        .where({
+          _id,
+        })
         .update({
           status: 0,
         })

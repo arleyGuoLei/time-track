@@ -145,7 +145,7 @@ export default class extends Mixins(scrollTopMixin) {
   onSelectAction() {
     const { eventId, eventName, tags, openCalc, iconColor, iconSrc } = this
     uni.showActionSheet({
-      itemList: ['编辑', '删除'],
+      itemList: ['编辑事件', '删除事件'],
       success: res => {
         if (res.tapIndex === 0) {
           // 编辑事件
@@ -244,7 +244,7 @@ export default class extends Mixins(scrollTopMixin) {
   onTapDotDescribe(item: DotItem) {
     console.log('onTapDotDescribe::', item)
     uni.showActionSheet({
-      itemList: ['编辑', '删除'],
+      itemList: ['编辑打点', '删除打点'],
       success: res => {
         if (res.tapIndex === 0) {
           // 编辑事件

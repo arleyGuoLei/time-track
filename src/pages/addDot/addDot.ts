@@ -39,7 +39,7 @@ export default class extends Vue {
   private time = ''
   private endDate = ''
   private score = ''
-  // TODO: UPDATE区分来源 根据来源处理不同的回调
+
   // 更新或新增 add, update
   private pageType: 'add' | 'update' = 'add'
   private openCalc = false
