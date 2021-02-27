@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="calendar">
-      <view class="calendar-horizontal">
+      <view class="calendar-horizontal" v-if="week.length !== 0">
         <view class="oneday" @click="onDateClick(item.format)" v-for="(item, index) in week" :key="index">
           <text class="oneday-title">{{ item.title }}</text>
           <text class="oneday-date" :class="item.format === selectDate ? 'select-date' : ''">{{ item.date }}</text>

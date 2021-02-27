@@ -1,5 +1,7 @@
 <template>
   <view class="page">
+    <c-loading ref="loading" />
+
     <view class="user-container">
       <view class="avator">
         <!-- #ifdef MP-WEIXIN	|| MP-BAIDU	|| MP-QQ -->
@@ -13,26 +15,34 @@
       </view>
       <view class="info-container text-white">
         <view class="dot-num">
-          <view class="num text-large text-bold">321</view>
+          <view class="num text-large text-bold">{{ signTimes }}</view>
           <view class="desc text-xs">打点次数</view>
         </view>
         <view class="line bg-white"></view>
         <view class="day-num">
-          <view class="num text-large text-bold">123</view>
+          <view class="num text-large text-bold">{{ signDays }}</view>
           <view class="desc text-xs">打点天数</view>
         </view>
       </view>
     </view>
     <view class="list-container bg-white">
-      <button class="list flex" v-for="(item, index) in list" :key="index" :open-type="item.openType">
-        <view class="left flex">
-          <img class="list-icon mr-24" :src="`../../static/mine-${item.iconName}.png`" />
-          <span>{{ item.title }}</span>
-        </view>
-      </button>
+      <block v-for="(item, index) in list" :key="index">
+        <button class="list flex" :open-type="item.openType" @click="methods(item.method)">
+          <view class="left flex">
+            <img class="list-icon mr-24" :src="`../../static/mine-${item.iconName}.png`" />
+            <span>{{ item.title }}</span>
+          </view>
+        </button>
+      </block>
     </view>
   </view>
 </template>
 
 <script lang="ts" src="./mine.ts"></script>
 <style src="./mine.css" scoped></style>
+
+<style>
+page {
+  background-color: #ffffff;
+}
+</style>

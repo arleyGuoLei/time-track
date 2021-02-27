@@ -97,6 +97,7 @@ interface Item {
   imageList?: string[]
   position?: Position
   score?: number
+  openCalc?: boolean
 }
 
 interface UpdateItem extends DotModelItem {
@@ -187,6 +188,7 @@ export default class extends Vue {
       date: dotList[index].date,
       eventName: dotList[index].event_id[0].eventName,
       eventId: dotList[index].event_id[0]._id,
+      openCalc: dotList[index].event_id[0].openCalc,
       time: dotList[index].time,
       dotTimestamp: dotList[index].dotTimestamp,
       describe: dotList[index].describe,
@@ -198,10 +200,11 @@ export default class extends Vue {
     for (let i = 0; i < index; i++) {
       const startTime = dayjs(+dotList[i].dotTimestamp)
       const endTime = dayjs(+lastItem.dotTimestamp)
-      const duration = dayjs.duration(endTime.diff(startTime)).format('距离HH小时mm分')
+      const duration = dayjs.duration(endTime.diff(startTime)).format(`距离 「${lastItem.time}」 HH小时mm分`)
       list.push({
         eventName: dotList[i].event_id[0].eventName,
         eventId: dotList[i].event_id[0]._id,
+        openCalc: dotList[i].event_id[0].openCalc,
         time: dotList[i].time,
         timeDuration: duration,
         dotTimestamp: dotList[i].dotTimestamp,

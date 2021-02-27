@@ -147,11 +147,14 @@ export default class extends Mixins(scrollTopMixin) {
     }
   }
 
-  onTapSign(eventId: string, eventName: string) {
+  onTapSign(eventId: string, eventName: string, openCalc: boolean) {
     if (!(eventId && eventName)) {
       return showTip('获取事件ID和事件名称失败')
     }
-    this.$Router.push({ path: '/pages/addDot/addDot', query: { type: 'add', eventId, eventName, from: 'home' } })
+    this.$Router.push({
+      path: '/pages/addDot/addDot',
+      query: { type: 'add', eventId, eventName, from: 'home', openCalc },
+    })
   }
 
   onTapDetail(eventId: string, eventName: string) {

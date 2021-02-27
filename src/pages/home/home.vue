@@ -34,7 +34,7 @@
             <view
               class="finger-container"
               @longpress="onLongPressSign(item._id)"
-              @tap="onTapSign(item._id, item.eventName)"
+              @tap="onTapSign(item._id, item.eventName, item.openCalc)"
             >
               <img class="finger-img" src="@/static/home-finger.png" />
             </view>

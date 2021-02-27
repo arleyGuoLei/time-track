@@ -61,6 +61,17 @@ export default {
     const now = new Date()
     const time = dateFormat('HH:mm', now)
     const date = dateFormat('YYYY-MM-DD', now)
+
+    // MOCK
+    // for (const date of getDatesByRange('2020-11-01', '2021-02-27')) {
+    //   this.addDot({
+    //     event_id: eventId,
+    //     time,
+    //     date,
+    //     dotTimestamp: time2Timestamp(date, time),
+    //   })
+    // }
+
     return this.addDot({
       event_id: eventId,
       time,
@@ -136,7 +147,7 @@ export default {
         .where(`status==1 && user_id==$env.uid && date == "${date}"`)
         // 主表：_id,time 事件表：event_id{eventName,iconSrc{src},iconColor{color}}
         .field(
-          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id,event_id{eventName,iconSrc{src},iconColor{color}}',
+          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id,event_id{eventName,iconSrc{src},iconColor{color},openCalc}',
         )
         .orderBy('dotTimestamp')
         .skip(size * (page - 1))
@@ -257,7 +268,7 @@ export default {
       } = await db
         .collection('dots')
         .where(`status==1 && user_id==$env.uid && event_id=='${eventId}'`)
-        .orderBy('dotTimestamp desc')
+        .orderBy('dotTimestamp desc, create_time desc')
         .field({
           user_id: false,
         })
@@ -276,5 +287,71 @@ export default {
       report(error, 'error')
       throw error
     }
+  },
+
+  async getTotalScoreByEventId(eventId: string) {
+    const db = getApp<App>().globalData.db
+    const $ = getApp<App>().globalData.db.command.aggregate
+
+    let totalScore = 0
+    try {
+      const { result } = await db
+        .collection('dots')
+        .aggregate()
+        .match(`status==1 && user_id==$env.uid && event_id == "${eventId}"`)
+        .group({
+          _id: '$event_id',
+          totalScore: $.sum('$score'),
+        })
+        .end()
+
+      totalScore = result.data[0].totalScore
+    } catch (error) {
+      console.log(error)
+    }
+
+    return totalScore
+  },
+
+  async getSignDays() {
+    const db = getApp<App>().globalData.db
+
+    let signDays = 0
+    try {
+      const {
+        result: { affectedDocs },
+      } = await db
+        .collection('dots')
+        .where(`status==1 && user_id==$env.uid`)
+        .field('date')
+        .distinct()
+        .get()
+
+      signDays = affectedDocs
+    } catch (error) {
+      console.log(error)
+    }
+
+    return signDays
+  },
+
+  async getSignTimes() {
+    const db = getApp<App>().globalData.db
+
+    let times = 0
+    try {
+      const {
+        result: { total },
+      } = await db
+        .collection('dots')
+        .where(`status==1 && user_id==$env.uid`)
+        .count()
+
+      times = total
+    } catch (error) {
+      console.log(error)
+    }
+
+    return times
   },
 }

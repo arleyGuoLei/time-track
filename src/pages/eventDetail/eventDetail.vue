@@ -58,7 +58,7 @@
               <text class="text-large text-bold margin-right-sm">{{ year.slice(1) }}</text>
               <text class="text-xs">年</text>
             </view>
-            <view class="history-list flex" v-for="(item, index) in list" :key="item._id">
+            <view class="history-list flex" v-for="item in list" :key="item._id">
               <view class="left" @click="goToRecord(item.date)">
                 <view>
                   <text class="text-large margin-right-sm">{{ item.date.split('-')[2] }}</text>
@@ -68,7 +68,7 @@
                 <view class="text-xs text-grey" v-if="item.score">值: {{ item.score }}</view>
               </view>
               <view class="right">
-                <view @click="onTapDotDescribe(item, index)" class="content text-sm text-grey margin-bottom-sm">{{
+                <view @click="onTapDotDescribe(item)" class="content text-sm text-grey margin-bottom-sm">{{
                   item.describe
                 }}</view>
                 <view class="img-container" v-if="item.imageList.length">

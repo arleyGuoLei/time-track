@@ -42,6 +42,7 @@ export default class extends Vue {
   // TODO: UPDATE区分来源 根据来源处理不同的回调
   // 更新或新增 add, update
   private pageType: 'add' | 'update' = 'add'
+  private openCalc = false
   private position = {
     point: {
       longitude: 0,
@@ -61,6 +62,7 @@ export default class extends Vue {
       title: this.$Route.query.eventName,
     })
     this.event_id = this.$Route.query.eventId
+    this.openCalc = this.$Route.query.openCalc === 'true' || this.$Route.query.openCalc === true
   }
 
   initUpdateData() {
@@ -75,6 +77,7 @@ export default class extends Vue {
     this.time = dotData.time
     this.score = dotData.score
     this.imageList = dotData.imageList || []
+    this.openCalc = dotData.openCalc === 'true' || dotData.openCalc === true
     this.dotId = dotData.id
     this.position = {
       point: {
