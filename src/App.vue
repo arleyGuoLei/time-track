@@ -90,4 +90,20 @@ button::before {
 page {
   background-color: #f5f5f5;
 }
+
+// 图标容器(首页、日志、新增事件)
+
+.icon-container {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-img {
+  width: 72rpx;
+  height: 72rpx;
+}
 </style>

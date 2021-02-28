@@ -19,7 +19,7 @@
         <block v-for="(item, index) in eventList" :key="index">
           <view class="event-item bg-white flex" v-if="item.status !== 0">
             <view class="icon-container" :style="{ background: item.iconColor[0].color }">
-              <img class="icon-img" :src="item.iconSrc[0].src" />
+              <img class="icon-img" mode="aspectFit" :src="item.iconSrc[0].src" />
             </view>
             <view class="content-container" @tap="onTapDetail(item._id, item.eventName)">
               <p class="text event-name text-cut">{{ item.eventName }}</p>

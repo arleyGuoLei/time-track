@@ -59,10 +59,15 @@ export default class extends Vue {
   }
 
   public fail(key: string) {
-    this.stash = this.stash.map(item => ({
-      ...item,
-      status: key === item.key && item.openReload ? 'fail' : 'none',
-    }))
+    this.stash = this.stash.map(item => {
+      if (key === item.key) {
+        return {
+          ...item,
+          status: item.openReload ? 'fail' : 'none',
+        }
+      }
+      return item
+    })
 
     console.log(this.stash)
   }

@@ -139,6 +139,7 @@ export default class extends Vue {
         this.$Router.back(1)
         console.log('打点的dotId:', id)
       } else {
+        // 更新打点数据
         const event_id = item.event_id
         delete item.event_id
         await (this as any).$loading('addEvent', dotsModel.updateDot.bind(this), false, '更新中', item, this.dotId)

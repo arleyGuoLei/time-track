@@ -159,7 +159,7 @@ export default class extends Mixins(scrollTopMixin) {
           console.log('删除')
           uni.showModal({
             title: '提示',
-            content: '是否确认删除该事件',
+            content: '事件删除将删除对应打点数据，确定删除？',
             success: async res => {
               if (res.confirm) {
                 await (this as any).$loading(

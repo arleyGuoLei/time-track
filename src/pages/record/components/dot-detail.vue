@@ -200,7 +200,9 @@ export default class extends Vue {
     for (let i = 0; i < index; i++) {
       const startTime = dayjs(+dotList[i].dotTimestamp)
       const endTime = dayjs(+lastItem.dotTimestamp)
-      const duration = dayjs.duration(endTime.diff(startTime)).format(`距离 「${lastItem.time}」 HH小时mm分`)
+      const lastItemEventName =
+        lastItem.eventName.length > 6 ? lastItem.eventName.slice(0, 6) + '...' : lastItem.eventName
+      const duration = dayjs.duration(endTime.diff(startTime)).format(`距离 「${lastItemEventName}」 HH小时mm分`)
       list.push({
         eventName: dotList[i].event_id[0].eventName,
         eventId: dotList[i].event_id[0]._id,
@@ -238,6 +240,9 @@ export default class extends Vue {
   }
 
   onTapDetail(eventId: string, eventName: string) {
+    console.log(eventId)
+    console.log(eventName)
+
     if (!(eventId && eventName)) {
       return showTip('获取事件ID和事件名称失败')
     }

@@ -39,12 +39,15 @@ export default {
   async deleteEvent(id: string) {
     const db = getApp<App>().globalData.db
     try {
-      return await db
+      const res = await db
         .collection('events')
         .where(`status == 1 && user_id==$env.uid && _id=="${id}"`)
         .update({
           status: 0,
         })
+
+      uni.$emit('onMineRefresh')
+      return res
     } catch (error) {
       report(error, 'error')
       throw error

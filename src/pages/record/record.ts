@@ -91,10 +91,12 @@ export default class extends Vue {
 
   onHide() {
     setTimeout(() => {
-      this.detailInfo = {
-        show: false,
-        id: '',
-        index: -1,
+      if (this.$Route.path !== '/pages/record/record') {
+        this.detailInfo = {
+          show: false,
+          id: '',
+          index: -1,
+        }
       }
     }, 200)
   }
