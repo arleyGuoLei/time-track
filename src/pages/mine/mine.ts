@@ -34,7 +34,7 @@ export default class extends Vue {
   onLoad() {
     ;(this as any).$loading('getInfo', this.getInfo.bind(this))
 
-    uni.$on('dot', this.getInfo)
+    uni.$on('onMineRefresh', this.getInfo)
   }
 
   async onPullDownRefresh() {
@@ -54,6 +54,6 @@ export default class extends Vue {
 
   aboutUS() {
     console.log('aboutUS')
-    showTip('cool!!!')
+    showTip('微信公众号：前端面试之道')
   }
 }

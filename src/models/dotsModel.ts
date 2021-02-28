@@ -87,6 +87,8 @@ export default {
         .collection('dots')
         .add(item)
       uni.$emit('dot', { date: item.date, backstage: true })
+      uni.$emit('onMineRefresh')
+
       return dotRes
     } catch (error) {
       report(error)
@@ -97,13 +99,17 @@ export default {
   async deleteDot(dotId: string): Promise<{ result: { updated: number } }> {
     const db = getApp<App>().globalData.db
     try {
-      return await db
+      const res = await db
         .action('update-dot')
         .collection('dots')
         .where(`status == 1 && user_id==$env.uid && _id=="${dotId}"`)
         .update({
           status: 0,
         })
+
+      uni.$emit('onMineRefresh')
+
+      return res
     } catch (error) {
       report(error, 'error')
       throw error
@@ -119,11 +125,13 @@ export default {
     try {
       const db = getApp<App>().globalData.db
       console.log('updateDot::', item)
-      return await db
+      const res = await db
         .action('update-dot')
         .collection('dots')
         .where(`user_id==$env.uid && _id=="${dotId}"`)
         .update(item)
+      uni.$emit('onMineRefresh')
+      return res
     } catch (error) {
       report(error)
       throw report
@@ -144,10 +152,10 @@ export default {
         result: { data = [], count },
       } = await db
         .collection('dots,events,icon_images,icon_colors')
-        .where(`status==1 && user_id==$env.uid && date == "${date}"`)
+        .where(`event_id.status==1 && status==1 && user_id==$env.uid && date == "${date}"`)
         // 主表：_id,time 事件表：event_id{eventName,iconSrc{src},iconColor{color}}
         .field(
-          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id,event_id{eventName,iconSrc{src},iconColor{color},openCalc}',
+          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id{_id,status,eventName,iconSrc{src},iconColor{color},openCalc}',
         )
         .orderBy('dotTimestamp')
         .skip(size * (page - 1))
@@ -180,14 +188,15 @@ export default {
       const {
         result: { data = [] },
       } = await db
-        .collection('dots')
+        .collection('dots,events')
         .where(
-          `status==1 && user_id==$env.uid && dotTimestamp >= ${dayjs(startTime).valueOf()} && dotTimestamp <= ${dayjs(
-            endTime,
-          )
+          `event_id.status==1 && status==1 && user_id==$env.uid && dotTimestamp >= ${dayjs(
+            startTime,
+          ).valueOf()} && dotTimestamp <= ${dayjs(endTime)
             .add(1, 'day')
             .valueOf()}`,
         )
+        .field('date,dotTimestamp,status,event_id{_id,status}')
         .groupBy('date')
         .groupField('count(*) as totalDots')
         .orderBy('date desc')
@@ -319,15 +328,19 @@ export default {
     let signDays = 0
     try {
       const {
-        result: { affectedDocs },
+        result: { count },
       } = await db
-        .collection('dots')
-        .where(`status==1 && user_id==$env.uid`)
-        .field('date')
-        .distinct()
-        .get()
+        .collection('dots,events')
+        .where(`event_id.status==1 && status==1 && user_id==$env.uid`)
+        .field('date,status,event_id{_id,status}')
+        .groupBy('date')
+        // 前端只需要条数，不需要数据 所以限制返回条数
+        .limit(1)
+        .get({
+          getCount: true,
+        })
 
-      signDays = affectedDocs
+      signDays = count
     } catch (error) {
       console.log(error)
     }
@@ -341,13 +354,18 @@ export default {
     let times = 0
     try {
       const {
-        result: { total },
+        result: { count },
       } = await db
-        .collection('dots')
-        .where(`status==1 && user_id==$env.uid`)
-        .count()
+        .collection('dots,events')
+        .where(`event_id.status==1 && status==1 && user_id==$env.uid`)
+        .field('status,event_id{_id,status}')
+        // 前端只需要条数，不需要数据 所以限制返回条数
+        .limit(1)
+        .get({
+          getCount: true,
+        })
 
-      times = total
+      times = count
     } catch (error) {
       console.log(error)
     }

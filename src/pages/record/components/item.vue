@@ -1,7 +1,7 @@
 <template>
   <view class="item">
     <view class="icon-container" :style="{ background: iconColor }">
-      <img class="icon-img" :src="iconSrc" />
+      <img class="icon-img" mode="aspectFit" :src="iconSrc" />
     </view>
     <view class="content-container" @tap="onTapDetail(itemId, itemIndex)">
       <p class="text text-black text-cut">{{ eventName }}</p>
@@ -86,20 +86,6 @@ export default class extends Vue {
 
   justify-content: space-between;
   align-items: center;
-}
-
-.icon-container {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 32rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.icon-img {
-  width: 100%;
-  height: 100%;
 }
 
 .content-container {

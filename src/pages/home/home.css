@@ -46,17 +46,6 @@
   /* transition: transform ease-in-out 100ms; */
 }
 
-.icon-container {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 32rpx;
-}
-
-.icon-img {
-  width: 100%;
-  height: 100%;
-}
-
 .content-container {
   width: 340rpx;
 }

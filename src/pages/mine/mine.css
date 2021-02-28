@@ -10,7 +10,7 @@
 .avator {
   width: 140rpx;
   height: 140rpx;
-  border: 2rpx solid #FFFFFF;
+  /* border: 2rpx solid #FFFFFF; */
   border-radius: 50%;
   overflow: hidden;
 }

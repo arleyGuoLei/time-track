@@ -1,12 +1,8 @@
 <template>
   <view class="icon-setting">
-    <img
-      class="icon"
-      :style="{
-        backgroundColor: iconColor,
-      }"
-      :src="iconSrc"
-    />
+    <view class="icon-container" :style="{ background: iconColor }">
+      <img class="icon-img" mode="aspectFit" :src="iconSrc" />
+    </view>
 
     <scroll-view enable-flex scroll-x="true" class="scroll-view" :style="{ height: srcLine * '100' + 'rpx' }">
       <view v-for="(arr, i) in srcList" :key="i" class="scroll-view__column">
@@ -104,12 +100,7 @@ export default class extends Vue {
   padding: 0 32rpx;
   box-sizing: border-box;
 }
-.icon {
-  width: 100rpx;
-  height: 100rpx;
-  border-radius: 32rpx;
-  overflow: hidden;
-}
+
 .scroll-view {
   width: 686rpx;
   display: flex;
@@ -122,8 +113,9 @@ export default class extends Vue {
 }
 
 .scroll-view__column img {
-  width: 100rpx;
-  height: 100rpx;
+  width: 84rpx;
+  height: 84rpx;
+  padding: 8rpx;
 }
 
 .scroll-view__column view {
@@ -140,6 +132,6 @@ export default class extends Vue {
 }
 
 .scroll-view:nth-child(3) {
-  margin-top: 16rpx;
+  margin-top: 36rpx;
 }
 </style>
