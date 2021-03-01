@@ -314,7 +314,7 @@ export default {
         })
         .end()
 
-      totalScore = result.data[0].totalScore
+      totalScore = result.data[0]?.totalScore || 0
     } catch (error) {
       console.log(error)
     }

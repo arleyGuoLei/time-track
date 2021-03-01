@@ -67,6 +67,7 @@
       <view class="footer flex">
         <view class="line"></view>
         <text class="footer-edit text-sm text-blue" @click="onEdit">编辑</text>
+        <view class="column-line"></view>
         <text class="footer-close text-sm text-grey" @click="onClose">关闭</text>
       </view>
     </view>
@@ -317,6 +318,12 @@ export default class extends Vue {
   height: 1rpx;
   background: rgba(0, 0, 0, 0.1);
   transform: scaleY(0.5);
+}
+.column-line {
+  background: rgba(0, 0, 0, 0.1);
+  transform: scaleX(0.5);
+  height: 36rpx;
+  width: 1rpx;
 }
 .footer-edit,
 .footer-close {
