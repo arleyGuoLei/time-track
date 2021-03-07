@@ -4,6 +4,7 @@ import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
+import { onShareAppMessageMixin } from '@/plugins/shareAppMessage.mixin'
 import { eventsModel, dotsModel } from '@/models'
 import { ListItem as eventItem } from '@/models/eventsModel'
 import { showTip } from '@/utils/utils'
@@ -31,7 +32,7 @@ interface ListUpdateItem {
     cList,
   },
 })
-export default class extends Mixins(scrollTopMixin) {
+export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
   private imgAnimation = {}
   private eventList: eventItem[] = []
   private sticky = false
@@ -195,25 +196,28 @@ export default class extends Mixins(scrollTopMixin) {
 
   updateItem(item: ListUpdateItem) {
     const { id, data } = item
-    this.eventList = this.eventList.map(event => {
-      if (event._id === id) {
-        const newItem = {
-          ...event,
-          ...(data as UpdateItem[]).reduce((prevObj: any, currentItem) => {
-            if (currentItem.updateType === 'replace') {
-              prevObj[currentItem['key']] = currentItem['value']
-            } else if (currentItem.updateType === 'inc') {
-              prevObj[currentItem['key']] = (currentItem['value'] as number) + ((event as any)[currentItem['key']] || 0)
+    this.eventList = this.eventList
+      .map(event => {
+        if (event._id === id) {
+          const newItem = {
+            ...event,
+            ...(data as UpdateItem[]).reduce((prevObj: any, currentItem) => {
+              if (currentItem.updateType === 'replace') {
+                prevObj[currentItem['key']] = currentItem['value']
+              } else if (currentItem.updateType === 'inc') {
+                prevObj[currentItem['key']] =
+                  (currentItem['value'] as number) + ((event as any)[currentItem['key']] || 0)
+                return prevObj
+              }
               return prevObj
-            }
-            return prevObj
-          }, {}),
+            }, {}),
+          }
+          console.log('更新后的对象:', newItem)
+          return newItem
         }
-        console.log('更新后的对象:', newItem)
-        return newItem
-      }
-      return event
-    })
+        return event
+      })
+      .filter(item => item.status !== 0)
   }
 
   onListUpdate(item: ListUpdateItem) {

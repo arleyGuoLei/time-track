@@ -27,9 +27,8 @@ export default {
       return await db
         .action('save-event')
         .collection('events')
-        .where({
-          _id: id,
-        })
+        // 修改此条件会影响action参数的获取，所以需要同步修改
+        .where(`status == 1 && user_id==$env.uid && _id=="${id}"`)
         .update(item)
     } catch (error) {
       report(error, 'error')
@@ -40,7 +39,9 @@ export default {
     const db = getApp<App>().globalData.db
     try {
       const res = await db
+        .action('save-event')
         .collection('events')
+        // 修改此条件会影响action参数的获取，所以需要同步修改
         .where(`status == 1 && user_id==$env.uid && _id=="${id}"`)
         .update({
           status: 0,

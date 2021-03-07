@@ -37,47 +37,10 @@ async function updateEvent(state, auth) {
 
   const dbPromise = []
 
-  if (state.newData.iconSrc !== state.oldData.iconSrc) {
-    dbPromise.push(
-      iconImagesModel.doc(state.newData.iconSrc).update({
-        use_times: dbCmd.inc(1),
-      }),
-      iconImagesModel.doc(state.oldData.iconSrc).update({
-        use_times: dbCmd.inc(-1),
-      }),
-    )
-  }
-
-  if (state.newData.iconColor !== state.oldData.iconColor) {
-    dbPromise.push(
-      iconColorsModel.doc(state.newData.iconColor).update({
-        use_times: dbCmd.inc(1),
-      }),
-      iconColorsModel.doc(state.oldData.iconColor).update({
-        use_times: dbCmd.inc(-1),
-      }),
-    )
-  }
-
-  for (const tagId of state.newData.tags) {
-    // 老的不包含新的，新的次数+1
-    if (!state.oldData.tags.includes(tagId)) {
-      dbPromise.push(
-        tagsModel
-          .where({
-            _id: tagId,
-            user_id: auth.uid,
-          })
-          .update({
-            eventNumber: dbCmd.inc(1),
-          }),
-      )
-    }
-  }
-
-  for (const tagId of state.oldData.tags) {
-    // 老的已经不在新的里面了，老的需要减一
-    if (!state.newData.tags.includes(tagId)) {
+  // 删除事件
+  if (state.newData.status === 0 && state.newData.status !== state.oldData.status) {
+    for (const tagId of state.oldData.tags) {
+      // 删除事件，同步修改标签事件数目
       dbPromise.push(
         tagsModel
           .where({
@@ -89,6 +52,62 @@ async function updateEvent(state, auth) {
           }),
       )
     }
+  } else {
+    // 更新事件 ↓
+
+    if (state.newData.iconSrc !== state.oldData.iconSrc) {
+      dbPromise.push(
+        iconImagesModel.doc(state.newData.iconSrc).update({
+          use_times: dbCmd.inc(1),
+        }),
+        iconImagesModel.doc(state.oldData.iconSrc).update({
+          use_times: dbCmd.inc(-1),
+        }),
+      )
+    }
+
+    if (state.newData.iconColor !== state.oldData.iconColor) {
+      dbPromise.push(
+        iconColorsModel.doc(state.newData.iconColor).update({
+          use_times: dbCmd.inc(1),
+        }),
+        iconColorsModel.doc(state.oldData.iconColor).update({
+          use_times: dbCmd.inc(-1),
+        }),
+      )
+    }
+
+    for (const tagId of state.newData.tags) {
+      // 老的不包含新的，新的次数+1
+      if (!state.oldData.tags.includes(tagId)) {
+        dbPromise.push(
+          tagsModel
+            .where({
+              _id: tagId,
+              user_id: auth.uid,
+            })
+            .update({
+              eventNumber: dbCmd.inc(1),
+            }),
+        )
+      }
+    }
+
+    for (const tagId of state.oldData.tags) {
+      // 老的已经不在新的里面了，老的需要减一
+      if (!state.newData.tags.includes(tagId)) {
+        dbPromise.push(
+          tagsModel
+            .where({
+              _id: tagId,
+              user_id: auth.uid,
+            })
+            .update({
+              eventNumber: dbCmd.inc(-1),
+            }),
+        )
+      }
+    }
   }
 
   const updates = await Promise.all(dbPromise)
@@ -96,7 +115,36 @@ async function updateEvent(state, auth) {
 }
 
 async function getOldEventData(state) {
-  const eventId = state.command.getParam({ name: 'where', index: 0 })[0]['_id']
+  // .where({ _id: id })，这样写的条件 可以如下获取_id参数
+  // const eventId = state.command.getParam({ name: 'where', index: 0 })[0]['_id']
+
+  // 前端对用条件写法：.where(`status == 1 && user_id==$env.uid && _id=="${id}"`)
+  const where = state.command.getMethod('where')
+  // console.log('where::', JSON.stringify(where))
+  // ;[
+  //   {
+  //     $method: 'where',
+  //     $param: [
+  //       {
+  //         operator: 'and',
+  //         operands: [
+  //           {
+  //             operator: 'and',
+  //             operands: [{ _id: { $eq: '604498e8e8a9310001f7d8bc' } }, { status: { $eq: 1 } }],
+  //             fieldName: {},
+  //           },
+  //           { user_id: { $eq: '604498e843b5e20001b0bc1f' } },
+  //         ],
+  //         fieldName: {},
+  //       },
+  //     ],
+  //   },
+  // ]
+
+  const idArr = where[0]['$param'][0]['operands'].filter(item => Object.keys(item).includes('_id'))
+  const idObj = idArr[0]['_id']
+  const eventId = idObj['operands'][0]
+  console.log('getOldEventData eventId::', eventId)
   const { data } = await eventsModel.doc(eventId).get()
   return data[0]
 }

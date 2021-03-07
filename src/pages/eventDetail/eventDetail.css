@@ -55,6 +55,7 @@
 .tags-container {
   justify-content: flex-start;
   margin: 0 auto;
+  flex-wrap: wrap;
 }
 
 .tag-blank {
@@ -81,6 +82,7 @@
   line-height: 60rpx;
   padding: 0 30rpx;
   border-radius: 10rpx;
+  margin-top: 16rpx;
 }
 
 .right {

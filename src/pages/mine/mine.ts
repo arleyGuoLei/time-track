@@ -1,6 +1,7 @@
 import { dotsModel } from '@/models'
 import { showTip } from '@/utils/utils'
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Mixins } from 'vue-property-decorator'
+import { onShareAppMessageMixin } from '@/plugins/shareAppMessage.mixin'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -9,7 +10,7 @@ declare module 'vue/types/vue' {
   }
 }
 @Component
-export default class extends Vue {
+export default class extends Mixins(onShareAppMessageMixin) {
   private list = [
     {
       iconName: 'share',
@@ -26,6 +27,8 @@ export default class extends Vue {
       title: '关于我们',
       method: 'aboutUS',
     },
+    // #ifndef MP-TOUTIAO
+    // #endif
   ]
 
   private signDays = 0
