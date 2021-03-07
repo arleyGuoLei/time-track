@@ -1,8 +1,8 @@
 {
   "oauth": {
     "mp-qq": {
-      "appid": "1110541916",
-      "secret": "QogrGgkWa3bfHG07",
+      "appid": "1110355476",
+      "secret": "3q2f4l5w78jfRtWe",
       "loginUrl": "https://api.q.qq.com/sns/jscode2session"
     },
     "mp-toutiao": {
