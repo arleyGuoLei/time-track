@@ -5,7 +5,7 @@
     <c-header
       v-show="load"
       header-type="backgroundColor"
-      title="时间打点"
+      :title="title"
       imgSrc="http://img.i7xy.cn/20201208234148.png"
       :scroll-y="scrollTop"
     />

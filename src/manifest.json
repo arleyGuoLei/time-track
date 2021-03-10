@@ -86,6 +86,15 @@
     },
     "mp-qq" : {
         "usingComponents" : true,
-        "appid" : "1110355476"
+        "appid" : "1110355476",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : false
+        },
+        "permission": {
+          "scope.userLocation": {
+            "desc": "你的位置信息将用于记录打卡位置"
+          }
+        }
     }
 }

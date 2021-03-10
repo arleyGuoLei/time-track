@@ -206,4 +206,8 @@ export default class extends Vue {
     this.dotList = this.dotList.filter(item => id !== item._id)
     ;(this.$refs['calendarHorizontal'] as any).deleteDot(date)
   }
+
+  onShow() {
+    uni.setNavigationBarTitle({ title: this.date })
+  }
 }

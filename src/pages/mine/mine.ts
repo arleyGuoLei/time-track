@@ -22,12 +22,20 @@ export default class extends Mixins(onShareAppMessageMixin) {
       title: '意见反馈',
       openType: 'feedback',
     },
+    // #ifdef MP-QQ
+    {
+      iconName: 'qqGroup',
+      title: '添加QQ群',
+      openType: 'openGroupProfile',
+      groupId: '153066693',
+    },
+    // #endif
+    // #ifdef MP-WEIXIN
     {
       iconName: 'about',
       title: '关于我们',
       method: 'aboutUS',
     },
-    // #ifndef MP-TOUTIAO
     // #endif
   ]
 

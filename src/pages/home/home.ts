@@ -40,6 +40,8 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
   private load = false
   private isLoading = true
 
+  private title = '时间打点'
+
   /* ----分页数据---- */
   private onBottom = false
   private page = 1
@@ -55,6 +57,10 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
     ;(this as any).$loading('getList', this.getList.bind(this))
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
+
+    // #ifdef MP-QQ
+    this.title = '小日常'
+    // #endif
   }
 
   onUnload() {
