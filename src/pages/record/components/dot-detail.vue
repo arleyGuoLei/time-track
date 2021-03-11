@@ -1,6 +1,13 @@
 <template>
   <view class="detail">
+    <!--  #ifndef MP-TOUTIAO-->
     <view class="card" :style="{ maxHeight: cardHeight + 'px' }" @touchmove.stop.prevent="onMoveHandle">
+    <!--  #endif -->
+
+    <!--  #ifdef MP-TOUTIAO-->
+    <view class="card" :style="{ maxHeight: cardHeight + 'px' }">
+    <!--  #endif -->
+
       <scroll-view
         class="card-list"
         scroll-y="true"

@@ -88,14 +88,6 @@
   height: 84rpx;
 }
 
-.on-bottom {
-  display: block;
-  width: 750rpx;
-  text-align: center;
-  margin-top: 32rpx;
-  margin-bottom: 64rpx;
-}
-
 .blank {
   display: flex;
   flex-direction: column;

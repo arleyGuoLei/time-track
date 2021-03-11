@@ -7,10 +7,18 @@
         <!-- #ifdef MP-WEIXIN	|| MP-BAIDU	|| MP-QQ -->
         <open-data type="userAvatarUrl"></open-data>
         <!-- #endif -->
+
+        <!-- #ifdef MP-TOUTIAO -->
+        <img class="avator" :src="avatarUrl" />
+        <!-- #endif -->
       </view>
       <view class="name mt-28 text-white">
         <!-- #ifdef MP-WEIXIN	|| MP-BAIDU	|| MP-QQ -->
         <open-data type="userNickName"></open-data>
+        <!-- #endif -->
+
+        <!-- #ifdef MP-TOUTIAO -->
+        <text class="name mt-28 text-white">{{ nickName }}</text>
         <!-- #endif -->
       </view>
       <view class="info-container text-white">
@@ -47,6 +55,8 @@
           </view>
         </button>
       </block>
+
+      <text class="on-bottom text-grey text-sm">— v1.0.0 —</text>
     </view>
   </view>
 </template>

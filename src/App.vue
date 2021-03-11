@@ -106,4 +106,12 @@ page {
   width: 72rpx;
   height: 72rpx;
 }
+
+.on-bottom {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 32rpx;
+  margin-bottom: 64rpx;
+}
 </style>
