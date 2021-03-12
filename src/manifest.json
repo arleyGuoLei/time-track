@@ -74,7 +74,17 @@
         "usingComponents" : true
     },
     "mp-baidu" : {
-        "usingComponents" : true
+        "usingComponents" : true,
+        "appid" : "23789777",
+        "setting" : {
+            "urlCheck" : false,
+            "es6" : false
+        },
+        "permission": {
+          "scope.userLocation": {
+            "desc": "你的位置信息将用于记录打卡位置"
+          }
+        }
     },
     "mp-toutiao" : {
         "usingComponents" : true,

@@ -37,6 +37,11 @@ const platform2Db = {
       tt_openid: openid,
     }
   },
+  'mp-baidu': openid => {
+    return {
+      bd_openid: openid,
+    }
+  },
 }
 
 async function setDefaultDATA(uid) {
@@ -44,7 +49,7 @@ async function setDefaultDATA(uid) {
   const timestamp = dateObj.getTime()
 
   // 默认TAG
-  const tags = ['新人引导', '日常', '周卡', '月卡', '爱情', '事业', '小窝', '其他'].map((tagTitle, index) => ({
+  const tags = ['新人引导', '日常', '周卡', '爱情', '其他'].map((tagTitle, index) => ({
     eventNumber: 0,
     status: 1,
     name: tagTitle,
@@ -61,8 +66,8 @@ async function setDefaultDATA(uid) {
       eventName: '快速上车「新朋友」',
       iconSrc: '603cc2ad20be4e00012e3861',
       iconColor: '603cc2ade028a50001cd2ed2',
-      // 0 新人引导, 7 其他
-      tags: [tagIds[0], tagIds[7]],
+      // 0 新人引导, 4 其他
+      tags: [tagIds[0], tagIds[4]],
       openCalc: true,
       signNumber: 6, // 有6个默认打点
       lastTime: timestamp,
@@ -79,16 +84,16 @@ async function setDefaultDATA(uid) {
       eventName: '到达公司 💻',
       iconSrc: '603cc2ad20be4e00012e382b',
       iconColor: '603cc2ade028a50001cd2ebf',
-      // 1 日常， 5 事业
-      tags: [tagIds[1], tagIds[5]],
+      // 1 日常
+      tags: [tagIds[1]],
       openCalc: false,
     },
     {
       eventName: '离开公司/下班 🏃',
       iconSrc: '603cc2ad20be4e00012e3831',
       iconColor: '603cc2ade028a50001cd2ed4',
-      // 1 日常， 5 事业
-      tags: [tagIds[1], tagIds[5]],
+      // 1 日常
+      tags: [tagIds[1]],
       openCalc: false,
     },
     {
@@ -96,7 +101,7 @@ async function setDefaultDATA(uid) {
       iconSrc: '603cc2ad20be4e00012e384f',
       iconColor: '603cc2ade028a50001cd2ea2',
       // 1 日常
-      tags: [tagIds[1], tagIds[5]],
+      tags: [tagIds[1]],
       openCalc: false,
     },
     {
@@ -111,8 +116,8 @@ async function setDefaultDATA(uid) {
       eventName: '看电影',
       iconSrc: '603cc2ad20be4e00012e3829',
       iconColor: '603cc2ade028a50001cd2edc',
-      // 1 日常, 4 爱情
-      tags: [tagIds[1], tagIds[4]],
+      // 1 日常, 3 爱情
+      tags: [tagIds[1], tagIds[3]],
       openCalc: false,
     },
     {
@@ -120,7 +125,7 @@ async function setDefaultDATA(uid) {
       iconSrc: '603cc2ad20be4e00012e384a',
       iconColor: '603cc2ade028a50001cd2e96',
       // 1 日常
-      tags: [tagIds[1], tagIds[2]],
+      tags: [tagIds[1]],
       openCalc: false,
     },
   ].map(e => ({ user_id: uid, create_time: timestamp, signNumber: 0, lastTime: 0, status: 1, ...e }))

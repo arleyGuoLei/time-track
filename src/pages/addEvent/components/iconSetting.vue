@@ -60,7 +60,7 @@ export default class extends Vue {
         .then(([srcList, colorList]) => {
           Array.isArray(srcList) && (this.srcList = chunkArr(srcList, this.srcLine))
           Array.isArray(colorList) && (this.colorList = chunkArr(colorList, this.colorLine))
-          if (Object.keys(this.$Route.query).length === 0) {
+          if (this.$Route.query.type !== 'update') {
             this.$emit('initIcon', {
               src: srcList[0],
               color: colorList[0],

@@ -57,9 +57,38 @@ async function toutiao(code) {
   }
 }
 
+async function baidu(code) {
+  const { appid, secret, loginUrl } = config.oauth['mp-baidu']
+  try {
+    const { data } = await uniCloud.httpclient.request(loginUrl, {
+      headers: {
+        'Content-Type': 'Application/x-www-form-urlencoded',
+      },
+      method: 'POST',
+      data: {
+        code,
+        client_id: appid,
+        sk: secret,
+      },
+      dataType: 'json',
+    })
+    return {
+      code: data.errcode || 0,
+      message: data.errmsg,
+      ...data,
+    }
+  } catch (error) {
+    return {
+      code: -1,
+      message: error,
+    }
+  }
+}
+
 module.exports = {
   'mp-weixin': code => uniID.code2SessionWeixin(code),
   'mp-alipay': code => uniID.code2SessionAlipay(code),
   'mp-qq': code => qq(code),
   'mp-toutiao': code => toutiao(code),
+  'mp-baidu': code => baidu(code),
 }

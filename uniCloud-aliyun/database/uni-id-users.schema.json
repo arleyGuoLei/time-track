@@ -162,6 +162,10 @@
 			"bsonType": "string",
 			"description": "头条小程序openid"
 		},
+    "bd_openid": {
+			"bsonType": "string",
+			"description": "百度小程序openid"
+		},
 		"comment": {
 			"bsonType": "string",
 			"title": "备注",
