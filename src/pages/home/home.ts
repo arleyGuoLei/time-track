@@ -55,6 +55,12 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
     this.load = true
     console.log('home onLoad')
     ;(this as any).$loading('getList', this.getList.bind(this))
+    setTimeout(() => {
+      // tag可能还没挂载所以取不到refs
+      this.$nextTick(() => {
+        ;(this.$refs.tag as any).initTagData()
+      })
+    }, 0)
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
 

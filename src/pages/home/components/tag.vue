@@ -39,12 +39,15 @@ export default class extends Vue {
   private selectIndex = -1
 
   mounted() {
-    console.log('tag components mounted')
-    this.$nextTick(() => {
-      ;(this as any).$loading('getTagList', this.getTagList.bind(this))
-      uni.$on('onTagsChange', this.onTagsChange)
-      uni.$on('onTagSelect', this.onTagSelect)
-    })
+    // 字节跳动小程序BUG：首页还没onload，子组件先mounted了, 所以使用home页面来初始化tag数据
+    // this.initTagData()
+  }
+
+  initTagData() {
+    console.log('initTagData')
+    ;(this as any).$loading('getTagList', this.getTagList.bind(this))
+    uni.$on('onTagsChange', this.onTagsChange)
+    uni.$on('onTagSelect', this.onTagSelect)
   }
 
   destroyed() {
