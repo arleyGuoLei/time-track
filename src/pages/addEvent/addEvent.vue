@@ -2,6 +2,7 @@
   <view class="page">
     <c-loading ref="loading" />
 
+    <!-- #ifndef MP-BAIDU -->
     <c-header
       showBack
       header-type="backgroundColor"
@@ -9,6 +10,17 @@
       imgSrc="http://img.i7xy.cn/20201220134440.png"
       :scroll-y="scrollTop"
     />
+    <!-- #endif -->
+
+    <!-- #ifdef MP-BAIDU -->
+    <c-header
+      :showBack="false"
+      header-type="backgroundColor"
+      :title="isUpdate ? '修改事件' : '新增事件'"
+      imgSrc="http://img.i7xy.cn/20201220134440.png"
+      :scroll-y="scrollTop"
+    />
+    <!-- #endif -->
 
     <c-list>
       <view class="list-content">

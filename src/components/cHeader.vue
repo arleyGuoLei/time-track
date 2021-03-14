@@ -108,6 +108,8 @@ export default class extends Vue {
   width: 100%;
   display: flex;
   align-items: center;
+  /* 百度小程序样式BUG */
+  transform: translateZ(0);
 }
 .default-icon {
   width: 36rpx;

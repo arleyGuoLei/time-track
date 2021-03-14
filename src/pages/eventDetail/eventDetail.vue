@@ -2,6 +2,7 @@
   <view class="page">
     <c-loading ref="loading" />
 
+    <!-- #ifndef MP-BAIDU -->
     <c-header
       showBack
       header-type="backgroundColor"
@@ -9,6 +10,17 @@
       imgSrc="http://img.i7xy.cn/20210113232214.png"
       :scroll-y="scrollTop"
     />
+    <!-- #endif -->
+
+    <!-- #ifdef MP-BAIDU -->
+    <c-header
+      :showBack="false"
+      header-type="backgroundColor"
+      :title="eventName"
+      imgSrc="http://img.i7xy.cn/20210113232214.png"
+      :scroll-y="scrollTop"
+    />
+    <!-- #endif -->
 
     <c-list class="bg-white">
       <view class="list-content">

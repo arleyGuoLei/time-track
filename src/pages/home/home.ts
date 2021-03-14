@@ -64,8 +64,12 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
 
-    // #ifdef MP-QQ || MP-BAIDU
+    // #ifdef MP-QQ
     this.title = '小日常'
+    // #endif
+
+    // #ifdef MP-BAIDU
+    this.title = '番茄打卡'
     // #endif
   }
 

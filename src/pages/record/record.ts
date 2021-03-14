@@ -106,7 +106,7 @@ export default class extends Vue {
    * @param date 日期
    */
   async onDateChange(date: string, backstage = false) {
-    uni.setNavigationBarTitle({ title: date })
+    date && uni.setNavigationBarTitle({ title: date })
 
     this.onBottom = false
     this.page = 1
@@ -208,6 +208,6 @@ export default class extends Vue {
   }
 
   onShow() {
-    uni.setNavigationBarTitle({ title: this.date })
+    this.date && uni.setNavigationBarTitle({ title: this.date })
   }
 }

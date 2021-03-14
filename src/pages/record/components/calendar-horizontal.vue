@@ -2,10 +2,10 @@
   <view>
     <view class="calendar">
       <view class="calendar-horizontal" v-show="week.length !== 0">
-        <view class="oneday" @click="onDateClick(item.format)" v-for="(item, index) in week" :key="index">
+        <view class="oneday" @click="onDateClick(item.format)" v-for="item in week" :key="item.format">
           <text class="oneday-title">{{ item.title }}</text>
           <text class="oneday-date" :class="item.format === selectDate ? 'select-date' : ''">{{ item.date }}</text>
-          <text class="oneday-dot">{{ weekDots[item.format] }}</text>
+          <text class="oneday-dot">{{ item.number }}</text>
         </view>
         <view class="pull-down" @click="onOpenCalendar">
           <img class="pull-down__icon" src="@/static/pulldown.png" />
@@ -35,6 +35,7 @@ interface DayObject {
   milliseconds: number
   format: string
   title: string
+  number: number
 }
 
 interface WeekData {
@@ -50,7 +51,6 @@ export default class extends Vue {
   /** 周数据 */
   private week: DayObject[] = []
   private selectDate = ''
-  private weekDots: { [index: string]: number } = {}
   private timesList: { date: string; remark: number | string; color?: string }[] = []
 
   async initWeekTime(date = Date(), backstage = false, updateList = true) {
@@ -66,6 +66,7 @@ export default class extends Vue {
         ...now.day(weekday).toObject(),
         format: now.day(weekday).format('YYYY-MM-DD'),
         title: weekTitle[weekday],
+        number: 0,
       })
     }
 
@@ -76,11 +77,18 @@ export default class extends Vue {
       weekDotData.week[0].format,
       weekDotData.week[weekDotData.week.length - 1].format,
     )
-    console.log('weekDotData.dots::', weekDotData.dots)
 
-    this.week = weekDotData.week
     this.selectDate = weekDotData.selectDate
-    this.weekDots = weekDotData.dots
+
+    // 删除weekDots 兼容百度小程序不支持 obj[2020-10-01]的语法，会变成 obj.2020-10-01 所以报错
+    this.week = weekDotData.week.map(day => {
+      return {
+        ...day,
+        number: weekDotData.dots[day.format],
+      }
+    })
+    console.log('this.week::', this.week)
+
     this.getCalendarTimesList(date)
   }
 
@@ -184,7 +192,15 @@ export default class extends Vue {
   }
 
   deleteDot(date: string) {
-    this.$set(this.weekDots, date, this.weekDots[date] ? this.weekDots[date] - 1 : 0)
+    this.week = this.week.map(item => {
+      if (item.format !== date) {
+        return item
+      }
+      return {
+        ...item,
+        number: item['number'] ? item['number'] - 1 : 0,
+      }
+    })
 
     this.timesList = this.timesList.map(item => {
       if (item.date !== date) {
