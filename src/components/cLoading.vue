@@ -55,10 +55,14 @@ export default class extends Vue {
   }
 
   public remove(key: string) {
+    console.log('remove::', this.stash)
+
     this.stash = this.stash.filter(item => item.key !== key)
   }
 
   public fail(key: string) {
+    console.log('fail::', this.stash)
+
     this.stash = this.stash.map(item => {
       if (key === item.key) {
         return {
@@ -77,6 +81,8 @@ export default class extends Vue {
   }
 
   private onReload() {
+    console.log(this.stash)
+
     this.stash
       .filter(item => item.status === 'fail')
       .forEach(item => {

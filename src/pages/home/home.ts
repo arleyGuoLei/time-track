@@ -54,10 +54,10 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
   onLoad() {
     this.load = true
     console.log('home onLoad')
-    ;(this as any).$loading('getList', this.getList.bind(this))
     setTimeout(() => {
       // tag可能还没挂载所以取不到refs
       this.$nextTick(() => {
+        ;(this as any).$loading('getList', this.getList.bind(this))
         ;(this.$refs.tag as any).initTagData()
       })
     }, 0)

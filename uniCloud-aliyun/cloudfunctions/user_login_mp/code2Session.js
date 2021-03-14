@@ -1,5 +1,5 @@
 const uniID = require('uni-id')
-const config = require('./config.json')
+const config = require('app-config')
 
 /**
  * 小程序code2Session

@@ -1,5 +1,5 @@
 {
-  "name": "user_login_mp",
+  "name": "censor_image",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,7 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "app-config": "file:../common/app-config",
-    "dayjs": "^1.10.4",
-    "uni-id": "file:../common/uni-id"
+    "get-access-token": "file:../common/get-access-token"
   }
 }

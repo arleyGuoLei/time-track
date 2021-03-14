@@ -1,3 +1,4 @@
+import { request } from './cloud'
 import { authSetting, showTip } from './utils'
 
 export const authPhotosAlbum = () => {
@@ -7,9 +8,9 @@ export const authPhotosAlbum = () => {
 /**
  * 选择相册图片
  * @param {Number} count 最多选择文件数目
- * @param {Number} maxSize 限制文件大小，5242880 = 5MB， 3145728 = 3MB
+ * @param {Number} maxSize 限制文件大小，5242880 = 5MB， 3145728 = 3MB，12MB = 12582912
  */
-export const chooseImage = async (count = 1, maxSize = 5242880) => {
+export const chooseImage = async (count = 1, maxSize = 12582912) => {
   // #ifdef MP-TOUTIAO
   // await authPhotosAlbum()
   // #endif
@@ -73,14 +74,30 @@ export const uploadFiles = function(
     })
   })
   return Promise.all(ups)
-    .then(res => {
-      const urls = res.filter(url => url !== '')
+    .then(async res => {
+      let urls = res.filter(url => url !== '')
+
+      const oriImgLength = urls.length
+      // 抖音校验上传图片有没有违规
+      // #ifdef MP-TOUTIAO
+      try {
+        const { result } = await request('censor_image', {
+          images: urls,
+        })
+        if (Array.isArray(result)) {
+          urls = result.filter(obj => !obj.hit).map(obj => obj.url)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+      // #endif
+
       uni.hideLoading()
       if (showUpToast) {
         if (res.length === urls.length) {
           showTip('上传成功')
         } else {
-          showTip(`共选择${res.length}个文件，上传成功${urls.length}个`)
+          showTip(`共选择${res.length}个文件，上传成功${urls.length}个，违规图片${urls.length - oriImgLength}个`, 2000)
         }
       }
       return urls

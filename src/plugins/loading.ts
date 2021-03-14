@@ -32,6 +32,9 @@ export default {
           loading.remove(key)
           return res
         } catch (error) {
+          console.log('error::', error)
+          console.log('errorKey::', key)
+
           loading.fail(key)
           throw error
         }

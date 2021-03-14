@@ -6,7 +6,7 @@
         <img class="img-delete__icon" @click="onDelete(index)" src="@/static/delete.png" />
       </view>
     </view>
-    <view v-if="list.length < 9" class="upload-btn" @click="onUpload">
+    <view v-if="!list || list.length < 9" class="upload-btn" @click="onUpload">
       <img class="upload-btn__icon" src="@/static/upload.png" />
     </view>
   </view>
