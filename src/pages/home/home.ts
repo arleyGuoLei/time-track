@@ -68,7 +68,7 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
     this.title = '小日常'
     // #endif
 
-    // #ifdef MP-BAIDU
+    // #ifdef MP-BAIDU || MP-TOUTIAO
     this.title = '番茄打卡'
     // #endif
   }
