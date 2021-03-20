@@ -19,12 +19,10 @@
       </view>
     </view>
 
-    <!-- #ifndef MP-TOUTIAO__TODO: 头条点击问题 -->
     <view class="line">
       <img class="line-icon" src="@/static/position.png" />
       <text class="line-text text-cut" @click="onChooseLocation">{{ position.name + ' ' + position.address }}</text>
     </view>
-    <!-- #endif -->
 
     <view class="line" v-if="openCalc">
       <img class="line-icon" src="@/static/calc.png" />

@@ -5,11 +5,13 @@ import link from '@/components/link.vue'
 import { router, RouterMount } from '@/utils/router'
 import loading from '@/plugins/loading'
 import timeFilter from '@/plugins/timeFilter'
+import report from '@/plugins/report'
 import cLoading from '@/components/cLoading.vue'
 
 Vue.use(router)
 Vue.use(loading)
 Vue.use(timeFilter)
+Vue.use(report)
 
 Vue.config.productionTip = false
 Vue.component('client-db', uniClientdb)

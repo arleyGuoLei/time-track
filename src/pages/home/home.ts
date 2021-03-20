@@ -1,3 +1,4 @@
+import { playAudio } from './../../utils/utils'
 import { DEFAULT_TAG_ID, PAGE_SIZE } from '@/utils/constant'
 import { Component, Mixins } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
@@ -8,6 +9,13 @@ import { onShareAppMessageMixin } from '@/plugins/shareAppMessage.mixin'
 import { eventsModel, dotsModel } from '@/models'
 import { ListItem as eventItem } from '@/models/eventsModel'
 import { showTip } from '@/utils/utils'
+const SIGN_SUCCESS_AUDIO = 'static/sign_success.mp3'
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
 
 interface UpdateItem {
   /** 更新的字段 */
@@ -54,13 +62,22 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
   onLoad() {
     this.load = true
     console.log('home onLoad')
+
+    this.$nextTick(() => {
+      ;(this as any).$loading('getList', this.getList.bind(this))
+    })
+
+    let getTagTime = 0
+    // #ifdef MP-TOUTIAO
+    getTagTime = 300
+    // #endif
+
     setTimeout(() => {
       // tag可能还没挂载所以取不到refs
       this.$nextTick(() => {
-        ;(this as any).$loading('getList', this.getList.bind(this))
         ;(this.$refs.tag as any).initTagData()
       })
-    }, 0)
+    }, getTagTime)
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
 
@@ -153,13 +170,22 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
     }
   }
 
+  async addDotQuick(eventId: string) {
+    await dotsModel.addDotQuick(eventId)
+  }
+
   async onLongPressSign(eventId: string) {
     try {
       uni.vibrateShort({})
-      dotsModel.addDotQuick(eventId)
+      await (this as any).$loading('addDotQuick', this.addDotQuick.bind(this), true, '打点中', eventId)
+      this.$report('add_dot', {
+        type: 'quick',
+      })
+      playAudio(SIGN_SUCCESS_AUDIO)
       showTip('快速打点成功')
       this.updateDotUI(eventId)
     } catch (error) {
+      console.log(error)
       showTip('打点失败, 请重试')
     }
   }

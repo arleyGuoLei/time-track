@@ -92,3 +92,15 @@ export function dateFormat(fmt = 'YYYY-MM-DD HH:mm:ss', date = new Date()) {
 export function time2Timestamp(date: string, time: string) {
   return Date.parse(`${date} ${time}`.replace(/-/g, '/'))
 }
+
+export function playAudio(src: string) {
+  const innerAudioContext = uni.createInnerAudioContext()
+  innerAudioContext.autoplay = true
+  innerAudioContext.src = src
+  console.log('playAudio::', src)
+
+  innerAudioContext.onError(res => {
+    console.log(res.errMsg)
+    console.log(res.errCode)
+  })
+}

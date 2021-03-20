@@ -13,6 +13,12 @@ import cSelect from '@/components/cSelect.vue'
 import cList from '@/components/cList.vue'
 import iconSetting from './components/iconSetting.vue'
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
+
 interface Tag extends TagItem {
   selected: boolean
 }
@@ -203,6 +209,9 @@ export default class extends Mixins(scrollTopMixin) {
 
         // 更新日志页数据
         uni.$emit('dot', { date: new Date(), backstage: true })
+
+        this.$report('update_event')
+
         await showTip('修改成功', 800)
         uni.switchTab({
           url: '/pages/home/home',
@@ -223,6 +232,8 @@ export default class extends Mixins(scrollTopMixin) {
             lastTime: Date.now(),
           },
         })
+
+        this.$report('add_event')
         await showTip('保存成功', 800)
         this.$Router.back(1)
       }

@@ -4,6 +4,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import cUpload from './components/upload.vue'
 import { showTip, authSetting, dateFormat, time2Timestamp } from '@/utils/utils'
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
+
 function validateForm(item: DotItem) {
   const fail = (msg: string) => {
     return {
@@ -117,7 +123,12 @@ export default class extends Vue {
       if (this.pageType === 'add') {
         const {
           result: { id },
-        } = await (this as any).$loading('addEvent', dotsModel.addDot.bind(this), false, '打点中', item)
+        } = await (this as any).$loading('addDot', dotsModel.addDot.bind(this), false, '打点中', item)
+
+        this.$report('add_dot', {
+          type: 'form',
+        })
+
         // 首页列表
         uni.$emit('onListUpdate', {
           type: 'updateItem',
@@ -135,6 +146,7 @@ export default class extends Vue {
             },
           ],
         })
+
         await showTip('打点成功', 800)
         this.$Router.back(1)
         console.log('打点的dotId:', id)
@@ -152,6 +164,8 @@ export default class extends Vue {
 
         // 更新日志页打点详情
         uni.$emit('dot', { date: this.date, backstage: true })
+
+        this.$report('update_dot')
 
         await showTip('更新成功', 800)
         this.$Router.back(1)

@@ -10,6 +10,12 @@ import { showTip } from '@/utils/utils'
 import { DotItem as DotModelItem } from '@/models/dotsModel'
 import { Position } from '@/pages/record/record'
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
+
 interface HistoryItem {
   [year: string]: DotItem[]
 }
@@ -180,6 +186,7 @@ export default class extends Mixins(scrollTopMixin) {
                     },
                   ],
                 })
+                this.$report('delete_event')
                 showTip('删除成功')
                 this.$Router.back(1)
               } else if (res.cancel) {
@@ -232,6 +239,9 @@ export default class extends Mixins(scrollTopMixin) {
                   updateType: 'inc',
                 },
               ],
+            })
+            this.$report('delete_dot', {
+              type: 'detail',
             })
           } catch (error) {
             showTip('删除失败，请重试 ~')

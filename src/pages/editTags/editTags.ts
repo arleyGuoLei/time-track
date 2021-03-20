@@ -2,6 +2,11 @@ import { Component, Vue } from 'vue-property-decorator'
 import { tagsModel } from '@/models'
 import { showTip } from '@/utils/utils'
 import { ListItem } from '@/models/tagsModel'
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
 
 function swapArray(list: ListItem[], upIndex: number, downIndex: number) {
   list[upIndex] = list.splice(downIndex, 1, list[upIndex])[0]
@@ -47,6 +52,7 @@ export default class extends Vue {
         ...item,
       })
       this.tagValue = ''
+      this.$report('add_tag')
       showTip('添加成功')
     }
   }
@@ -58,6 +64,7 @@ export default class extends Vue {
         if (res.confirm) {
           await (this as any).$loading('deleteTag', tagsModel.deleteTag.bind(this), false, '删除中', _id)
           this.tagsList.splice(index, 1)
+          this.$report('delete_tag')
           showTip('删除成功')
         }
       },
@@ -77,6 +84,7 @@ export default class extends Vue {
     } else {
       await (this as any).$loading('updateTag', tagsModel.updateTag.bind(this), false, '保存中', item)
       this.showEdit = false
+      this.$report('update_tag')
       showTip('修改成功')
     }
   }

@@ -21,6 +21,11 @@
 import { dotsModel } from '@/models'
 import { showTip } from '@/utils/utils'
 import { Vue, Component, Prop, Emit } from 'vue-property-decorator'
+declare module 'vue/types/vue' {
+  interface Vue {
+    $report: (action: string, options?: AnyObject) => void
+  }
+}
 
 @Component
 export default class extends Vue {
@@ -43,6 +48,9 @@ export default class extends Vue {
             const {
               result: { updated = 0 },
             } = await (this as any).$loading('deleteDot', dotsModel.deleteDot, false, '删除中', id)
+            this.$report('delete_dot', {
+              type: 'record',
+            })
             if (updated === 0) {
               throw new Error('no updated')
             }
