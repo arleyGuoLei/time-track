@@ -11,10 +11,6 @@ export const authPhotosAlbum = () => {
  * @param {Number} maxSize 限制文件大小，5242880 = 5MB， 3145728 = 3MB，12MB = 12582912
  */
 export const chooseImage = async (count = 1, maxSize = 12582912) => {
-  // #ifdef MP-TOUTIAO
-  // await authPhotosAlbum()
-  // #endif
-
   return new Promise((resolve, reject) => {
     let sourceType = ['album', 'camera']
 
@@ -22,7 +18,6 @@ export const chooseImage = async (count = 1, maxSize = 12582912) => {
     sourceType = ['album']
     // #endif
     uni.chooseImage({
-      // #ifdef MP-TOUTIAO
       sourceType,
       count,
       success(e) {

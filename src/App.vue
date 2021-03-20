@@ -3,7 +3,6 @@ import Vue from 'vue'
 import { userModel } from './models'
 import { LOCAL_TOKEN_EXPIREDS_THRESHOLD, LOCAL_TOKEN_EXPIRED_KEY, LOCAL_TOKEN_KEY } from './utils/constant'
 import { initCloud } from './utils/cloud'
-import './style/common.css'
 
 export default {
   mpType: 'app',
@@ -66,6 +65,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import '@/style/common.css';
 @import 'cl-uni/index.scss';
 
 ::-webkit-scrollbar {

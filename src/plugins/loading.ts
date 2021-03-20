@@ -7,6 +7,9 @@ interface Page {
 
 export function getLoaingRef() {
   const page = getCurrentPages<Page>()
+  if (page.length === 0) {
+    return null
+  }
   const $vm = page[page.length - 1].$vm
   return $vm.$refs['loading'] || null
 }

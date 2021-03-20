@@ -5,11 +5,14 @@
     "versionName" : "1.0.2",
     "versionCode" : "102",
     "transformPx" : false,
-    "uniStatistics": {
-      "enable": true
+    "uniStatistics" : {
+        "enable" : true
     },
     "app-plus" : {
-        "compilerVersion": 3,
+        "compatible" : {
+            "ignoreVersion" : true
+        },
+        "compilerVersion" : 3,
         /* 5+App特有相关 */
         "modules" : {},
         /* 模块配置 */
@@ -40,20 +43,26 @@
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "permissionExternalStorage" : {
+                    "request" : "none",
+                    "prompt" : "应用保存运行状态等信息，需要获取读写手机存储（系统提示为访问设备上的照片、媒体内容和文件）权限，请允许。"
+                }
             },
             "ios" : {},
             /* ios打包配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {
+                "ad" : {}
+            }
         },
         /* SDK配置 */
         "usingComponents" : true,
         "splashscreen" : {
-          "alwaysShowBeforeRender" : true,
-          "waiting" : true,
-          "autoclose" : false,
-          "delay" : 0
-      }
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : false,
+            "delay" : 0
+        }
     },
     "quickapp" : {},
     /* 快应用特有相关 */
@@ -63,20 +72,21 @@
         "appid" : "wxbd226209f94595d6",
         "setting" : {
             "urlCheck" : false,
-            "es6" : false
+            "es6" : true,
+            "postcss" : true
         },
-        "permission": {
-          "scope.userLocation": {
-            "desc": "你的位置信息将用于记录打卡位置"
-          }
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于记录打卡位置"
+            }
         }
     },
     "mp-alipay" : {
         "usingComponents" : true,
         "appid" : "2021002131653435",
         "setting" : {
-          "urlCheck" : false,
-          "es6" : false
+            "urlCheck" : false,
+            "es6" : false
         }
     },
     "mp-baidu" : {
@@ -86,18 +96,20 @@
             "urlCheck" : false,
             "es6" : false
         },
-        "permission": {
-          "scope.userLocation": {
-            "desc": "你的位置信息将用于记录打卡位置"
-          }
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于记录打卡位置"
+            }
         }
     },
     "mp-toutiao" : {
         "usingComponents" : true,
         "appid" : "ttd11ea7a34e258f86",
         "setting" : {
-          "urlCheck" : false,
-          "es6" : false
+            "urlCheck" : false,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
         }
     },
     "mp-qq" : {
@@ -105,12 +117,14 @@
         "appid" : "1110355476",
         "setting" : {
             "urlCheck" : false,
-            "es6" : false
+            "es6" : true,
+            "minified" : true,
+            "postcss" : true
         },
-        "permission": {
-          "scope.userLocation": {
-            "desc": "你的位置信息将用于记录打卡位置"
-          }
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于记录打卡位置"
+            }
         }
     }
 }
