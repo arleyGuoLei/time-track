@@ -1,3 +1,4 @@
+import { createInterstitialAd } from './../../utils/ad'
 import { PAGE_SIZE } from './../../utils/constant'
 import { dotsModel } from '@/models'
 import { Vue, Component } from 'vue-property-decorator'
@@ -83,6 +84,15 @@ export default class extends Vue {
     console.log('record')
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onDeleteDot', this.onDelete)
+
+    this.initAd()
+  }
+
+  async initAd() {
+    // #ifdef MP-TOUTIAO
+    const ad = await createInterstitialAd('lb0l56mbqgg7ki5i4o')
+    ad?.show()
+    // #endif
   }
 
   onUnload() {

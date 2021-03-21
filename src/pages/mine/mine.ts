@@ -27,6 +27,13 @@ export default class extends Mixins(onShareAppMessageMixin) {
       openType: 'feedback',
     },
     // #endif
+    // #ifdef MP-TOUTIAO
+    {
+      iconName: 'advice',
+      title: '意见反馈',
+      method: 'onTipAdvice',
+    },
+    // #endif
     // #ifdef MP-QQ
     {
       iconName: 'qqGroup',
@@ -74,6 +81,10 @@ export default class extends Mixins(onShareAppMessageMixin) {
   aboutUS() {
     console.log('aboutUS')
     showTip('微信公众号：前端面试之道')
+  }
+
+  onTipAdvice() {
+    showTip('点击右上角『...』后可选择反馈哦 ~')
   }
 
   onShow() {

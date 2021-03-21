@@ -60,6 +60,8 @@
         <c-select title="开启量化值 (打点数据求和)" :value="openCalc" @change="onCalcSelectChange" />
 
         <button class="save" @click="onSave">{{ isUpdate ? '保存更改' : '保 存' }}</button>
+
+        <banner-ad />
       </view>
     </c-list>
   </view>

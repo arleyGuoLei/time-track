@@ -39,6 +39,7 @@
               <img class="finger-img" src="@/static/home-finger.png" />
             </view>
           </view>
+          <banner-ad v-if="index % 10 === 6" />
         </block>
       </view>
     </c-list>
