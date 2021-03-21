@@ -32,6 +32,8 @@
     <button class="save" @click="onSave">{{ pageType === 'add' ? '打 点' : '更 新' }}</button>
 
     <text class="text-grey text-sm margin-bottom">提示: “首页”长按打卡可快速打点</text>
+
+    <banner-ad />
   </view>
 </template>
 

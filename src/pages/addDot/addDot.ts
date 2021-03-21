@@ -2,6 +2,7 @@ import { DotItem } from '@/models/dotsModel'
 import { dotsModel } from '@/models'
 import { Component, Vue } from 'vue-property-decorator'
 import cUpload from './components/upload.vue'
+import bannerAd from '@/pages/addDot/components/banner-ad.vue'
 import { showTip, authSetting, dateFormat, time2Timestamp } from '@/utils/utils'
 
 declare module 'vue/types/vue' {
@@ -35,6 +36,7 @@ function validateForm(item: DotItem) {
 @Component({
   components: {
     cUpload,
+    bannerAd,
   },
 })
 export default class extends Vue {

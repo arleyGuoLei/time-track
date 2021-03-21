@@ -12,6 +12,7 @@ import cInput from '@/components/cInput.vue'
 import cSelect from '@/components/cSelect.vue'
 import cList from '@/components/cList.vue'
 import iconSetting from './components/iconSetting.vue'
+import bannerAd from '@/pages/addDot/components/banner-ad.vue'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -68,6 +69,7 @@ function validateForm(e: eventItem) {
     cInput,
     iconSetting,
     cSelect,
+    bannerAd,
   },
 })
 export default class extends Mixins(scrollTopMixin) {

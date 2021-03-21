@@ -4,6 +4,7 @@ import { Component, Mixins } from 'vue-property-decorator'
 import cHeader from '@/components/cHeader.vue'
 import cList from '@/components/cList.vue'
 import tag from '@/pages/home/components/tag.vue'
+import bannerAd from '@/pages/home/components/banner-ad.vue'
 import { scrollTopMixin } from '@/plugins/onScroll.mixin'
 import { onShareAppMessageMixin } from '@/plugins/shareAppMessage.mixin'
 import { eventsModel, dotsModel } from '@/models'
@@ -38,6 +39,7 @@ interface ListUpdateItem {
     cHeader,
     tag,
     cList,
+    bannerAd,
   },
 })
 export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
@@ -67,17 +69,15 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
       ;(this as any).$loading('getList', this.getList.bind(this))
     })
 
-    let getTagTime = 0
-    // #ifdef MP-TOUTIAO
-    getTagTime = 300
-    // #endif
-
-    setTimeout(() => {
-      // tag可能还没挂载所以取不到refs
-      this.$nextTick(() => {
+    const getTagTime = 50
+    // 初始化的时候，可能取不到ref
+    const tagTimer = setInterval(() => {
+      if (this.$refs.tag && (this.$refs.tag as any).initTagData) {
         ;(this.$refs.tag as any).initTagData()
-      })
+        clearInterval(tagTimer)
+      }
     }, getTagTime)
+
     /**监听list数据被其他页面修改，比如打点、新增事件等 */
     uni.$on('onListUpdate', this.onListUpdate)
 

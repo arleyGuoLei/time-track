@@ -9,6 +9,7 @@ import { dotsModel, eventsModel } from '@/models'
 import { showTip } from '@/utils/utils'
 import { DotItem as DotModelItem } from '@/models/dotsModel'
 import { Position } from '@/pages/record/record'
+import { createInterstitialAd } from '@/utils/ad'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -68,6 +69,14 @@ export default class extends Mixins(scrollTopMixin) {
 
   onLoad() {
     ;(this as any).$loading('initData', this.initData.bind(this))
+    this.initAd()
+  }
+
+  async initAd() {
+    // #ifdef MP-TOUTIAO
+    const ad = await createInterstitialAd('889i7hjdii0eiq0e9l')
+    ad?.show()
+    // #endif
   }
 
   async initData() {
