@@ -83,13 +83,13 @@
                 <view @click="onTapDotDescribe(item)" class="content text-sm text-grey margin-bottom-sm">{{
                   item.describe
                 }}</view>
-                <view class="img-container" v-if="item.imageList.length">
+                <view class="img-container" v-if="item.imageList && item.imageList.length">
                   <img
                     mode="aspectFill"
                     class="history-img"
                     v-for="imgUrl in item.imageList"
                     :key="imgUrl"
-                    :src="imgUrl"
+                    :src="imgUrl | thumbnail"
                     @click="onPreviewImg(imgUrl, item.imageList)"
                   />
                 </view>

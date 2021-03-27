@@ -4,7 +4,7 @@
       <img class="icon-img" mode="aspectFit" :src="iconSrc" />
     </view>
     <view class="content-container" @tap="onTapDetail(itemId, itemIndex)">
-      <p class="text text-black text-cut">{{ eventName }}</p>
+      <p class="text text-black text-cut">{{ eventName }} ({{ describe }})</p>
       <view class="text-grey text-sm event-time">
         <img class="icon-time mr-16" src="@/static/home-time.png" />
         <text class="text-cut">打点时间 {{ signTime }}</text>
@@ -35,6 +35,7 @@ export default class extends Vue {
   @Prop({ default: '' }) private iconSrc!: string
   @Prop({ default: '' }) private iconColor!: string
   @Prop({ default: '' }) private eventName!: string
+  @Prop({ default: '' }) private describe!: string
   @Prop({ default: '' }) private eventId!: string
   @Prop({ default: '' }) private signTime!: string
 

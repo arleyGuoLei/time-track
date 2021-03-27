@@ -22,6 +22,7 @@
         :eventId="item.event_id[0]._id"
         :signTime="item.time"
         :date="item.date"
+        :describe="item.describe"
         @onShowDetail="onShowDetail"
         @onDelete="onDelete"
       ></item>

@@ -1,5 +1,5 @@
 <template>
-  <view class="tags" :class="sticky ? '' : 'radius'">
+  <view class="tags ani-fadein anic-300ms" :class="sticky ? '' : 'radius'">
     <scroll-view
       :scroll-x="true"
       :scroll-into-view="'item_' + selectIndex"

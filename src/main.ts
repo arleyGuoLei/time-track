@@ -5,12 +5,14 @@ import link from '@/components/link.vue'
 import { router, RouterMount } from '@/utils/router'
 import loading from '@/plugins/loading'
 import timeFilter from '@/plugins/timeFilter'
+import thumbnailFilter from '@/plugins/thumbnailFilter'
 import report from '@/plugins/report'
 import cLoading from '@/components/cLoading.vue'
 
 Vue.use(router)
 Vue.use(loading)
 Vue.use(timeFilter)
+Vue.use(thumbnailFilter)
 Vue.use(report)
 
 Vue.config.productionTip = false

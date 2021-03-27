@@ -44,7 +44,7 @@
             <text class="current-describe text-sm text-grey mt-16">
               {{ item.describe }}
             </text>
-            <view class="img-container mt-16" v-if="item.imageList.length">
+            <view class="img-container mt-16" v-if="item.imageList && item.imageList.length">
               <img
                 v-for="imgUrl in item.imageList"
                 mode="aspectFill"
@@ -52,7 +52,7 @@
                 :data-img-url="imgUrl"
                 :data-img-list="item.imageList"
                 :key="imgUrl"
-                :src="imgUrl"
+                :src="imgUrl | thumbnail"
                 @click="onPreviewImg"
               />
               <text>{{ imgUrl }}</text>
