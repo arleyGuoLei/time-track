@@ -23,7 +23,7 @@
     <!-- #endif -->
 
     <c-list class="bg-white">
-      <view class="list-content ani-fadein anic-400ms">
+      <view class="list-content ani-fadein anic-300ms">
         <view class="list-title-container flex">
           <text class="list-title">{{ eventName }}</text>
           <view @click="onSelectAction">

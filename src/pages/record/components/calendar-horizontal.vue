@@ -150,11 +150,13 @@ export default class extends Vue {
   /**
    * 监听打点
    */
-  onDot({ date, backstage = true }: { date: string; backstage: boolean }) {
+  onDot({ date, backstage = true, force = false }: { date: string; backstage: boolean; force: boolean }) {
+    console.log('onDot_date::', date)
     const { week } = this
     if (
-      dayjs(date).isAfter(dayjs(week[0].format).subtract(1, 'day')) &&
-      dayjs(date).isBefore(dayjs(week[week.length - 1].format).add(1, 'day'))
+      (dayjs(date).isAfter(dayjs(week[0].format).subtract(1, 'day')) &&
+        dayjs(date).isBefore(dayjs(week[week.length - 1].format).add(1, 'day'))) ||
+      force
     ) {
       console.log('打点的日期在横版日历范围 刷新数据')
       this.initWeekTime(date, backstage, true)

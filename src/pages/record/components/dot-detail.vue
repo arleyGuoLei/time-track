@@ -129,6 +129,9 @@ export default class extends Vue {
   created() {
     this.initCardUI()
     this.formatList(this.dotList, this.detailInfo.index)
+    console.log('created_dotList::', this.dotList)
+    console.log('list::', this.list)
+    
   }
 
   initCardUI() {
@@ -163,12 +166,6 @@ export default class extends Vue {
         }
         this.$set(this.list, this.list.length - 1, newItem)
         this.$emit('onUpdate', newItem)
-      } else {
-        if (data.from === from) {
-          // 日期变化、id对应不上则关闭弹窗
-          this.$emit('onClose')
-          uni.$emit('dot', { date: data.date, backstage: true })
-        }
       }
     })
     const { list } = this

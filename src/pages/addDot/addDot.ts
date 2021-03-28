@@ -164,8 +164,7 @@ export default class extends Vue {
           event_id,
         })
 
-        // 更新日志页打点详情
-        uni.$emit('dot', { date: this.date, backstage: true })
+        uni.$emit('dot', { date: this.date, backstage: true, force: true })
 
         this.$report('update_dot')
 

@@ -66,8 +66,8 @@ export default {
         .where('status==1 && user_id==$env.uid' + (tagId !== DEFAULT_TAG_ID ? ` && tags in ["${tagId}"]` : ''))
         .field('eventName,create_time,iconSrc{src},iconColor{color},signNumber,lastTime,status,openCalc')
         // 打点次数字段 、 最后一次打点时间 (时间戳)
-        // 和当前时间最接近打卡习惯的事件(日期 星期) 打点次数 创建时间
-        .orderBy('lastTime asc, signNumber desc, create_time desc')
+        // 打点次数 和当前时间最接近打卡习惯的事件(日期 星期) 创建时间
+        .orderBy('signNumber desc, lastTime asc, create_time desc')
         .skip(size * (page - 1))
         .limit(size)
         .get({

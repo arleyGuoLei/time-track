@@ -27,7 +27,7 @@ export default class extends Mixins(onShareAppMessageMixin) {
       openType: 'feedback',
     },
     // #endif
-    // #ifdef MP-TOUTIAO
+    // #ifdef MP-TOUTIAO || MP-BAIDU
     {
       iconName: 'advice',
       title: '意见反馈',

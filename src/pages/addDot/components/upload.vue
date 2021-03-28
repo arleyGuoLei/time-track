@@ -1,7 +1,7 @@
 <template>
   <view class="upload">
     <view class="img-wrap" v-for="(url, index) in list" :key="index">
-      <img mode="aspectFill" class="img" @click="onPreviewImg(index)" :src="url" />
+      <img mode="aspectFill" class="img" @click="onPreviewImg(index)" :src="url | thumbnail" />
       <view class="img-delete">
         <img class="img-delete__icon" @click="onDelete(index)" src="@/static/delete.png" />
       </view>

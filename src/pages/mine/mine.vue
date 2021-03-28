@@ -56,7 +56,7 @@
         </button>
       </block>
 
-      <text class="on-bottom text-grey-light text-sm">version: 1.0.7</text>
+      <text class="on-bottom text-grey-light text-sm">version: 1.0.8</text>
     </view>
   </view>
 </template>
