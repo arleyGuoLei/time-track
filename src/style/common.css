@@ -154,6 +154,22 @@
   animation-duration: 300ms;
 }
 
+.anic-400ms {
+  animation-duration: 400ms;
+}
+
+.anic-500ms {
+  animation-duration: 500ms;
+}
+
+.anic-600ms {
+  animation-duration: 600ms;
+}
+
+.anic-1s {
+  animation-duration: 1000ms;
+}
+
 .ani-fadein {
   animation-name: fadeIn;
 }

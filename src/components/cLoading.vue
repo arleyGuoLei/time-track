@@ -1,7 +1,7 @@
 <template>
   <view>
     <view class="page" v-if="status !== 'none'">
-      <view class="loading" v-if="status === 'loading'">
+      <view class="loading" v-if="status === 'loading' || status === 'init'">
         <img class="loading-img" src="@/static/loading.png" />
         <text class="loading-text">{{ loadingText }}</text>
       </view>
@@ -18,7 +18,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 
-type STATUS = 'none' | 'loading' | 'fail'
+type STATUS = 'none' | 'loading' | 'fail' | 'init'
 
 interface Stash {
   key: string
@@ -30,8 +30,22 @@ interface Stash {
 @Component
 export default class extends Vue {
   private loadingText = '加载中'
-  private status: STATUS = 'none'
+  private status: STATUS = 'init' // 组件初始化状态
   private stash: Stash[] = []
+  private clearLoadingTimer = -1
+
+  mounted() {
+    this.clearInitLoading()
+  }
+
+  clearInitLoading() {
+    clearTimeout(this.clearLoadingTimer)
+    this.clearLoadingTimer = setTimeout(() => {
+      if (this.status === 'init') {
+        this.status = 'none'
+      }
+    }, 200)
+  }
 
   @Watch('stash')
   stashChange(stash: Stash[]) {
@@ -50,14 +64,18 @@ export default class extends Vue {
   }
 
   public add(key: string, fn: any, openReload = true, loadingText?: string) {
+    console.log('add::', this.stash)
+
     this.stash.push({ key, fn, status: 'loading', openReload })
     loadingText && (this.loadingText = loadingText)
   }
 
   public remove(key: string) {
-    console.log('remove::', this.stash)
-
-    this.stash = this.stash.filter(item => item.key !== key)
+    // 多个请求同时加载，避免闪烁延迟关闭
+    setTimeout(() => {
+      console.log('remove::', this.stash)
+      this.stash = this.stash.filter(item => item.key !== key)
+    }, 36)
   }
 
   public fail(key: string) {

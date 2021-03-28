@@ -27,7 +27,22 @@ export default {
       loadingText = '加载中', // 加载中文案
       ...args: any
     ) {
-      const loading = getLoaingRef() as any
+      // 加入获取loading重试机制，抖音小程序上第一次获取经常获取不到
+      let loading = getLoaingRef() as any
+      const retryNumber = 100 // 重试100次
+      for (let i = 0; i < retryNumber; i++) {
+        await new Promise(resolve => {
+          setTimeout(() => {
+            loading = getLoaingRef() as any
+            resolve(i)
+          }, 0)
+        })
+
+        if (loading && loading.add) {
+          break
+        }
+      }
+
       if (loading && loading.add) {
         try {
           loading.add(key, loadingFn, openReload, loadingText)
@@ -42,6 +57,7 @@ export default {
           throw error
         }
       } else {
+        // 重试完还是找不到loading组件
         // loading组件挂载有时候比较慢，不应该阻塞数据加载
         await loadingFn.apply(this, args)
       }
