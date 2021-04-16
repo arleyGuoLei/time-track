@@ -64,3 +64,5 @@ declare interface UniEvent extends Event {
 declare module '*.js'
 
 declare type Partiall<T> = { [P in keyof T]?: T[P] }
+
+declare const swan: any

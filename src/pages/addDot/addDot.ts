@@ -47,6 +47,7 @@ export default class extends Vue {
   private time = ''
   private endDate = ''
   private score = ''
+  private eventName = ''
 
   // 更新或新增 add, update
   private pageType: 'add' | 'update' = 'add'
@@ -69,6 +70,7 @@ export default class extends Vue {
     uni.setNavigationBarTitle({
       title: this.$Route.query.eventName,
     })
+    this.eventName = this.$Route.query.eventName
     this.event_id = this.$Route.query.eventId
     this.openCalc = this.$Route.query.openCalc === 'true' || this.$Route.query.openCalc === true
   }
@@ -78,6 +80,7 @@ export default class extends Vue {
     uni.setNavigationBarTitle({
       title: dotData.eventName,
     })
+    this.eventName = dotData.eventName
     this.pageType = 'update'
     this.event_id = dotData.eventId
     this.describe = dotData.describe
@@ -150,8 +153,11 @@ export default class extends Vue {
         })
 
         await showTip('打点成功', 800)
-        this.$Router.back(1)
         console.log('打点的dotId:', id)
+        this.$Router.replace({
+          path: '/pages/eventDetail/eventDetail',
+          query: { eventId: this.event_id, eventName: this.eventName },
+        })
       } else {
         // 更新打点数据
         const event_id = item.event_id
@@ -169,7 +175,10 @@ export default class extends Vue {
         this.$report('update_dot')
 
         await showTip('更新成功', 800)
-        this.$Router.back(1)
+        this.$Router.replace({
+          path: '/pages/eventDetail/eventDetail',
+          query: { eventId: this.event_id, eventName: this.eventName },
+        })
       }
     } else {
       showTip(v.msg)

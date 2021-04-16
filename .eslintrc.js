@@ -31,6 +31,7 @@ module.exports = {
     getApp: true,
     __ctx__: true,
     unidev: true,
-    ROUTES: true
+    ROUTES: true,
+    swan: true
   }
 };

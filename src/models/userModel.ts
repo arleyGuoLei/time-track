@@ -19,12 +19,26 @@ export default {
   async loginMP(): Promise<void> {
     try {
       const { code } = await new Promise((resolve, reject) => {
+        // #ifndef MP-BAIDU
         uni.login({ success: resolve, fail: reject })
+        // #endif
+
+        // #ifdef MP-BAIDU
+        swan.getLoginCode({
+          success: resolve,
+          fail: reject,
+        })
+        // #endif
       })
+
+      console.log('code::', code)
 
       const {
         result: { code: errcode = -1, token = '', message = '', tokenExpired = 0 },
       } = await request<LoginOption, LoginRes>('user/login_mp', { code })
+
+      console.log('log =>  ~ file: userModel.ts ~ line 28 ~ loginMP ~ token', token)
+      console.log('errcode::', errcode)
 
       if (errcode === 0 && token !== '') {
         setLocalToken({ token, tokenExpired })

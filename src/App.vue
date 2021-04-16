@@ -53,7 +53,10 @@ export default {
       // #ifdef MP
       const tokenExpired = uni.getStorageSync(LOCAL_TOKEN_EXPIRED_KEY)
       const token = uni.getStorageSync(LOCAL_TOKEN_KEY)
-      // 本地没有token 或者 token有效期小于(10分钟)则重新获取，当force为true表示强制登录，其他条件失效
+      console.log('tokenExpired::', tokenExpired)
+      console.log('token::', token)
+
+      // 本地没有token 或者 token有效期小于(120分钟)则重新获取，当force为true表示强制登录，其他条件失效
       if (!token || tokenExpired <= Date.now() + LOCAL_TOKEN_EXPIREDS_THRESHOLD || force) {
         await userModel.loginMP()
       }
