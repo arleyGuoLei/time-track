@@ -26,6 +26,7 @@ function initEvent(cloud: UniCloud.UniCloud) {
       'TOKEN_INVALID_ANONYMOUS_USER',
     ]
     if (refreshList.includes(code)) {
+      setLocalToken({ token: '', tokenExpired: -1 })
       getApp().login(true) // 强制刷新token
     }
   })

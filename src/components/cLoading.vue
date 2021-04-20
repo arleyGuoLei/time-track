@@ -16,6 +16,8 @@
 </template>
 
 <script lang="ts">
+import { LOCAL_TOKEN_KEY } from '@/utils/constant'
+import { showTip } from '@/utils/utils'
 import { Vue, Component, Watch } from 'vue-property-decorator'
 
 type STATUS = 'none' | 'loading' | 'fail' | 'init'
@@ -99,14 +101,19 @@ export default class extends Vue {
   }
 
   private onReload() {
-    console.log(this.stash)
-
-    this.stash
-      .filter(item => item.status === 'fail')
-      .forEach(item => {
-        this.remove(item.key)
-        ;(this as any).$loading(item.key, item.fn)
-      })
+    const token = uni.getStorageSync(LOCAL_TOKEN_KEY)
+    // 没有token就不进行重试
+    if (token) {
+      console.log(this.stash)
+      this.stash
+        .filter(item => item.status === 'fail')
+        .forEach(item => {
+          this.remove(item.key)
+          ;(this as any).$loading(item.key, item.fn)
+        })
+    } else {
+      showTip('加载异常, 请重试')
+    }
   }
 }
 </script>

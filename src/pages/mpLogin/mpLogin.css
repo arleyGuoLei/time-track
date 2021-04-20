@@ -1,0 +1,42 @@
+
+.login {
+  display: flex;
+  width: 750rpx;
+  flex-direction: column;
+  align-items: center;
+  border-top-left-radius: 32rpx;
+  border-top-right-radius: 32rpx;
+  background-color: #ffffff;
+  padding-top: 64rpx;
+}
+
+.login-icon {
+  width: 96rpx;
+  height: 96rpx;
+}
+
+.login-title {
+  margin-top: 48rpx;
+}
+
+.login-desc {
+  margin-top: 32rpx;
+}
+
+.login-button {
+  width: 520rpx;
+  height: 100rpx;
+  background: #a5caf1;
+  color: #ffffff;
+  border-radius: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 80rpx auto 84rpx auto;
+  border: 0;
+  outline: none;
+}
+
+.login-tip {
+
+}

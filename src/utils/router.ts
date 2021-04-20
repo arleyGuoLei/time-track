@@ -42,8 +42,32 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  // #ifdef MP-BAIDU
+  const res = swan.isLoginSync()
+  if (res.isLogin) {
+    await appLaunched()
+    next()
+  } else {
+    // 没有登录
+    const mpLoginPath = '/pages/mpLogin/mpLogin'
+    // 要跳转的不是登录页
+    if (to.path !== mpLoginPath) {
+      const app = getApp<App>()
+      ;(app as any).initUI()
+      ;(app as any).initCloud()
+
+      // 跳转至登录页
+      next({ path: mpLoginPath })
+    } else {
+      next()
+    }
+  }
+  // #endif
+
+  // #ifndef MP-BAIDU
   await appLaunched()
   next()
+  // #endif
 })
 
 router.afterEach((to, from) => {

@@ -13,6 +13,18 @@
         }
       }
     },
+		{
+      "path":"pages/mpLogin/mpLogin",
+      "style": {
+        "backgroundColor": "#F5F5F5",
+        "backgroundTextStyle": "dark",
+        "bounce": "none",
+        "titleNView": false,
+        "app-plus": {
+          "scrollIndicator": "none"
+        }
+      }
+    },
     {
 			"path":"pages/addDot/addDot",
 			"style": {
