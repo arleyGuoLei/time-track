@@ -1,6 +1,6 @@
 <template>
   <view class="page">
-    <c-header imgSrc="http://img.i7xy.cn/20210420001322.png" />
+    <c-header imgSrc="/static/headerImg/20210420001322.png" />
 
     <c-list>
       <view class="login">

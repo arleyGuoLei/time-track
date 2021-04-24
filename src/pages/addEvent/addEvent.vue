@@ -7,7 +7,7 @@
       showBack
       header-type="backgroundColor"
       :title="isUpdate ? '修改事件' : '新增事件'"
-      imgSrc="http://img.i7xy.cn/20201220134440.png"
+      imgSrc="/static/headerImg/20201220134440.png"
       :scroll-y="scrollTop"
     />
     <!-- #endif -->
@@ -17,7 +17,7 @@
       :showBack="false"
       header-type="backgroundColor"
       :title="isUpdate ? '修改事件' : '新增事件'"
-      imgSrc="http://img.i7xy.cn/20201220134440.png"
+      imgSrc="/static/headerImg/20201220134440.png"
       :scroll-y="scrollTop"
     />
     <!-- #endif -->

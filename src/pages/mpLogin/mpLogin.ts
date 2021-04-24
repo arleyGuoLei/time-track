@@ -26,6 +26,6 @@ export default class extends Vue {
       this.$Router.replaceAll({
         path: '/pages/home/home',
       })
-    }, 0)
+    }, 200)
   }
 }

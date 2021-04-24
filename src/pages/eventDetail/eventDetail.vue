@@ -7,7 +7,7 @@
       showBack
       header-type="backgroundColor"
       :title="eventName"
-      imgSrc="http://img.i7xy.cn/20210113232214.png"
+      imgSrc="/static/headerImg/20210113232214.png"
       :scroll-y="scrollTop"
     />
     <!-- #endif -->
@@ -17,7 +17,7 @@
       :showBack="false"
       header-type="backgroundColor"
       :title="eventName"
-      imgSrc="http://img.i7xy.cn/20210113232214.png"
+      imgSrc="/static/headerImg/20210113232214.png"
       :scroll-y="scrollTop"
     />
     <!-- #endif -->

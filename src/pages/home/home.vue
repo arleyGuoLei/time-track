@@ -6,7 +6,7 @@
       v-show="load"
       header-type="backgroundColor"
       :title="title"
-      imgSrc="http://img.i7xy.cn/20201208234148.png"
+      imgSrc="/static/headerImg/20201208234148.png"
       :scroll-y="scrollTop"
     />
 
