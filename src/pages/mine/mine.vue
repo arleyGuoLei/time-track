@@ -37,19 +37,19 @@
       <block v-for="(item, index) in list" :key="index">
         <button
           v-if="item.openType === 'openGroupProfile'"
-          class="list flex"
+          class="list-item flex"
           :open-type="item.openType"
           :group-id="item.groupId"
           @click="methods(item.method)"
         >
-          <view class="left flex">
+          <view class="flex">
             <img class="list-icon mr-24" :src="`../../static/mine-${item.iconName}.png`" />
             <span>{{ item.title }}</span>
           </view>
         </button>
 
-        <button v-else class="list flex" :open-type="item.openType" @click="methods(item.method)">
-          <view class="left flex">
+        <button v-else class="list-item flex" :open-type="item.openType" @click="methods(item.method)">
+          <view class="flex">
             <img class="list-icon mr-24" :src="`../../static/mine-${item.iconName}.png`" />
             <span>{{ item.title }}</span>
           </view>

@@ -38,8 +38,9 @@
   box-sizing: border-box;
   margin-top: -64rpx;
 }
-.list {
+.list-item {
   border-bottom: 1px dotted #EFEFEF;
+  justify-content: start!important;
 }
 .list-icon {
   width: 48rpx;
