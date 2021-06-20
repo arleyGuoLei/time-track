@@ -138,6 +138,59 @@ export default {
     }
   },
 
+  // 由于暂不支持多表嵌套联表查询，所以先手动查询 替换数据实现
+  async getDotListByDateIconInfo(dbData: any) {
+    if (dbData.length === 0) {
+      return dbData
+    }
+    const data = JSON.parse(JSON.stringify(dbData))
+    const iconColors: string[] = []
+    const iconSrcs: string[] = []
+    const colorMap: { [index: string]: string } = {}
+    const imgMap: { [index: string]: string } = {}
+
+    data.forEach((item: any) => {
+      const iconColorId = item.event_id[0].iconColor
+      const iconSrcId = item.event_id[0].iconSrc
+      !iconColors.includes(iconColorId) && iconColors.push(iconColorId)
+      !iconSrcs.includes(iconSrcId) && iconSrcs.push(iconSrcId)
+    })
+
+    const db = getApp<App>().globalData.db
+    try {
+      const colorP = db
+        .collection('icon_colors')
+        .field('color,_id')
+        .where(`status==1 && _id in ["${iconColors.join('","')}"]`)
+        .get()
+
+      const srcP = db
+        .collection('icon_images')
+        .field('src,_id')
+        .where(`status==1 && _id in ["${iconSrcs.join('","')}"]`)
+        .get()
+
+      const [colorsRes, imgRes] = await Promise.all([colorP, srcP])
+
+      colorsRes.result.data.forEach((color: { _id: string; color: string }) => {
+        colorMap[color._id] = color.color
+      })
+      imgRes.result.data.forEach((img: { _id: string; src: string }) => {
+        imgMap[img._id] = img.src
+      })
+    } catch (error) {
+      report(error, 'error')
+      throw error
+    }
+
+    // 模拟联表查询结构
+    data.forEach((item: any) => {
+      item.event_id[0].iconColor = [{ color: colorMap[item.event_id[0].iconColor] }]
+      item.event_id[0].iconSrc = [{ src: imgMap[item.event_id[0].iconSrc] }]
+    })
+    return data
+  },
+
   /**
    * 根据日期查询打点数据
    * @param date 日期
@@ -151,11 +204,14 @@ export default {
       const {
         result: { data = [], count },
       } = await db
-        .collection('dots,events,icon_images,icon_colors')
+        // 嵌套联表查询被官方禁用，暂时使用hack方式 getDotListByDateIconInfo查询 https://ask.dcloud.net.cn/article/id-38966__page-2
+        // .collection('dots,events,icon_images,icon_colors')
+        .collection('dots,events')
         .where(`event_id.status==1 && status==1 && user_id==$env.uid && date == "${date}"`)
         // 主表：_id,time 事件表：event_id{eventName,iconSrc{src},iconColor{color}}
         .field(
-          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id{_id,status,eventName,iconSrc{src},iconColor{color},openCalc}',
+          // '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id{_id,status,eventName,iconSrc{src},iconColor{color},openCalc}',
+          '_id,date,time,describe,imageList,score,dotTimestamp,position,event_id{_id,status,eventName,iconSrc,iconColor,openCalc}',
         )
         .orderBy('dotTimestamp')
         .skip(size * (page - 1))
@@ -165,7 +221,7 @@ export default {
         })
 
       return {
-        data,
+        data: await this.getDotListByDateIconInfo(data),
         count,
         size,
       }

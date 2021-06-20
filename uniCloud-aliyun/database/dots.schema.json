@@ -73,7 +73,7 @@
       }
     },
     "score": {
-      "bsonType": "int",
+      "bsonType": "double",
       "description": "计算值",
       "defaultValue": 0
     },

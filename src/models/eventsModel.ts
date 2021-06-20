@@ -1,4 +1,4 @@
-import { DEFAULT_TAG_ID, PAGE_SIZE } from './../utils/constant'
+import { DEFAULT_TAG_ID, PAGE_SIZE, STORE_TAG_ID } from './../utils/constant'
 import { report } from '@/utils/cloud'
 
 export interface ListItem {
@@ -11,6 +11,7 @@ export interface ListItem {
   signNumber?: number
   lastTime?: number
   status?: 1 | 0
+  isStore?: number // 1 | 0
 }
 
 export default {
@@ -63,11 +64,17 @@ export default {
         result: { data = [], count },
       } = await db
         .collection('events,icon_images,icon_colors')
-        .where('status==1 && user_id==$env.uid' + (tagId !== DEFAULT_TAG_ID ? ` && tags in ["${tagId}"]` : ''))
-        .field('eventName,create_time,iconSrc{src},iconColor{color},signNumber,lastTime,status,openCalc')
-        // 打点次数字段 、 最后一次打点时间 (时间戳)
-        // 打点次数 和当前时间最接近打卡习惯的事件(日期 星期) 创建时间
-        .orderBy('signNumber desc, lastTime asc, create_time desc')
+        .where(
+          'status==1 && user_id==$env.uid' +
+            (tagId !== DEFAULT_TAG_ID && tagId !== STORE_TAG_ID ? ` && tags in ["${tagId}"]` : '') +
+            // 显示到存档的事件，在其他标签下需要可以查询到，否则标签下对应的事件数目得重新计算
+            (tagId === DEFAULT_TAG_ID ? ' && isStore!=1' : '') +
+            (tagId === STORE_TAG_ID ? ' && isStore==1' : ''),
+        )
+        .field('eventName,create_time,iconSrc{src},iconColor{color},signNumber,lastTime,status,openCalc,isStore')
+
+        // 当前时间最接近打卡习惯的事件(日期 星期) 打点次数 和 创建时间
+        .orderBy('lastTime desc, signNumber desc, create_time desc')
         .skip(size * (page - 1))
         .limit(size)
         .get({
@@ -92,7 +99,7 @@ export default {
       } = await db
         .collection('events,tags,icon_images,icon_colors')
         .where(`_id=='${eventId}' && user_id==$env.uid`)
-        .field('eventName,signNumber,openCalc,tags{_id,name},iconSrc{_id,src},iconColor{_id,color}')
+        .field('eventName,signNumber,openCalc,tags{_id,name},iconSrc{_id,src},iconColor{_id,color},isStore')
         .get()
 
       return data

@@ -17,6 +17,7 @@
           {{ value.name }}
         </text>
       </block>
+      <text class="tag-item" :class="[selectIndex === -2 ? 'tag-item__active' : '']" @click="onSelect(-2)">归档</text>
     </scroll-view>
     <router-link to="/pages/editTags/editTags">
       <view class="tags-icon">
@@ -29,7 +30,7 @@
 <script lang="ts">
 import { tagsModel } from '@/models'
 import { ListItem } from '@/models/tagsModel'
-import { DEFAULT_TAG_ID } from '@/utils/constant'
+import { DEFAULT_TAG_ID, STORE_TAG_ID } from '@/utils/constant'
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component
@@ -75,7 +76,7 @@ export default class extends Vue {
       return
     }
     this.selectIndex = index
-    this.$emit('changeTag', index === -1 ? DEFAULT_TAG_ID : this.list[index]._id)
+    this.$emit('changeTag', index === -1 ? DEFAULT_TAG_ID : index === -2 ? STORE_TAG_ID : this.list[index]._id)
   }
 
   onTagsChange(data: any) {

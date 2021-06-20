@@ -51,10 +51,16 @@
           <c-select :title="item.name" :value="item.selected" @change="onTagSelectChange(index)" />
         </block>
 
-        <view class="tag-blank margin-top" v-if="tags.length === 0">
+        <view class="tag-blank margin-top margin-bottom-sm" v-if="tags.length === 0">
           <img class="blank-img margin-bottom-sm" src="@/static/blank2.png" />
           <text class="text-sm text-grey">无任何标签</text>
         </view>
+
+        <c-switch
+          :title="'显示到' + (showPositionSwitchStatus ? '全部' : '归档')"
+          :value="showPositionSwitchStatus"
+          @change="onSwitchChange"
+        />
 
         <c-title title="其他设置" />
         <c-select title="开启量化值 (打点数据求和)" :value="openCalc" @change="onCalcSelectChange" />

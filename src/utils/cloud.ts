@@ -16,6 +16,8 @@ function initEvent(cloud: UniCloud.UniCloud) {
   cloud.database().on('error', (err: CloudError) => {
     const { code = '' } = err
 
+    console.log('## code::', code)
+
     // 错误码：https://uniapp.dcloud.io/uniCloud/clientdb?id=returnvalue
     // 这些错误码需要刷新token
     const refreshList = [

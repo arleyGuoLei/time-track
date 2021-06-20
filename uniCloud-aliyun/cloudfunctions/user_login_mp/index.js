@@ -49,7 +49,7 @@ async function setDefaultDATA(uid) {
   const timestamp = dateObj.getTime()
 
   // 默认TAG
-  const tags = ['新人引导', '日常', '周卡', '爱情', '其他'].map((tagTitle, index) => ({
+  const tags = ['新人引导', '日常', '周卡', '其他'].map((tagTitle, index) => ({
     eventNumber: 0,
     status: 1,
     name: tagTitle,
@@ -67,42 +67,10 @@ async function setDefaultDATA(uid) {
       iconSrc: '603cc2ad20be4e00012e3861',
       iconColor: '603cc2ade028a50001cd2ed2',
       // 0 新人引导, 4 其他
-      tags: [tagIds[0], tagIds[4]],
+      tags: [tagIds[0], tagIds[3]],
       openCalc: true,
       signNumber: 6, // 有6个默认打点
       lastTime: timestamp,
-    },
-    {
-      eventName: '洗澡 🛀',
-      iconSrc: '603cc2ad20be4e00012e381b',
-      iconColor: '603cc2ade028a50001cd2e82',
-      // 1 日常
-      tags: [tagIds[1]],
-      openCalc: true,
-    },
-    {
-      eventName: '到达公司 💻',
-      iconSrc: '603cc2ad20be4e00012e382b',
-      iconColor: '603cc2ade028a50001cd2ebf',
-      // 1 日常
-      tags: [tagIds[1]],
-      openCalc: false,
-    },
-    {
-      eventName: '离开公司/下班 🏃',
-      iconSrc: '603cc2ad20be4e00012e3831',
-      iconColor: '603cc2ade028a50001cd2ed4',
-      // 1 日常
-      tags: [tagIds[1]],
-      openCalc: false,
-    },
-    {
-      eventName: '拉臭臭 💩',
-      iconSrc: '603cc2ad20be4e00012e384f',
-      iconColor: '603cc2ade028a50001cd2ea2',
-      // 1 日常
-      tags: [tagIds[1]],
-      openCalc: false,
     },
     {
       eventName: '和妈妈打电话',
@@ -116,8 +84,8 @@ async function setDefaultDATA(uid) {
       eventName: '看电影',
       iconSrc: '603cc2ad20be4e00012e3829',
       iconColor: '603cc2ade028a50001cd2edc',
-      // 1 日常, 3 爱情
-      tags: [tagIds[1], tagIds[3]],
+      // 2 周卡
+      tags: [tagIds[2]],
       openCalc: false,
     },
     {

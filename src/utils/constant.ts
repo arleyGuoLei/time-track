@@ -7,6 +7,9 @@ export const LOCAL_TOKEN_EXPIREDS_THRESHOLD = 120 * 60 * 1000
 /* 默认 全部tag的ID标识 */
 export const DEFAULT_TAG_ID = '-1'
 
+/* 归档tag的ID标识 */
+export const STORE_TAG_ID = '-2'
+
 /* 默认分页查询每页的数据量 */
 export const PAGE_SIZE = 20
 

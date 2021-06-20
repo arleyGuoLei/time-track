@@ -57,6 +57,9 @@ export default class extends Mixins(scrollTopMixin) {
   private iconColor = []
   private iconSrc = []
 
+  /* 是否放入归档 */
+  private isStore = false
+
   private dotList: DotItem[] = []
   private historyList: HistoryItem = {}
 
@@ -89,13 +92,15 @@ export default class extends Mixins(scrollTopMixin) {
       dotsModel.getTotalScoreByEventId(eventId),
     ])
     uni.setNavigationBarTitle({ title: baseData[0].eventName })
+
     this.eventName = baseData[0].eventName
     this.signNumber = baseData[0].signNumber
     this.openCalc = baseData[0].openCalc
     this.tags = baseData[0].tags
     this.iconColor = baseData[0].iconColor[0]
     this.iconSrc = baseData[0].iconSrc[0]
-    this.score = scoreSum
+    this.isStore = baseData[0].isStore ? true : false
+    this.score = +scoreSum.toFixed(2)
   }
 
   async getHistoryList(eventId: string, page = 1) {
@@ -158,7 +163,7 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   onSelectAction() {
-    const { eventId, eventName, tags, openCalc, iconColor, iconSrc } = this
+    const { eventId, eventName, tags, openCalc, iconColor, iconSrc, isStore } = this
     uni.showActionSheet({
       itemList: ['编辑事件', '删除事件'],
       success: res => {
@@ -167,7 +172,7 @@ export default class extends Mixins(scrollTopMixin) {
           console.log('编辑')
           this.$Router.push({
             path: '/pages/addEvent/addEvent',
-            query: { type: 'update', eventId, eventName, tags, openCalc, iconColor, iconSrc },
+            query: { type: 'update', eventId, eventName, tags, openCalc, iconColor, iconSrc, isStore },
           })
         } else if (res.tapIndex === 1) {
           // 删除事件

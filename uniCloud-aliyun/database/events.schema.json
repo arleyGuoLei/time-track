@@ -76,6 +76,21 @@
         }
       ]
     },
+    "isStore": {
+      "bsonType": "int",
+      "description": "是否放入归档中",
+      "defaultValue": 0,
+      "enum": [
+        {
+          "text": "全部",
+          "value": 0
+        },
+        {
+          "text": "归档",
+          "value": 1
+        }
+      ]
+    },
     "create_time": {
       "bsonType": "timestamp",
       "description": "创建时间",

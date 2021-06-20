@@ -12,6 +12,7 @@ import cInput from '@/components/cInput.vue'
 import cSelect from '@/components/cSelect.vue'
 import cList from '@/components/cList.vue'
 import iconSetting from './components/iconSetting.vue'
+import cSwitch from './components/c-switch.vue'
 import bannerAd from '@/pages/addDot/components/banner-ad.vue'
 
 declare module 'vue/types/vue' {
@@ -70,6 +71,7 @@ function validateForm(e: eventItem) {
     iconSetting,
     cSelect,
     bannerAd,
+    cSwitch,
   },
 })
 export default class extends Mixins(scrollTopMixin) {
@@ -88,6 +90,9 @@ export default class extends Mixins(scrollTopMixin) {
   }
   /* tags */
   private tags: Tag[] = []
+
+  private showPositionSwitchStatus = true
+
   /* 开启量化值 */
   private openCalc = false
   /* 新建 or 更新 */
@@ -95,13 +100,14 @@ export default class extends Mixins(scrollTopMixin) {
 
   onLoad() {
     if (this.$Route.query.type === 'update') {
-      const { eventId, eventName, openCalc, iconColor, iconSrc } = this.$Route.query
+      const { eventId, eventName, openCalc, iconColor, iconSrc, isStore } = this.$Route.query
       this.eventId = eventId
       this.eventName = eventName
       this.openCalc = openCalc
       this.iconColor = iconColor
       this.iconSrc = iconSrc
       this.isUpdate = true
+      this.showPositionSwitchStatus = !isStore
     }
     this.$nextTick(() => {
       ;(this as any).$loading('getTags', this.getTags.bind(this))
@@ -129,6 +135,13 @@ export default class extends Mixins(scrollTopMixin) {
 
   onCalcSelectChange() {
     this.openCalc = !this.openCalc
+  }
+
+  /**
+   * 显示位置switch change
+   */
+  onSwitchChange(status: boolean) {
+    this.showPositionSwitchStatus = status
   }
 
   async getTags() {
@@ -165,14 +178,16 @@ export default class extends Mixins(scrollTopMixin) {
   }
 
   async onSave() {
-    const { eventName, iconSrc, iconColor, tags, openCalc, isUpdate, eventId } = this
+    const { eventName, iconSrc, iconColor, tags, openCalc, isUpdate, eventId, showPositionSwitchStatus } = this
     const item = {
       eventName,
       iconSrc: iconSrc._id,
       iconColor: iconColor._id,
       tags: getSelectTagsId(tags),
       openCalc,
+      isStore: showPositionSwitchStatus ? 0 : 1,
     }
+
     const v = validateForm(item)
     if (v.status) {
       if (isUpdate) {
@@ -204,6 +219,11 @@ export default class extends Mixins(scrollTopMixin) {
             {
               key: 'openCalc',
               value: openCalc,
+              updateType: 'replace',
+            },
+            {
+              key: 'isStore',
+              value: item.isStore,
               updateType: 'replace',
             },
           ],

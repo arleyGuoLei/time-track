@@ -1,3 +1,4 @@
+import { STORE_TAG_ID } from './../../utils/constant'
 import { playAudio } from './../../utils/utils'
 import { DEFAULT_TAG_ID, PAGE_SIZE } from '@/utils/constant'
 import { Component, Mixins } from 'vue-property-decorator'
@@ -231,7 +232,11 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
 
   addItem(item: eventItem) {
     console.log(item)
-    if (item.tags.includes(this.tagId) || this.tagId === DEFAULT_TAG_ID) {
+    if (
+      item.tags.includes(this.tagId) ||
+      (this.tagId === DEFAULT_TAG_ID && item.isStore === 0) ||
+      (this.tagId === STORE_TAG_ID && item.isStore === 1)
+    ) {
       this.eventList = [item].concat(this.eventList)
     }
   }
@@ -259,7 +264,16 @@ export default class extends Mixins(scrollTopMixin, onShareAppMessageMixin) {
         }
         return event
       })
-      .filter(item => item.status !== 0)
+      .filter(item => {
+        if (this.tagId === DEFAULT_TAG_ID) {
+          // isStore == 1 => 已经归档
+          return item.status !== 0 && item.isStore !== 1
+        }
+        if (this.tagId === STORE_TAG_ID) {
+          return item.status !== 0 && item.isStore === 1
+        }
+        return item.status !== 0
+      })
   }
 
   onListUpdate(item: ListUpdateItem) {
