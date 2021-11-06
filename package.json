@@ -2,6 +2,17 @@
   "name": "time-track",
   "version": "0.1.0",
   "private": true,
+  "uni_modules": {
+    "encrypt": [
+      "uniCloud-aliyun/cloudfunctions/user_login_mp/index.js",
+      "uniCloud-aliyun/cloudfunctions/user_login_mp/code2Session.js",
+      "uniCloud-aliyun/cloudfunctions/uni-clientDB-actions/update-dot.js",
+      "uniCloud-aliyun/cloudfunctions/uni-clientDB-actions/save-event.js",
+      "uniCloud-aliyun/cloudfunctions/uni-clientDB-actions/delete-event-tag.js",
+      "uniCloud-aliyun/cloudfunctions/common/get-access-token/index.js",
+      "uniCloud-aliyun/cloudfunctions/censor_image/index.js"
+    ]
+  },
   "scripts": {
     "serve": "npm run dev:h5",
     "build": "npm run build:h5",
