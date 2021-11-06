@@ -8,11 +8,15 @@
 - 产品故事：之前住院期间，每天需要记录每次的尿量，没有特别好的记录软件，所以就选择了备忘录，记个时间，记个尿量，但还是太麻烦。有想过开发一个专门给患者们`记录尿量`的小程序；另外，平时生活重复，工作和家两点一线，有的时候会不记得上次什么时候`洗的澡`？有时候还想记录家里的`桶装水喝了几天`？每天`工作了多久`？上次`“开小会”`是什么时候？上次`和家里联系`是什么时候？这个副业带给我多少`收益`？想要记录下每天吃的`饭菜`等。综上需求，所以设计了该产品，`以时间和事件归类，来记录生活小日常`。
 - 核心功能：`事件和打点的管理`。事件打点支持记录时间、位置、备注、上传图片等，事件可进行分类，可以查看每天打点日志，支持记录事件打点总和。
 
-- 1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
-- 1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
-- 1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
+--------
+
+1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
+1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
+1分钟视频介绍演示项目：[https://www.bilibili.com/video/BV1w54y1b7JZ/](https://www.bilibili.com/video/BV1w54y1b7JZ/)
 
 ... 重要的事情说三遍
+
+--------
 
 ### 自己的使用感受
 
@@ -28,6 +32,10 @@
 自己使用下来感觉对自己的生活反思更多了，记录下来的东西也挺多，方便自己随时追溯回忆
 
 ### 设计
+
+![完整设计稿](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/d94321f3-1f96-413c-ac6d-8d2f8b439e8a.png)
+
+![日志页设计稿](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/970d245f-2701-4fdf-ab49-d91ec9478950.png)
 
 - 首页：根据事件标签分类展示事件列表，长按“打卡”可快速打点，链接至新增事件、编辑标签、事件详情等页面。
 
@@ -49,16 +57,34 @@
 
 ![事件打点页面](http://img.i7xy.cn/20210328234554.png)
 
+#### 更多截图
+
+![1](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/69766252-5875-4389-ab0e-2f8a39ad05ab.jpg)
+
+![2](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/86ff0cc8-f50e-414d-b838-629129ca37b6.jpg)
+
+![3](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/f22fdd2c-a2e2-495e-acd2-3d0ff6d70e71.jpg)
+
+![4](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/737c0318-697b-4599-a036-7c213a946893.jpg)
+
+![5](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/9af328c1-eb34-4dae-b2b7-95705e4d018a.jpg)
+
+![6](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/e8872d17-098b-467c-982e-8e0499aff990.jpg)
+
+![7](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/067ff7c2-85aa-43d3-99d3-ddc00cdcad94.jpg)
+
+![8](https://vkceyugu.cdn.bspapp.com/VKCEYUGU-5988d11f-2178-4757-82ed-80342d2c8132/69766252-5875-4389-ab0e-2f8a39ad05ab.jpg)
+
 ### 后序计划
 
-- [ ] 首页搜索事件、打点内容
-- [ ] 主题色切换
-- [ ] 顶部图片可自定义
-- [ ] 事件归档
-- [ ] 订阅打点、打点提醒
-- [ ] 订阅VIP
-- [ ] 日记生成
-- [ ] 打点地图
+- 首页搜索事件、打点内容
+- 主题色切换
+- 顶部图片可自定义
+- 事件归档
+- 订阅打点、打点提醒
+- 订阅VIP
+- 日记生成
+- 打点地图
 
 ### 项目时间线
 
@@ -101,6 +127,100 @@
 ├── icon_images.schema.json # 图标图片
 ├── tags.schema.json # 标签分类数据
 ├── uni-id-users.schema.json # 用户表，基于 uni-id
+```
+
+### 代码目录参考
+
+```text
+├── JS_SDK # fork 了 uni-id 修改了一下，导出了部分函数，实现各种小程序的登录
+|  ├── README.md
+|  └── uni-id
+├── README.md
+├── babel.config.js
+├── db
+|  ├── icon_colors.json
+|  └── icon_images.json
+├── design.sketch # 设计稿正式版
+├── design_协作草稿.sketch # 设计稿草稿
+├── icons # 图标
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── public
+|  └── index.html
+├── scripts
+|  ├── gen_iconColor.js
+|  └── gen_iconSrc.js
+├── src
+|  ├── App.vue
+|  ├── components
+|  |  ├── cHeader.vue # 全局头部组件
+|  |  ├── cInput.vue # 全局输入框组件
+|  |  ├── cList.vue # 全局列表组件
+|  |  ├── cLoading.vue # 全局加载组件
+|  |  ├── cSelect.vue # 选择组件
+|  |  ├── cTitle.vue # 标题组件
+|  |  ├── link.vue # router link
+|  |  └── uni-clientdb.vue
+|  ├── main.ts
+|  ├── manifest.json
+|  ├── models
+|  |  ├── dotsModel.ts # 打点数据库操作
+|  |  ├── eventsModel.ts # 事件的数据库操作
+|  |  ├── iconColorsModel.ts # 图标颜色数据操作
+|  |  ├── iconImagesModel.ts # 图标图片数据操作
+|  |  ├── index.ts
+|  |  ├── tagsModel.ts # 标签
+|  |  └── userModel.ts # 用户表操作
+|  ├── pages
+|  |  ├── addDot # 增加打点
+|  |  ├── addEvent # 增加事件
+|  |  ├── editTags # 编辑标签
+|  |  ├── eventDetail # 事件详情
+|  |  ├── home # 首页
+|  |  ├── mine # 我的
+|  |  ├── mpLogin # 小程序登录页
+|  |  └── record # 日志页
+|  ├── pages.json
+|  ├── plugins
+|  |  ├── loading.ts # 封装全局加载
+|  |  ├── onScroll.mixin.ts # 滚动 mixin
+|  |  ├── report.ts # 打点
+|  |  ├── shareAppMessage.mixin.ts # 分享 mixin
+|  |  ├── thumbnailFilter.ts # 缩图 filter
+|  |  └── timeFilter.ts # 时间处理 filter
+|  ├── sfc.d.ts
+|  ├── static # 图片静态资源
+|  ├── style
+|  |  └── common.css
+|  ├── uni.scss
+|  └── utils
+|     ├── SOtime.js
+|     ├── ad.ts # 广告封装
+|     ├── cloud.ts # 云开发封装
+|     ├── config.ts # 配置
+|     ├── constant.ts # 常量
+|     ├── router.ts # 路由配置
+|     ├── uCharts.js
+|     ├── upload.js # 上传封装，可以高度复用
+|     └── utils.ts # 工具函数
+├── tsconfig.json
+├── uniCloud-aliyun # 云开发相关
+|  ├── cloudfunctions # 云函数
+|  |  ├── censor_image # 图片识别 (检测违规图片上传)
+|  |  ├── common # 公共依赖
+|  |  ├── uni-clientDB-actions
+|  |  └── user_login_mp # 小程序登录模块
+|  └── database # 数据表
+|     ├── app.schema.json
+|     ├── db_init.json
+|     ├── dots.schema.json
+|     ├── events.schema.json
+|     ├── icon_colors.schema.json
+|     ├── icon_images.schema.json
+|     ├── tags.schema.json
+|     ├── uni-id-users.schema.json
+|     └── validateFunction
 ```
 
 ### 本项目使用的插件
